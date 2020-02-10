@@ -1,6 +1,6 @@
 ---
 title: "141SL Autism"
-author: "Claire Markey 104789928"
+author: "Rose Din (ID: 804764627), Lisa Kaunitz (ID: 404731988), Claire Markey (ID: 104789928), Allison Ocelo (ID: 404799327), Cristina Sanchez (ID: 805119924), and Kayla Schroeder (ID: 804729436) - Section 1A"
 date: "2/10/2020"
 output: html_document
 ---
