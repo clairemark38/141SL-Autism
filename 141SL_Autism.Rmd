@@ -15,6 +15,9 @@ ChatterBabyData <- read_csv("ChatterBabyData.csv")
 ```
 
 ```{r}
-
+# Extract weight values
+for (i in 1:nrow(data){
+  extracted_values <- stringr::str_extract_all(as.character(data$babysweightlbs[i]),"[[:digit:]]+")
+}
 ```
 
