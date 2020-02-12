@@ -21,3 +21,24 @@ for (i in 1:nrow(data){
 }
 ```
 
+
+Cleaning/ Transforming the Data: 
+
+- removing the `asdbehaviors` and `lostskillsdemographics` columns becuase they make up the outcome
+- removing the baby language as a predictor 
+
+```{r}
+cbdata <- ChatterBabyData[,-c(1:7, 217:240)]
+```
+
+
+
+Transforming the weight from kg to pounds then cbind into the same column for lbs: 
+
+```{r}
+cbdata$weightkg <- as.numeric(cbdata$weightkg)
+cbdata$weightkg <- 2.20462 * cbdata$weightkg
+cbdata$babysweightlbs <- cbind(cbdata$babysweightlbs, cbdata$weightkg)
+
+```
+
