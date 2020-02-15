@@ -43,7 +43,7 @@ Transforming the weight from kg to pounds then cbind into the same column for lb
 # Convert weight in kg to lbs then to character vector
 cbdata$weightkg <- as.numeric(cbdata$weightkg)
 cbdata$weightkg <- as.character(round(2.20462 * cbdata$weightkg,2))
-cbdata$weightlb <- cbdata$weightkg
+rename(cbdata, weightlb = weightkg)
 
 # replace the missing values in `babysweightlbs` with values from weightkg
 cbdata <- cbdata %>% mutate(babysweightlbs=ifelse(babysweightlbs=="NA", weightkg, babysweightlbs))
