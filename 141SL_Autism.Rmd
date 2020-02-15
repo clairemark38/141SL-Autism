@@ -39,7 +39,7 @@ cbdata <- ChatterBabyData[,-c(1:7, 217:240)]
 
 Transforming the weight from kg to pounds then cbind into the same column for lbs: 
 
-```{r}
+```{r,warning=FALSE}
 # Convert weight in kg to lbs then to character vector
 cbdata$weightkg <- as.numeric(cbdata$weightkg)
 cbdata$weightkg <- as.character(round(2.20462 * cbdata$weightkg,2))
