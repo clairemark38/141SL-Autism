@@ -15,9 +15,13 @@ ChatterBabyData <- read_csv("ChatterBabyData.csv")
 ```
 
 ```{r}
-# Extract weight values
-for (i in 1:nrow(data){
-  extracted_values <- stringr::str_extract_all(as.character(data$babysweightlbs[i]),"[[:digit:]]+")
+# split the string
+for (i in 1:nrow(ChatterBabyData)){
+ ChatterBabyData$babysweightlbs[i] <- stringr::str_extract_all(as.character(ChatterBabyData$babysweightlbs[i]),"[[:digit:]]+")
+}
+# insert "." between character strings
+for (i in 1:nrow(ChatterBabyData)){
+ChatterBabyData$babysweightlbs[i] <- sapply(ChatterBabyData$babysweightlbs[i], paste, collapse = ".")
 }
 ```
 
@@ -36,9 +40,15 @@ cbdata <- ChatterBabyData[,-c(1:7, 217:240)]
 Transforming the weight from kg to pounds then cbind into the same column for lbs: 
 
 ```{r}
+# Convert weight in kg to lbs then to character vector
 cbdata$weightkg <- as.numeric(cbdata$weightkg)
-cbdata$weightkg <- 2.20462 * cbdata$weightkg
-cbdata$babysweightlbs <- cbind(cbdata$babysweightlbs, cbdata$weightkg)
+cbdata$weightkg <- as.character(round(2.20462 * cbdata$weightkg,2))
+cbdata$weightlb <- cbdata$weightlb
 
+# replace the missing values in `babysweightlbs` with values from weightkg
+cbdata <- cbdata %>% mutate(babysweightlbs=ifelse(babysweightlbs=="NA", weightkg, babysweightlbs))
+
+# Convert to numeric
+cbdata$babysweightlbs <- round(as.numeric(cbdata$babysweightlbs), 2)
 ```
 
