@@ -62,7 +62,7 @@ cbdata <- cbdata[,-c(5)]
 
 # Columns we need to fix
 
-# Christina
+# Cristina
 otherrace
 
 deaffamily_other
