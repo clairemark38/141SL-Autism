@@ -51,6 +51,12 @@ cbdata <- cbdata %>% mutate(babysweightlbs=ifelse(babysweightlbs=="NA", weightkg
 
 # Convert to numeric
 cbdata$babysweightlbs <- round(as.numeric(cbdata$babysweightlbs), 2)
+
+# Convert all Colic NA's to 0: 
+cbdata$colic[is.na(cbdata$colic)] <- 0 
+
+# getting rid of the weightkg:
+cbdata <- cbdata[,-c(5)]
 ```
 
 
