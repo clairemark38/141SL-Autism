@@ -62,32 +62,38 @@ cbdata <- cbdata[,-c(5)]
 
 # Columns we need to fix
 
+# Christina
 otherrace
 
 deaffamily_other
 
 asdfamily_other
 
+# Rose
 ddfamily_other
 
 otherszbpfamilymember
 
 otherart
 
+# Lisa
 maternalpregnancyproblems_other
 
 trauma_optional
 
+# Allison
 mat_mental_health_other
 
 otherdrug
 
+# Claire
 medicalhistorybaby_other
 
 whichmedsforbaby
 
 babyfedother
 
+# Kayla
 unusualtext
 
 otherbehaviors
