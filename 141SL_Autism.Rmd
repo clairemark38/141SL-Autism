@@ -36,8 +36,6 @@ Cleaning/ Transforming the Data:
 cbdata <- ChatterBabyData[,-c(1:7, 217:240)]
 ```
 
-
-
 Transforming the weight from kg to pounds then cbind into the same column for lbs: 
 
 ```{r,warning=FALSE}
