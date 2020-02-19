@@ -36,6 +36,8 @@ Cleaning/ Transforming the Data:
 cbdata <- ChatterBabyData[,-c(1:7, 217:240)]
 ```
 
+
+
 Transforming the weight from kg to pounds then cbind into the same column for lbs: 
 
 ```{r,warning=FALSE}
@@ -49,10 +51,39 @@ cbdata <- cbdata %>% mutate(babysweightlbs=ifelse(babysweightlbs=="NA", weightkg
 
 # Convert to numeric
 cbdata$babysweightlbs <- round(as.numeric(cbdata$babysweightlbs), 2)
-
-# Convert all Colic NA's to 0: 
-cbdata$colic[is.na(cbdata$colic)] <- 0 
-
-
 ```
+
+
+# Columns we need to fix
+
+otherrace
+
+deaffamily_other
+
+asdfamily_other
+
+ddfamily_other
+
+otherszbpfamilymember
+
+otherart
+
+maternalpregnancyproblems_other
+
+trauma_optional
+
+mat_mental_health_other
+
+otherdrug
+
+medicalhistorybaby_other
+
+whichmedsforbaby
+
+babyfedother
+
+unusualtext
+
+otherbehaviors
+
 
