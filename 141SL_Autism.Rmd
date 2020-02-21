@@ -87,11 +87,122 @@ mat_mental_health_other
 otherdrug
 
 # Claire
-medicalhistorybaby_other
+# Cleaning `medicalhistorybaby_other`
 
-whichmedsforbaby
+```{r}
+cbdata$medicalhistorybaby_other <- tolower(cbdata$medicalhistorybaby_other)
 
-babyfedother
+library(plyr)
+# consolidate blood glucose
+cbdata$medicalhistorybaby_other <- revalue(cbdata$medicalhistorybaby_other, c("low sugar/glucose"="low blood glucose","low blood sugar"="low blood glucose", "low glucose at birth"="low blood glucose", "low blood sugar and respiratory problems due to exposure to magnesium sulfate during labor."="low blood glucose", "hypoglicemia at the begining"="low blood glucose","hypoglycemia"="low blood glucose", "glucose observation"="low blood glucose"))
+# consolidate neonatal abstinence syndrome
+cbdata$medicalhistorybaby_other <- revalue(cbdata$medicalhistorybaby_other, c("nas (neonatal abstinence syndrome)"="neonatal abstinence syndrome","nas"="neonatal abstinence syndrome"))
+#consolidate tongue tie
+cbdata$medicalhistorybaby_other <- revalue(cbdata$medicalhistorybaby_other, c("tongue and lip tie"="tongue tie","tongue buccal and lip ties"="tongue tie","tongue, lip, and buccal frenectomy"="tongue tie","recurrent lingual frenulum"="tongue tie", "he was tounge tied. had procedure clipping his tounge at hospital 48hrs after birth"="tongue tie"))
+# consolidate allergies
+cbdata$medicalhistorybaby_other <- revalue(cbdata$medicalhistorybaby_other, c("alergia proteina de la leche de vaca"="milk allergy/intolerance","allergies: don't know specific but mother doesn't eat soy, dairy and nuts"="milk allergy/intolerance","milk allergy"="milk allergy/intolerance", "dairy intolerance" = "milk allergy/intolerance", "intolerance to formula milk"="milk allergy/intolerance", "cmpi"="milk allergy/intolerance"))
+cbdata$medicalhistorybaby_other <- revalue(cbdata$medicalhistorybaby_other, c("infection following birth"="infection", "infection, requiring antibiotics"="infection","kidney infection"="infection", "urinary tract infection"="infection"))
+
+
+# classify as "Cardiac disorder" and then replace in medicalhistorybaby_other as NA
+cbdata <- cbdata %>% mutate(medicalhistorybaby___10 = replace(medicalhistorybaby___10, medicalhistorybaby_other == "bicuspid aortic valve" | medicalhistorybaby_other == "vascular ring with right aortic arch", 1))
+cbdata <- cbdata %>% mutate(medicalhistorybaby_other = replace(medicalhistorybaby_other, medicalhistorybaby_other == "bicuspid aortic valve" | medicalhistorybaby_other =="vascular ring with right aortic arch", NA))
+
+# classify as "Failure to thrive" and then replace in medicalhistorybaby_other as NA
+cbdata <- cbdata %>% mutate(medicalhistorybaby___7 = replace(medicalhistorybaby___7, medicalhistorybaby_other == "loss of weight after birth, after 5 weeks back at birth weight (3,5 kg)" | medicalhistorybaby_other == "growth delay"| medicalhistorybaby_other == "didn't gain weight from breast milk in first two weeks", 1))
+cbdata <- cbdata %>% mutate(medicalhistorybaby_other = replace(medicalhistorybaby_other, medicalhistorybaby_other == "loss of weight after birth, after 5 weeks back at birth weight (3,5 kg)" | medicalhistorybaby_other =="growth delay" | medicalhistorybaby_other =="didn't gain weight from breast milk in first two weeks", NA))
+
+# classify as "Small for gestational age" and then replace in medicalhistorybaby_other as NA
+cbdata <- cbdata %>% mutate(medicalhistorybaby___15 = replace(medicalhistorybaby___15, medicalhistorybaby_other == "2weeks behind gestational", 1))
+cbdata <- cbdata %>% mutate(medicalhistorybaby_other = replace(medicalhistorybaby_other, medicalhistorybaby_other == "2weeks behind gestational", NA))
+
+# remove "other" binary column and character column for medical history
+cbdata <- subset(cbdata, select=-c(medicalhistorybaby___19,medicalhistorybaby_other))
+```
+
+# Cleaning `whichmedsforbaby`
+```{r}
+cbdata$whichmedsforbaby <- tolower(cbdata$whichmedsforbaby)
+
+# consolidate antibiotics
+cbdata$whichmedsforbaby <- revalue(cbdata$whichmedsforbaby, c("amoxicillin ear infection"="antibiotics","amoxicillin for an ear infection"="antibiotics", "amoxicillin for ear infection"="antibiotics", "antibiotic, cough(cold)"="antibiotics", "antibiotics due to infection"="antibiotics", "penicillin"="antibiotics","cephalexin  - born with bladder on the outside."="antibiotics","polymyxin b sulfate and trimethoprim (pink eye)"="antibiotics","erythromycin eye ointment for infected blocked nasolacrimal duct"="antibiotics"))
+
+# find medications with "reflux","gerd","acid" and classify as acid reflux medication
+cbdata$whichmedsforbaby[grepl("reflux|gerd|acid|zantac|ranitidine", cbdata$whichmedsforbaby)] <- "acid reflux medication"
+# consolidate acid reflux
+cbdata$whichmedsforbaby <- revalue(cbdata$whichmedsforbaby, c("gaviscon"="acid reflux medication", "omeprazole"="acid reflux medication", "omeprazole, probiotica"="acid reflux medication", "omprezol  zamtac" ="acid reflux medication", "reflex" ="acid reflux medication","raditine for heartburn" ="acid reflux medication", "ranitindine"="acid reflux medication","losec mups"="acid reflux medication"))
+
+# find medications to classify as "vitamins"
+cbdata$whichmedsforbaby[grepl("vitamin d|vitamin a/d3|vitamin adc|adtil- vitamin|vitamins|liquid multivitamin", cbdata$whichmedsforbaby)] <- "vitamins"
+
+# consolidate antihistamine
+cbdata$whichmedsforbaby <- revalue(cbdata$whichmedsforbaby, c("loratadine for stomach."="antihistamine", "allergy medication"="antihistamine", "claritin for allergies"="antihistamine", "zyrtec for seasonal allergies"="antihistamine","carminative mixture with digestive enzymes and cholecalciferon/vitamind3 both are daily. (bd/od)  phenylephrine hcl&chlopheniraminr marate ( sos for 5days if cough and cold)  colocar ez if stomach ack(sos)  hydroxyzine hydrochloride syrup ups (5drops /bd) boils appears on skin diagnosed by dermatologist as scabies."))
+
+# find medications to classify as "colic medication"
+cbdata$whichmedsforbaby[grepl("colic|colimil|infacalm", cbdata$whichmedsforbaby)] <- "colic medication"
+
+# find medications to classify as "lactulose"
+cbdata$whichmedsforbaby[grepl("lactulose|miralax", cbdata$whichmedsforbaby)] <- "lactulose"
+
+# find medications to classify as "oral thrush medication"
+cbdata$whichmedsforbaby[grepl("nystatin|nystan|nilstat|thrush", cbdata$whichmedsforbaby)] <- "oral thrush medication"
+
+# find medications to classify as "hydrocortisone ointment"
+cbdata$whichmedsforbaby[grepl("eczema", cbdata$whichmedsforbaby)] <- "hydrocortisone ointment"
+
+# find medications to classify as "iron"
+cbdata$whichmedsforbaby[grepl("iron|ferroso", cbdata$whichmedsforbaby)] <- "iron"
+
+# find medications to classify as "hypothyroid medication"
+cbdata$whichmedsforbaby[grepl("thyroid|levothyroxine|synthroid", cbdata$whichmedsforbaby)] <- "hypothyroid medication"
+
+# replace "i don't know" and "baby songs are medications for our babies" with NA
+cbdata <- cbdata %>% mutate(whichmedsforbaby = replace(whichmedsforbaby, whichmedsforbaby == "i don't know" | whichmedsforbaby == "baby songs are medications for our babies" | whichmedsforbaby == "yas"| whichmedsforbaby =="well she take some fever because she has stuffy nose", NA))
+
+# create binary column for taking acid reflux medication, 147 observations
+cbdata$whichmedsforbaby_arm <- ifelse(cbdata$whichmedsforbaby!="acid reflux medication"|is.na(cbdata$whichmedsforbaby), 0, 1)
+
+# remove whichmedsforbaby column from dataframe
+cbdata <- subset(cbdata, select=-cbdata$whichmedsforbaby)
+```
+
+
+# Cleaning `babyfedother`
+```{r}
+cbdata$babyfedother <- tolower(cbdata$babyfedother)
+cbdata$babyfedother <- gsub('[[:punct:] ]+','',cbdata$babyfedother)
+
+# consolidate both
+cbdata$babyfedother <- revalue(cbdata$babyfedother, c("5050"="both", "bothbreastmilkandformula"="both", "bothformulaandbreastmilk"="both", "bothnowformula"="both", "breastandformula"="both", "breastmilkandformula"= "both", "breastmilkatnightandformuladaytimecuzmomgoworkfulltime"= "both", "breastmilkfortifiedwithformula" = "both", "combination"= "both", "combinationofbreastmilkandformula"="both", "equalbreastandformula"="both","equalpartsbreastmilkandformula"="both", "takingbreastmilkandformula"="both", "breastmilkformulanormalfood"="both","formulaandbreastmilk"="both","mostlybreastmilkuntil4monthsnowmostlyformula"="both", "breastmilktill3monthsthen5050formulaandmilkfor15monthsnowonlyformula"="both","mixofformulaandbreastmilk"="both","mixture"="both","breastmilkx5monthsformulaaftersolidsstartedat8moandmilkstartedat12mo"="both","4monthbreastmilk3monthformulanowcoworbuffalomilk"="both"))
+
+# find medications to classify as "both"
+cbdata$babyfedother[grepl("half", cbdata$babyfedother)] <- "both"
+
+# classify from babyfedother to babyfood 1 (All formula) and then replace in babyfedother as NA
+cbdata <- cbdata %>% mutate(babyfood = replace(babyfood, babyfedother == "formulatillage1nowwholemilk"| babyfedother == "prescribedformulabydr", 1))
+cbdata <- cbdata %>% mutate(babyfedother = replace(babyfedother, babyfedother == "formulatillage1nowwholemilk"|babyfedother =="prescribedformulabydr", NA))
+
+# classify from babyfedother to babyfood 2 (Mostly formula) and then replace in babyfedother as NA
+cbdata <- cbdata %>% mutate(babyfood = replace(babyfood, babyfedother == "bothbreastmilkandformulabutmostlyformula"| babyfedother == "70formula30breastmilk"| babyfedother == "breastfeedingfortwomonthsformulafortherest"| babyfedother == "mostly formula some breast milk" | babyfedother == "breastfeduntilmonth4formulafromthenon"|babyfedother == "firstmonth5050lasttwoweeksallformula"|babyfedother == "formulaandsolids", 2))
+cbdata <- cbdata %>% mutate(babyfedother = replace(babyfedother, babyfedother == "bothbreastmilkandformulabutmostlyformula"| babyfedother == "70formula30breastmilk"| babyfedother == "breastfeedingfortwomonthsformulafortherest"| babyfedother == "mostly formula some breast milk" | babyfedother == "breastfeduntilmonth4formulafromthenon"|babyfedother == "firstmonth5050lasttwoweeksallformula"|babyfedother == "formulaandsolids", NA))
+
+# classify from babyfedother to babyfood 3 (Mostly breastmilk) and then replace in babyfedother as NA
+cbdata <- cbdata %>% mutate(babyfood = replace(babyfood, babyfedother == "breastfeedinguntil8moformulaandsolidfood"|babyfedother =="mostlybreastmilkuntil85monthsthenallformulasolidsintroducedaround5monthsprimarilysolidssince12months"|babyfedother =="breastmilkfor8monthsandthenformula"|babyfedother =="breastmilkuntil4monthsandbreastmilkandsolidsafter"| babyfedother =="breastmilk2xdayotherwisefood"|babyfedother =="breastmilkandfood"| babyfedother =="breastfedandnowaddedfingerfood"|babyfedother =="breastmilkonlysincebirthandbabypuréesstartingat6months"|babyfedother=="breastmilktill5moandthenbreastmilkandsolids"|babyfedother=="breastmilkonlysincebirthandbabypuréesstartingat6months"|babyfedother=="breastmilkandsolidfoods"|babyfedother=="cowmilkandbreastfeedalternatively", 3))
+cbdata <- cbdata %>% mutate(babyfedother = replace(babyfedother, babyfedother == "breastfeedinguntil8moformulaandsolidfood"|babyfedother =="mostlybreastmilkuntil85monthsthenallformulasolidsintroducedaround5monthsprimarilysolidssince12months"|babyfedother =="breastmilkfor8monthsandthenformula"| babyfedother =="breastmilkuntil4monthsandbreastmilkandsolidsafter"| babyfedother =="breastmilk2xdayotherwisefood"|babyfedother =="breastmilkandfood"| babyfedother =="breastfedandnowaddedfingerfood"|babyfedother =="breastmilkonlysincebirthandbabypuréesstartingat6months"|babyfedother=="breastmilktill5moandthenbreastmilkandsolids"|babyfedother=="breastmilkonlysincebirthandbabypuréesstartingat6months"|babyfedother=="breastmilkandsolidfoods"|babyfedother=="cowmilkandbreastfeedalternatively", NA))
+
+# classify from babyfedother to babyfood 4 (All breastmilk) and then replace in babyfedother as NA
+cbdata <- cbdata %>% mutate(babyfood = replace(babyfood, babyfedother == "breastfedfor12monthsnowonsolidfood"|babyfedother == "breastfedfor12monthsnowonsolidfood"| babyfedother =="breastfedandnowaddedfingerfood"| babyfedother =="exclusivelypumpedbreastmilk", 4))
+cbdata <- cbdata %>% mutate(babyfedother = replace(babyfedother, babyfedother == "breastfedfor12monthsnowonsolidfood"|babyfedother == "breastfedfor12monthsnowonsolidfood"| babyfedother =="exclusivelypumpedbreastmilk", NA))
+
+# classify "both" and "other" as 3 (middle)
+cbdata$babyfood[cbdata$babyfood == 5] <- 0
+cbdata$babyfood[cbdata$babyfood == 4] <- 5
+cbdata$babyfood[cbdata$babyfood == 3] <- 4
+cbdata$babyfood[cbdata$babyfood == 0] <- 3
+
+# remove `babyfedother` column
+cbdata <- subset(cbdata, select=-babyfedother)
+```
 
 # Kayla
 unusualtext
