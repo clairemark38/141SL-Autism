@@ -205,8 +205,59 @@ cbdata <- subset(cbdata, select=-babyfedother)
 ```
 
 # Kayla
-unusualtext
 
-otherbehaviors
+```{r}
+# unusualtext column cleaning
+
+# Get rid of original unusualtext column
+data$unusualtext <- NULL
+# New column 1: unusual bodily movements 
+unusualmovements <- c(30, 202, 252, 291, 325, 349, 371, 485, 517, 559, 759, 960, 1143, 1280, 1288, 1352, 
+                      1384, 1432, 1435, 1461, 1810, 2296, 2304, 2310, 2313, 2415, 2498, 2511)
+data$unusualmovements <- ifelse(rownames(data)%in%unusualmovements, 1, 0)
+
+#New column 2: unusual actions/reactions (not aggressive)
+unusual_actions_nonagressive <- c(54, 234, 299, 383, 420, 452, 456, 479, 522, 535, 692, 863, 902, 913, 
+                                  914,915, 955, 1001, 1023, 1048, 1090, 1109, 1163, 1200, 1254, 1303, 1325,
+                                  1398, 1429, 1533,1577, 1623, 1695, 1786, 1794, 1826, 1883, 1931, 1993, 
+                                  2007, 2133, 2199, 2315, 2360, 2450, 2466, 2562)
+data$unusual_actions_nonagressive <- ifelse(rownames(data)%in%unusual_actions_nonagressive, 1, 0)
+
+#New column 3: unusual actions/reactions (aggressive)
+unusual_actions_aggressive <- c(629, 706, 740, 875, 997, 1138, 1156, 1296, 1297, 1471, 1595, 1683, 1777, 1799, 
+                               1838, 1909, 1945, 1981, 2019, 2033, 2079, 2275, 2339, 2447, 2476, 2485)
+data$unusual_actions_aggressive <- ifelse(rownames(data)%in%unusual_actions_aggressive, 1, 0)
+
+
+
+# otherbehaviors column cleaning
+
+# Get rid of original otherbehaviors column
+data$otherbehaviors <- NULL
+#New column 1: Behind on developmental milestones
+otherbehaviors_delayed_milestones <-   c(30, 54, 128, 339, 371, 383, 461, 543, 605, 629, 683, 754, 958, 959, 965, 1068,
+                                         1153, 1190, 1271, 1284, 1325, 1419, 1432, 1578, 1634, 1705, 1708, 1762, 1931, 
+                                         1943, 1947, 1955, 2100, 2171, 2232, 2236, 2305, 2312, 2339, 2358, 2431, 2476, 2555)
+data$otherbehaviors_delayed_milestones <- ifelse(rownames(data)%in%otherbehaviors_delayed_milestones, 1, 0)
+
+#New column 2: Behavioral abnormalities
+otherbehaviors_behavioral_abnormalities <-  c(13, 248, 362, 493, 669, 740, 752, 759, 761, 773, 856, 875, 902, 940, 1027, 
+                                              1101, 1134, 1339, 1385, 1400, 1472, 1474, 1479, 1505, 1584, 1613, 1694, 1729, 
+                                              1774, 1777, 1859, 1981, 2002, 2049, 2054, 2069, 2081, 2275, 2295, 2309, 2316,
+                                              2399, 2400, 2447, 2466, 2519, 2573)
+data$otherbehaviors_behavioral_abnormalities <- ifelse(rownames(data)%in%otherbehaviors_behavioral_abnormalities, 1, 0)
+
+#New column 3: Bodily function abnormalities
+otherbehaviors_body_function_abnormalities <-  c(19, 22, 167, 192, 200, 427, 455, 598, 634, 733, 981, 1126, 1473, 1575, 1610, 
+                                                 1623, 1624, 1641, 1645, 1746, 1755, 1794, 1867, 1875, 2199, 2218, 2313, 2315,
+                                                 2359, 2449, 2459, 2517, 2524)
+data$otherbehaviors_body_function_abnormalities <- ifelse(rownames(data)%in%otherbehaviors_body_function_abnormalities, 1, 0)
+
+#New column 4: Family history or other diagnoses concerns
+otherbehaviors_familyhistory_otherdiagnoses <- c(21, 448, 695, 712, 941, 1074, 1083, 1468, 1683, 1902, 1936, 1958, 2007,
+                                                 205, 2079, 2435, 2567)
+data$otherbehaviors_familyhistory_otherdiagnoses <- ifelse(rownames(data)%in%otherbehaviors_familyhistory_otherdiagnoses, 1, 0)
+
+```
 
 
