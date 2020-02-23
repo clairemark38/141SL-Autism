@@ -116,26 +116,7 @@ cbdata$race___5[grepl("5|polishandpakistani|dutch14moroccan|portugueseandcypriot
                     cbdata$otherrace)] <- 1
 
 # Classify as White
-cbdata$race___6 <- ifelse(cbdata$otherrace == "6" | cbdata$otherrace == "asianandwhite" |
-                          cbdata$otherrace == "asiancaucasian" | 
-                          cbdata$otherrace == "asianwhite" |
-                          cbdata$otherrace == "blackandwhite" |
-                          cbdata$otherrace == "blackhawaiianwhite" |
-                          cbdata$otherrace == "britishasian" |
-                          cbdata$otherrace == "chineseeuropean" |
-                          cbdata$otherrace == "europeanlatin" |
-                          cbdata$otherrace == "europeanspanishandportuguese" |
-                          cbdata$otherrace == "halfcaucasianhalfsouthasian" |
-                          cbdata$otherrace == "halfwhiteblack" |
-                          cbdata$otherrace == "mixedchinesewhite" |
-                          cbdata$otherrace == "mixedracenigerianandwhite" |
-                          cbdata$otherrace == "mixedwhitecaucasiankorean" |
-                          cbdata$otherrace == "mixofcaucasianfirstnationsandblack" |
-                          cbdata$otherrace == "polishandpakistani" |
-                          cbdata$otherrace == "whiteandasian" |
-                          cbdata$otherrace == "whiteasian" |
-                          cbdata$otherrace == "whitenative" |
-                          cbdata$otherrace == "dutch14moroccan", 1, cbdata$race___6)
+cbdata$race___6[grepl("6|asianandwhite|asiancaucasian|asianwhite|blackandwhite|blackhawaiianwhite|britishasian|chineseeuropean|europeanlatin|europeanspanishandportuguese|halfcaucasianhalfsouthasian|halfwhiteblack|mixedchinesewhite|mixedracenigerianandwhite|mixedwhitecaucasiankorean|mixofcaucasianfirstnationsandblack|polishandpakistani|whiteandasian|whiteasian|whitenative|dutch14moroccan", cbdata$otherrace)] <- 1
 
 # remove race other columns from dataframe
 cbdata <- subset(cbdata, select = -c(race___7, otherrace))
@@ -191,6 +172,9 @@ cbdata$deaffamily_other <-
 cbdata$deaffamily_other[grepl("cousindeaf|momscousin|motherscousin|nephew",
                             cbdata$deaffamily_other)] <- "cousin"
 
+cbdata$deaffamily_other <- ifelse(is.na(cbdata$deaffamily_other) == TRUE,
+                                  0, cbdata$deaffamily_other)
+
 #create new deaffamily column for grandmother relationship
 cbdata$deaffamily_gma <- ifelse(cbdata$deaffamily_other == "grandmother" |
                                 cbdata$deaffamily_other == "maternalgrandparents" |
@@ -237,6 +221,9 @@ cbdata$asdfamily_other[grepl("babysuncle|brotherofthefather|halfbrotherofthefath
 cbdata$asdfamily_other[grepl("mathersgroundmather|mothersmother",
                            cbdata$asdfamily_other)] <- "grandmother"
 
+cbdata$asdfamily_other <- ifelse(is.na(cbdata$asdfamily_other) == TRUE,
+                                  0,cbdata$asdfamily_other)
+                                  
 #create new asdfamily column for grandmother relationship
 cbdata$asdfamily_gma <- ifelse(cbdata$asdfamily_other == "grandmother", 1, 0)
 
