@@ -26,7 +26,6 @@ ChatterBabyData$babysweightlbs[i] <- sapply(ChatterBabyData$babysweightlbs[i], p
 }
 ```
 
-
 Cleaning/ Transforming the Data: 
 
 - removing the `asdbehaviors` and `lostskillsdemographics` columns becuase they make up the outcome
@@ -35,8 +34,6 @@ Cleaning/ Transforming the Data:
 ```{r}
 cbdata <- ChatterBabyData[,-c(1:7, 217:240)]
 ```
-
-
 
 Transforming the weight from kg to pounds then cbind into the same column for lbs: 
 
@@ -273,24 +270,32 @@ otherart
 ```{r}
 # classify as post partum psychosis
 cbdata <- cbdata %>% mutate(maternalpregnancyproblems___20 = replace(maternalpregnancyproblems___20, maternalpregnancyproblems_other == "post partum anxiety" | maternalpregnancyproblems_other == "Post partum anxiety" | maternalpregnancyproblems_other == "Post-partum anxiety" | maternalpregnancyproblems_other == "Postpartum hemorrhaging" | maternalpregnancyproblems_other == "Perinatal anxiety",1))
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems_other = replace(maternalpregnancyproblems_other, maternalpregnancyproblems_other == "post partum anxiety" | maternalpregnancyproblems_other == "Post partum anxiety" | maternalpregnancyproblems_other == "Post-partum anxiety" | maternalpregnancyproblems_other == "Postpartum hemorrhaging" | maternalpregnancyproblems_other == "Perinatal anxiety", NA ))
 
 # classify as Chorioamnionitis 
 cbdata <- cbdata %>% mutate(maternalpregnancyproblems___21 = replace(maternalpregnancyproblems___21, maternalpregnancyproblems_other == "Chorioamnionitis", 1))
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems_other = replace(maternalpregnancyproblems_other, maternalpregnancyproblems_other == "Chorioamnionitis", NA))
+ Chorioamnionitis
  
  # classify as bleeding
 cbdata <- cbdata %>% mutate(maternalpregnancyproblems___14 = replace(maternalpregnancyproblems___14, maternalpregnancyproblems_other == "Unusual pain in the abdomen, stress, miscarriage probability, bleeding.", 1))
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems_other = replace(maternalpregnancyproblems_other, maternalpregnancyproblems_other == "Unusual pain in the abdomen, stress, miscarriage probability, bleeding.", NA))
 
 # classify as preterm labor
 cbdata <- cbdata %>% mutate(maternalpregnancyproblems___11 = replace(maternalpregnancyproblems___11, maternalpregnancyproblems_other == "Early contractions with diction starting at 30 weeks. I received steroid shot to develop baby's lungs faster.", 1))
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems_other = replace(maternalpregnancyproblems_other, maternalpregnancyproblems_other == "Early contractions with diction starting at 30 weeks. I received steroid shot to develop baby's lungs faster.", NA))
 
 # classify as History of recurrent miscarriage/ recurrent pregnancy loss 
 cbdata <- cbdata %>% mutate(maternalpregnancyproblems___10 = replace(maternalpregnancyproblems___10, maternalpregnancyproblems_other == "Prior full term stillbirth; had double nuchal cord resulting in emergent csection at 36 weeks", 1))
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems_other = replace(maternalpregnancyproblems_other, maternalpregnancyproblems_other == "Prior full term stillbirth; had double nuchal cord resulting in emergent csection at 36 weeks", NA))
 
 # classify as hypertension
 cbdata <- cbdata %>% mutate(maternalpregnancyproblems___9 = replace(maternalpregnancyproblems___9, maternalpregnancyproblems_other == "Protein in urine day of induction and hypertension only at 38 weeks" | maternalpregnancyproblems_other == "Mild hypertension at 37 weeks", 1))
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems_other = replace(maternalpregnancyproblems_other, maternalpregnancyproblems_other == "Protein in urine day of induction and hypertension only at 38 weeks"| maternalpregnancyproblems_other == "Mild hypertension at 37 weeks", 1))
 
 # classify as 13, Placental abruption
 cbdata <- cbdata %>% mutate(maternalpregnancyproblems___13 = replace(maternalpregnancyproblems___13, maternalpregnancyproblems_other == "Calcified placenta" | maternalpregnancyproblems_other == "Placenta calcification" | maternalpregnancyproblems_other == "Placenta hematoma" | maternalpregnancyproblems_other == "placental aging" | maternalpregnancyproblems_other == "Underperfusion placenta" , 1))
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems_other = replace(maternalpregnancyproblems_other, maternalpregnancyproblems_other == "Calcified placenta" | maternalpregnancyproblems_other == "Placenta calcification" | maternalpregnancyproblems_other == "Placenta hematoma" | maternalpregnancyproblems_other == "placental aging"| maternalpregnancyproblems_other == "Underperfusion placenta", NA))
 
 # creating values for the rest of the others, and replacing all NA's with 0
 cbdata$maternalpregnancyproblems_other <- ifelse(is.na(cbdata$maternalpregnancyproblems_other), 0, 1)
