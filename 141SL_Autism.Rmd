@@ -65,9 +65,122 @@ cbdata <- cbdata[,-c(5)]
 # Cristina
 otherrace
 
-deaffamily_other
+# Cleaning `deaffamily_other`
 
-asdfamily_other
+```{r}
+data$deaffamily_other <- tolower(data$deaffamily_other)
+
+data$deaffamily_other <- str_replace_all(data$deaffamily_other, "[^[:alnum:]]", "")
+
+# classify relationship as aunt
+data$deaffamily_other[grepl("auntie|babysgreataunt", 
+                            data$deaffamily_other)] <- "aunt"
+
+# classify relationship as uncle
+data$deaffamily_other[grepl("brotherofthefather|greatuncle|
+maternalgreatuncledeafsincebirthbutetiologyunknownsuspectedcongenitalinfxny",
+data$deaffamily_other)] <- "uncle"
+
+# classify relationship as grandmother
+data$deaffamily_other <-
+  ifelse(data$deaffamily_other == "gradmothermaternal" |
+           data$deaffamily_other == "gramotherpartiallossduetoshingels" |
+           data$deaffamily_other == "grandma" |
+           data$deaffamily_other == "grandmotheronfathersside" |
+           data$deaffamily_other == "maternalgrandmother" |
+           data$deaffamily_other == "paternalgrandma" |
+           data$deaffamily_other == "paternalgrandmother" |
+           data$deaffamily_other == "motheroffather" |
+           data$deaffamily_other == "greatgreatgrandma" |
+           data$deaffamily_other == "maternalgreatgrandma" |
+           data$deaffamily_other == "greatgrandma" |
+           data$deaffamily_other == "mathersgroundmather" |
+           data$deaffamily_other == "greatgrandmother" |
+           data$deaffamily_other == "gtandmother",
+         "grandmother", data$deaffamily_other)
+
+# classify relationship as grandfather
+data$deaffamily_other <-
+  ifelse(data$deaffamily_other == "grandad" | 
+           data$deaffamily_other == "grandfathermothersside" | 
+           data$deaffamily_other == "grandpa" | 
+           data$deaffamily_other == "granfhater" | 
+           data$deaffamily_other == "maternalgrandfather" | 
+           data$deaffamily_other == "maternalgranfather" | 
+           data$deaffamily_other == "paternalgrandfather" |
+           data$deaffamily_other == "greatgrandfather",
+         "grandfather", data$deaffamily_other)
+
+# classify relationship as cousin
+data$deaffamily_other[grepl("cousindeaf|momscousin|motherscousin|nephew",
+                            data$deaffamily_other)] <- "cousin"
+
+#create new deaffamily column for grandmother relationship
+data$deaffamily_gma <- ifelse(data$deaffamily_other == "grandmother" |
+                                data$deaffamily_other == "maternalgrandparents" |
+                                data$deaffamily_other == "grandparents", 1, 0)
+
+#create new deaffamily column for grandfather relationship
+data$deaffamily_gpa <- ifelse(data$deaffamily_other == "grandfather" |
+                                data$deaffamily_other == "maternalgrandparents" |
+                                data$deaffamily_other == "grandparents", 1, 0)
+
+#create new deaffamily column for cousin relationship
+data$deaffamily_cousin <- ifelse(data$deaffamily_other == "cousin", 1, 0)
+
+#create new deaffamily column for aunt relationship
+data$deaffamily_aunt <- ifelse(data$deaffamily_other == "aunt", 1, 0)
+
+#create new deaffamily column for uncle relationship
+data$deaffamily_uncle <- ifelse(data$deaffamily_other == "uncle", 1, 0)
+
+# remove deaffamily other columns from dataframe
+data <- subset(data, select = -c(deaffamily___8, deaffamily_other))
+```
+
+# Cleaning `asdfamily_other`
+
+```{r}
+data$asdfamily_other <- tolower(data$asdfamily_other)
+
+data$asdfamily_other <- str_replace_all(data$asdfamily_other, "[^[:alnum:]]", "")
+
+# classify relationship as cousin
+data$asdfamily_other[grepl("2ndcousin|                           babysmaternalfirstcousin|coisinhas2degree|cousinonmaternalside|cousins|cousinsonbothsidesofthefamily|fathers2ndcousins|fatherscousin|firstcousin|malecousin|motherscousin|motherscousinhas3autisticchildren|motherscousins|mothershalfcousin|mothersnephew|mymaternalnephew|nephew|niece|nieceaspergers|nieces|paternalfirstcousin|paternalnephew|relativefatherscousin|secondcousin|secondcousins|twofirstcousins|childofmotherscousinonceremoved|fathersnephewfirstcousin|fatherssistersson|mothershalfsisterhastwinswhoareautistic|halfsisterstoddler",
+                            data$asdfamily_other)] <- "cousin"
+
+# classify relationship as aunt
+data$asdfamily_other[grepl("aunty|fatherssister|halfaunt|maternalaunt|motherssister",
+                           data$asdfamily_other)] <- "aunt"
+
+# classify relationship as uncle
+data$asdfamily_other[grepl("babysuncle|brotherofthefather|halfbrotherofthefather|halfuncle|motherslittlebrother|unclebrotheroffather|uncles|fathersuncle|momsuncle",
+                           data$asdfamily_other)] <- "uncle"
+
+# classify relationship as grandmother
+data$asdfamily_other[grepl("mathersgroundmather|mothersmother",
+                           data$asdfamily_other)] <- "grandmother"
+
+#create new asdfamily column for grandmother relationship
+data$asdfamily_gma <- ifelse(data$asdfamily_other == "grandmother", 1, 0)
+
+#create new asdfamily column for grandfather relationship
+data$asdfamily_gpa <- ifelse(data$asdfamily_other == "grandfather", 1, 0)
+
+#create new asdfamily column for cousin relationship
+data$asdfamily_cousin <- ifelse(data$asdfamily_other == "cousin" |
+                                  data$asdfamily_other == "uncleandcousins", 1, 0)
+
+#create new asdfamily column for aunt relationship
+data$asdfamily_aunt <- ifelse(data$asdfamily_other == "aunt", 1, 0)
+
+#create new asdfamily column for uncle relationship
+data$asdfamily_uncle <- ifelse(data$asdfamily_other == "uncle" |
+                                 data$asdfamily_other == "uncleandcousins", 1, 0)
+
+# remove asdfamily other columns from dataframe
+data <- subset(data, select = -c(asdfamily___8, asdfamily_other))
+```
 
 # Rose
 ddfamily_other
