@@ -197,6 +197,45 @@ trauma_optional
 # Allison
 mat_mental_health_other
 
+# Cleaning `mat_mental_health_other`
+
+```{r}
+# Getting rid of column
+cbdata$mat_mental_health_other = NULL
+
+# Cleaning that can be put into other columns
+cbdata[c(216, 520, 598, 1089),115] = 1
+cbdata[240,83] = 1
+cbdata[499,85] = 1
+cbdata[c(1683, 2245), 111] = 1
+
+# Adding columns
+autoimm = c(34, 687, 915, 1187, 1435, 1825)
+cbdata$autoimm = ifelse(rownames(cbdata)%in%autoimm, 1, 0)
+
+uterine = c(1636, 2246)
+cbdata$uterine = ifelse(rownames(cbdata)%in%uterine, 1, 0)
+
+extreme = c(202, 817, 2579)
+cbdata$extreme = ifelse(rownames(cbdata)%in%extreme, 1, 0)
+
+borderline = c(21, 114, 411, 1049, 1537, 1762, 1863, 2407)
+cbdata$borderline = ifelse(rownames(cbdata)%in%borderline, 1, 0)
+
+ptsd = c(91, 191, 683, 738, 770, 1159, 1315, 1473, 1678, 1715, 1727, 1945)
+cbdata$ptsd = ifelse(rownames(cbdata)%in%ptsd, 1, 0)
+
+did = c(912, 915)
+cbdata$did = ifelse(rownames(cbdata)%in%did, 1, 0)
+
+# Multiple 
+cbdata[912, c(227, 232)] = 1
+cbdata[915, c(228, 231, 232)] = 1
+cbdata[1667, c(112, 231)] = 1
+cbdata[2579, c(112, 113, 230, 231)] = 1
+cbdata[c(76, 2501), c(111, 112)] = 1
+```
+
 otherdrug
 
 # Claire
