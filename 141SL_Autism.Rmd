@@ -246,11 +246,131 @@ cbdata <- subset(cbdata, select = -c(asdfamily___8, asdfamily_other))
 ```
 
 # Rose
-ddfamily_other
+## Cleaning ddfamily_other
+```{r}
+cbdata$ddfamily_other <- tolower(cbdata$ddfamily_other)
 
-otherszbpfamilymember
+# Change the none's and family members not related by blood to 0. ("brother in law": baby's brother-in-law or parent's brother-in-law?)
+cbdata$ddfamily_other <- ifelse(is.na(cbdata$ddfamily_other) == TRUE | cbdata$ddfamily_other == "none" | cbdata$ddfamily_other == "stepdad" | cbdata$ddfamily_other == "foster sister living in home" | cbdata$ddfamily_other == "brother in law" | cbdata$ddfamily_other == "she has sensory processing disorder" | cbdata$ddfamily_other == "ninguno" | cbdata$ddfamily_other == "no" | cbdata$ddfamily_other == "0" | cbdata$ddfamily_other == "the potus" | cbdata$ddfamily_other == "no one" | cbdata$ddfamily_other == "no have" | cbdata$ddfamily_other == "nenhum" | cbdata$ddfamily_other == "nobody", 0, cbdata$ddfamily_other)
 
-otherart
+# Observation 1924 is using unknown characters: ÐÐµÑ‚
+cbdata$ddfamily_other[1924] <- 0
+
+# Change all cousins to "cousin" (for niece and nephew, I'm assuming this is the parent's and therefore, the baby's cousin)
+cbdata$ddfamily_other <- ifelse(cbdata$ddfamily_other == "first cousin" | cbdata$ddfamily_other == "niece" | cbdata$ddfamily_other == "nephew" | cbdata$ddfamily_other == "cousins" | cbdata$ddfamily_other == "mothers female and male cousins" | cbdata$ddfamily_other == "mother's identical twin sister's daughter had minor developmental delays. baby's first cousin." | cbdata$ddfamily_other == "baby's maternal first cousin" | cbdata$ddfamily_other == "relative(father's cousin)" | cbdata$ddfamily_other == "1st cousin", "cousin", cbdata$ddfamily_other)
+
+# Change all uncles to "uncle"
+cbdata$ddfamily_other <- ifelse(cbdata$ddfamily_other == "mom's uncle" | cbdata$ddfamily_other == "paternal uncle" | cbdata$ddfamily_other == "maternal uncle" | cbdata$ddfamily_other == "wife brother", "uncle", cbdata$ddfamily_other)
+
+# Change all aunts to "aunt"
+cbdata$ddfamily_other <- ifelse(cbdata$ddfamily_other == "auntie" | cbdata$ddfamily_other == "aunt" | cbdata$ddfamily_other == "maternal aunt" | cbdata$ddfamily_other == "half aunty" | cbdata$ddfamily_other =="great aunt", "aunt", cbdata$ddfamily_other)
+
+# New column for "cousin"
+cbdata$ddfamily_cousin <- ifelse(cbdata$ddfamily_other == "cousin", 1, 0)
+
+# New column for "uncle"
+cbdata$ddfamily_uncle <- ifelse(cbdata$ddfamily_other == "uncle", 1, 0)
+
+# New column for "aunt"
+cbdata$ddfamily_aunt <- ifelse(cbdata$ddfamily_other == "aunt", 1, 0)
+
+# New column for "grandmother" (There were no grandfathers in this variable.)
+cbdata$ddfamily_grandmother <- ifelse(cbdata$ddfamily_other == "grandmother", 1, 0)
+```
+
+## Cleaning otherszbpfamilymember
+```{r}
+cbdata$otherszbpfamilymember <- tolower(cbdata$otherszbpfamilymember)
+
+# Change none's to 0
+cbdata$otherszbpfamilymember <- ifelse(is.na(cbdata$otherszbpfamilymember) == TRUE | cbdata$otherszbpfamilymember == "none" | cbdata$otherszbpfamilymember == "no" | cbdata$otherszbpfamilymember == "nick nolte" | cbdata$otherszbpfamilymember == "nothing" | cbdata$otherszbpfamilymember == "no have" | cbdata$otherszbpfamilymember == "nenhum" | cbdata$otherszbpfamilymember == "nobody" | cbdata$otherszbpfamilymember == "noe", 0, cbdata$otherszbpfamilymember)
+
+# Observation 1924 is using unknown characters again: ÐÐµÑ‚
+cbdata$otherszbpfamilymember[1924] <- 0
+
+# Change all cousins to "cousin"
+cbdata$otherszbpfamilymember <- ifelse(cbdata$otherszbpfamilymember == "half-cousin" | cbdata$otherszbpfamilymember == "second cousin" | cbdata$otherszbpfamilymember == "mother's cousin", "cousin", cbdata$otherszbpfamilymember)
+
+# Change all uncles to "uncle"
+cbdata$otherszbpfamilymember <- ifelse(cbdata$otherszbpfamilymember == "great uncle" | cbdata$otherszbpfamilymember == "grandmother uncle" | cbdata$otherszbpfamilymember == "paternal uncle" | cbdata$otherszbpfamilymember == "grandfathers brother" | cbdata$otherszbpfamilymember == "uncle and fathers's uncle" | cbdata$otherszbpfamilymember == "great uncle p" | cbdata$otherszbpfamilymember == "maternal uncle" | cbdata$otherszbpfamilymember == "uncle of baby - mothers brother" | cbdata$otherszbpfamilymember == "uncle on mothers side" | cbdata$otherszbpfamilymember == "maternal great uncle" | cbdata$otherszbpfamilymember == "tío abuelo", "uncle", cbdata$otherszbpfamilymember)
+
+# Change all aunts to "aunt"
+cbdata$otherszbpfamilymember <- ifelse(cbdata$otherszbpfamilymember == "half aunt" | cbdata$otherszbpfamilymember == "mother's sister" | cbdata$otherszbpfamilymember == "aunt of mother" | cbdata$otherszbpfamilymember == "maternal aunt" | cbdata$otherszbpfamilymember == "aunt, maternal grandmother" | cbdata$otherszbpfamilymember == "paternal aunt" | cbdata$otherszbpfamilymember == "babies grandmothers sister is bi polar" | cbdata$otherszbpfamilymember == "great aunt" | cbdata$otherszbpfamilymember == "baby's aunt is bipolar" | cbdata$otherszbpfamilymember == "great aunt paternal" | cbdata$otherszbpfamilymember == "maternal sister" | cbdata$otherszbpfamilymember == "aunty" | cbdata$otherszbpfamilymember == "baby's aunt" | cbdata$otherszbpfamilymember == "aunt (paternal)" | cbdata$otherszbpfamilymember == "mother's aunt", "aunt", cbdata$otherszbpfamilymember)
+
+# Change all grandpas to "grandfather"
+cbdata$otherszbpfamilymember <- ifelse(cbdata$otherszbpfamilymember == "maternal grandfather" | cbdata$otherszbpfamilymember == "my father" | cbdata$otherszbpfamilymember == "paternal and maternal grandfather" | cbdata$otherszbpfamilymember == "grandpa" | cbdata$otherszbpfamilymember == "dad" | cbdata$otherszbpfamilymember == "father's ground father" | cbdata$otherszbpfamilymember == "father in law" | cbdata$otherszbpfamilymember == "mothers father", "grandfather", cbdata$otherszbpfamilymember)
+
+# Change all grandmas to "grandmother"
+cbdata$otherszbpfamilymember <- ifelse(cbdata$otherszbpfamilymember == "grandma" | cbdata$otherszbpfamilymember == "grandma bi polar" | cbdata$otherszbpfamilymember == "maternal great-grandma" | cbdata$otherszbpfamilymember == "paternal grandmother" | cbdata$otherszbpfamilymember == "great grandmother (maternal)" | cbdata$otherszbpfamilymember == "grandmother on mom side" | cbdata$otherszbpfamilymember == "paternal grandmother-bipolar" | cbdata$otherszbpfamilymember == "great grandmother" | cbdata$otherszbpfamilymember == "baby's grandma" | cbdata$otherszbpfamilymember == "maternal grandmother" | cbdata$otherszbpfamilymember == "granmother" | cbdata$otherszbpfamilymember == "paternal grand mother" | cbdata$otherszbpfamilymember == "gradmother" | cbdata$otherszbpfamilymember == "mother of the mother", "grandmother", cbdata$otherszbpfamilymember)
+
+# Special cases -  Multiple others
+cbdata$otherszbpfamilymember <- ifelse(cbdata$otherszbpfamilymember == "paternal grandmother and maternal grandfather" | cbdata$otherszbpfamilymember == "grandparent", "grandfather and grandmother", cbdata$otherszbpfamilymember)
+
+cbdata$otherszbpfamilymember <- ifelse(cbdata$otherszbpfamilymember == "grandparents siblings" | cbdata$otherszbpfamilymember == "babie's great antie and great uncle on mom's size have schizophrenia and baby's aunt on dad's side is bipolar", "uncle and aunt", cbdata$otherszbpfamilymember)
+
+cbdata$otherszbpfamilymember <- ifelse(cbdata$otherszbpfamilymember == "grandmother and uncle", "uncle and grandmother", cbdata$otherszbpfamilymember)
+
+cbdata$otherszbpfamilymember <- ifelse(cbdata$otherszbpfamilymember == "great grandmother and second cousin", "cousin and grandmother", cbdata$otherszbpfamilymember)
+
+# New column for "cousin"
+cbdata$otherszbpfamilymember_cousin <- ifelse(cbdata$otherszbpfamilymember == "cousin" | cbdata$otherszbpfamilymember == "cousin and grandmother", 1, 0)
+
+# New column for "uncle"
+cbdata$otherszbpfamilymember_uncle <- ifelse(cbdata$otherszbpfamilymember == "uncle" | cbdata$otherszbpfamilymember == "uncle and aunt" | cbdata$otherszbpfamilymember == "uncle and grandmother", 1, 0)
+
+# New column for "aunt"
+cbdata$otherszbpfamilymember_aunt <- ifelse(cbdata$otherszbpfamilymember == "aunt" | cbdata$otherszbpfamilymember == "uncle and aunt", 1, 0)
+
+# New column for "grandfather"
+cbdata$otherszbpfamilymember_grandfather <- ifelse(cbdata$otherszbpfamilymember == "grandfather" | cbdata$otherszbpfamilymember == "grandfather and grandmother", 1, 0)
+
+# New column for "grandmother"
+cbdata$otherszbpfamilymember_grandmother <- ifelse(cbdata$otherszbpfamilymember == "grandmother" | cbdata$otherszbpfamilymember == "grandfather and grandmother" | cbdata$otherszbpfamilymember == "uncle and grandmother" | cbdata$otherszbpfamilymember == "cousin and grandmother", 1, 0)
+```
+
+## Cleaning otherart
+```{r}
+cbdata$otherart <- tolower(cbdata$otherart)
+
+# Change none's to 0
+cbdata$otherart <- ifelse(is.na(cbdata$otherart) == TRUE | cbdata$otherart == "aids", 0, cbdata$otherart)
+
+# Change surrogacies to "surrogate"
+cbdata$otherart <- ifelse(cbdata$otherart == "gestational surrogate", "surrogate", cbdata$otherart)
+
+# Change those assisted in ovulation to "ovulation induction"
+cbdata$otherart <- ifelse(cbdata$otherart == "ovulation drugs" | cbdata$otherart == "ovulation stimulation" | cbdata$otherart == "ovulation induction (follistim+hcg)" | cbdata$otherart == "drug to cause ovulation" | cbdata$otherart == "femara ovulation induction", "ovulation induction", cbdata$otherart)
+
+# Change all variations of clomid to "clomid"
+cbdata$otherart <- ifelse(cbdata$otherart == "chlomid" | cbdata$otherart == "clomid / trigger shot" | cbdata$otherart == "clomid to help ovulation", "clomid", cbdata$otherart)
+
+# Change all unknown drugs to "unspecified meds"
+cbdata$otherart <- ifelse(cbdata$otherart == "fertility drugs and surgery" | cbdata$otherart == "meds" | cbdata$otherart == "prescription drugs", "unspecified meds", cbdata$otherart)
+
+# Special case: Multiple methods
+cbdata$otherart <- ifelse(cbdata$otherart == "home insemination + letroxole", "artificial insemination and letrozole", cbdata$otherart)
+
+# New column for "surrogate"
+cbdata$otherart_surrogate <- ifelse(cbdata$otherart == "surrogate", 1, 0)
+
+# New column for "ovulation induction"
+cbdata$otherart_ovulation_induction <- ifelse(cbdata$otherart == "ovulation induction", 1, 0)
+
+# New column for "clomid"
+cbdata$otherart_clomid <- ifelse(cbdata$otherart == "clomid", 1, 0)
+
+# New column for "letrozole"
+cbdata$otherart_letrozole <- ifelse(cbdata$otherart == "letrozole" | cbdata$otherart == "letrozole and ovidrel" | cbdata$otherart == "artificial insemination and letrozole", 1, 0)
+
+# New column for "ovidrel"
+cbdata$otherart_ovidrel <- ifelse(cbdata$otherart == "letrozole and ovidrel", 1, 0)
+
+# New column for "unspecified meds"
+cbdata$otherart_unspecified_meds <- ifelse(cbdata$otherart == "unspecified meds", 1, 0)
+
+# New column for "artificial insemination"
+cbdata$otherart_artificial_insemination <- ifelse(cbdata$otherart == "artificial insemination" | cbdata$otherart == "artificial insemination and letrozole", 1, 0)
+```
 
 # Lisa
 # Cleaning `maternalpregnancyproblems_other`
