@@ -67,7 +67,86 @@ cbdata <- cbdata[,-c(5)]
 # Columns we need to fix
 
 # Cristina
-otherrace
+# Cleaning `otherrace`
+
+```{r}
+cbdata$otherrace <- tolower(cbdata$otherrace)
+
+cbdata$otherrace <- str_replace_all(cbdata$otherrace, "[^[:alnum:]]", "")
+
+# consolidate American Indian or Alaska Native
+cbdata$otherrace[grepl("metis", cbdata$otherrace)] <- "0"
+
+# consolidate Asian
+cbdata$otherrace[grepl("china|indian|malay|southasian", cbdata$otherrace)] <- "1"
+
+# consolidate Black or African American
+cbdata$otherrace[grepl("african|ugandan|haitian|somalia", 
+                     cbdata$otherrace)] <- "2"
+
+# consolidate Hispanic, Latino, or Spanish Origin
+cbdata$otherrace[grepl("asabrazilianbabyhehasmanyracesinhisblood|
+                     brasilianportuguese|hispanic|latinamerican|parda|pardo|guyanese", 
+                     cbdata$otherrace)] <- "3"
+
+# consolidate Native Hawaiian or Other Pacific Islander
+cbdata$otherrace[grepl("filipino", cbdata$otherrace)] <- "4"
+
+# consolidate Middle Eastern or North African
+cbdata$otherrace[grepl("kurdish|turkish", cbdata$otherrace)] <- "5"
+
+# consolidate White
+cbdata$otherrace[grepl("aboriginalaustralian|belgianturkish|
+                     belguim|europe|european|eurpean|westerneurope|italian|portuguese|
+                     primarilygerman|russia|russian|scandinavian|slavic|kosovarealbanian|
+                     ashkenazi|mixedjewish",
+                     cbdata$otherrace)] <- "6"
+
+# Classify as American Indian or Alaska Native
+cbdata$race___0[grepl("0|whitenative", cbdata$otherrace)] <- 1
+
+# Classify as Asian
+cbdata$race___1[grepl("1|asianandwhite|asiancaucasian|asianwhite|britishasian|chineseeuropean|halfcaucasianhalfsouthasian|mixedchinesewhite|mixedlatinasian|mixedwhitecaucasiankorean|whiteandasian|whiteasian|asianindianeastindian", cbdata$otherrace)] <- 1
+
+# Classify as Black or African American
+cbdata$race___2[grepl("2|blackandwhite|blackhawaiianwhite|halfwhiteblack|mixedracenigerianandwhite|mixofcaucasianfirstnationsandblack|mixofindianchineseandcoloredfrompaternalgrandfathersside", cbdata$otherrace)] <- 1
+
+# Classify as Hispanic, Latino, or Spanish Origin
+cbdata$race___3[grepl("3|europeanlatin|europeanspanishandportuguese|mixedlatinasian|
+                    portugueseandcypriot", cbdata$otherrace)] <- 1
+
+# Classify as Native Hawaiian or Other Pacific Islander
+cbdata$race___4[grepl("4|blackhawaiianwhite", cbdata$otherrace)] <- 1
+
+# Classify as Middle Eastern or North African
+cbdata$race___5[grepl("5|polishandpakistani|dutch14moroccan|portugueseandcypriot",
+                    cbdata$otherrace)] <- 1
+
+# Classify as White
+cbdata$race___6 <- ifelse(cbdata$otherrace == "6" | cbdata$otherrace == "asianandwhite" |
+                          cbdata$otherrace == "asiancaucasian" | 
+                          cbdata$otherrace == "asianwhite" |
+                          cbdata$otherrace == "blackandwhite" |
+                          cbdata$otherrace == "blackhawaiianwhite" |
+                          cbdata$otherrace == "britishasian" |
+                          cbdata$otherrace == "chineseeuropean" |
+                          cbdata$otherrace == "europeanlatin" |
+                          cbdata$otherrace == "europeanspanishandportuguese" |
+                          cbdata$otherrace == "halfcaucasianhalfsouthasian" |
+                          cbdata$otherrace == "halfwhiteblack" |
+                          cbdata$otherrace == "mixedchinesewhite" |
+                          cbdata$otherrace == "mixedracenigerianandwhite" |
+                          cbdata$otherrace == "mixedwhitecaucasiankorean" |
+                          cbdata$otherrace == "mixofcaucasianfirstnationsandblack" |
+                          cbdata$otherrace == "polishandpakistani" |
+                          cbdata$otherrace == "whiteandasian" |
+                          cbdata$otherrace == "whiteasian" |
+                          cbdata$otherrace == "whitenative" |
+                          cbdata$otherrace == "dutch14moroccan", 1, cbdata$race___6)
+
+# remove race other columns from dataframe
+cbdata <- subset(cbdata, select = -c(race___7, otherrace))
+```
 
 # Cleaning `deaffamily_other`
 
