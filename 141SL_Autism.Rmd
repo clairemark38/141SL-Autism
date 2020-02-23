@@ -239,6 +239,29 @@ cbdata[c(76, 2501), c(111, 112)] = 1
 
 otherdrug
 
+# Cleaning `otherdrug`
+
+```{r}
+# Getting rid of column
+cbdata$otherdrug = NULL
+
+# Adding columns
+painrelief = c(34, 533, 1182, 1687, 1804, 2236)
+cbdata$painrelief = ifelse(rownames(cbdata)%in%painrelief, 1, 0)
+
+mentdisord = c(904, 1521, 1917)
+cbdata$mentdisord = ifelse(rownames(cbdata)%in%mentdisord, 1, 0)
+
+# Moving to existing columns
+cbdata[1131, 147] = 1
+cbdata[1352, c(141, 145, 147)] = 1
+cbdata[2528, 148] = 1
+cbdata[c(210, 2537), 146] = 1
+cbdata[2577, 141] = 1
+cbdata[2298, 144] = 1
+```
+
+
 # Claire
 # Cleaning `medicalhistorybaby_other`
 
