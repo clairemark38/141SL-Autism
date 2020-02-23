@@ -190,9 +190,77 @@ otherszbpfamilymember
 otherart
 
 # Lisa
-maternalpregnancyproblems_other
+# Cleaning `maternalpregnancyproblems_other`
+```{r}
+# classify as post partum psychosis
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems___20 = replace(maternalpregnancyproblems___20, maternalpregnancyproblems_other == "post partum anxiety" | maternalpregnancyproblems_other == "Post partum anxiety" | maternalpregnancyproblems_other == "Post-partum anxiety" | maternalpregnancyproblems_other == "Postpartum hemorrhaging" | maternalpregnancyproblems_other == "Perinatal anxiety",1))
 
-trauma_optional
+# classify as Chorioamnionitis 
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems___21 = replace(maternalpregnancyproblems___21, maternalpregnancyproblems_other == "Chorioamnionitis", 1))
+ 
+ # classify as bleeding
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems___14 = replace(maternalpregnancyproblems___14, maternalpregnancyproblems_other == "Unusual pain in the abdomen, stress, miscarriage probability, bleeding.", 1))
+
+# classify as preterm labor
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems___11 = replace(maternalpregnancyproblems___11, maternalpregnancyproblems_other == "Early contractions with diction starting at 30 weeks. I received steroid shot to develop baby's lungs faster.", 1))
+
+# classify as History of recurrent miscarriage/ recurrent pregnancy loss 
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems___10 = replace(maternalpregnancyproblems___10, maternalpregnancyproblems_other == "Prior full term stillbirth; had double nuchal cord resulting in emergent csection at 36 weeks", 1))
+
+# classify as hypertension
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems___9 = replace(maternalpregnancyproblems___9, maternalpregnancyproblems_other == "Protein in urine day of induction and hypertension only at 38 weeks" | maternalpregnancyproblems_other == "Mild hypertension at 37 weeks", 1))
+
+# classify as 13, Placental abruption
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems___13 = replace(maternalpregnancyproblems___13, maternalpregnancyproblems_other == "Calcified placenta" | maternalpregnancyproblems_other == "Placenta calcification" | maternalpregnancyproblems_other == "Placenta hematoma" | maternalpregnancyproblems_other == "placental aging" | maternalpregnancyproblems_other == "Underperfusion placenta" , 1))
+
+# creating values for the rest of the others, and replacing all NA's with 0
+cbdata$maternalpregnancyproblems_other <- ifelse(is.na(cbdata$maternalpregnancyproblems_other), 0, 1)
+# or 
+# Get rid of the column 
+cbdata$maternalpregnancyproblems_other <- NULL
+```
+
+# Cleaning `trauma_optional`
+```{r}
+# Convert all Mom Trauma NA's to 0: 
+cbdata$mom_trauma[is.na(cbdata$mom_trauma)] <- 0 
+
+# classify as "physical abuse or assault" and then replace in trauma_optional as NA
+cbdata <- cbdata %>% mutate(what_trauma___2 = replace(what_trauma___2, trauma_optional == "Fell down stairs" | trauma_optional == "My partner divorced, the ex wife became abusive",1 ))
+cbdata <- cbdata %>% mutate(trauma_optional = replace(trauma_optional, trauma_optional == "Fell down stairs" | trauma_optional == "My partner divorced, the ex wife became abusive", NA))
+
+# classify as emotional abuse or psychological maltreatment 
+cbdata <- cbdata %>% mutate(what_trauma___3 = replace(what_trauma___3, trauma_optional == "Emotional abuse", 1))
+cbdata <- cbdata %>% mutate(trauma_optional = replace(trauma_optional, trauma_optional == "Emotional abuse", NA))
+
+# classify as neglect
+cbdata <- cbdata %>% mutate(what_trauma___4 = replace(what_trauma___4, trauma_optional == "Drug abuse no prenatal care" | trauma_optional == "Opiate withdrawal at 7w pregnant from Suboxone, 2mg/0.5mg", 1))
+cbdata <- cbdata %>% mutate(trauma_optional = replace(trauma_optional, trauma_optional == "Drug abuse no prenatal care" | trauma_optional == "Opiate withdrawal at 7w pregnant from Suboxone, 2mg/0.5mg", NA))
+
+# classify as serious accident, illness, or medical procedure  
+cbdata <- cbdata %>% mutate(what_trauma___5 = replace(what_trauma___5, trauma_optional == "Car Accident involving parents. Preterm labour started following the episode around 5th month" | trauma_optional == "Parent diagnosed with cancer" | trauma_optional == "AIDS" | trauma_optional == "My son was diagnosed with xx male syndrome", 1))
+cbdata <- cbdata %>% mutate(trauma_optional = replace(trauma_optional,trauma_optional == "Car Accident involving parents. Preterm labour started following the episode around 5th month" | trauma_optional == "Parent diagnosed with cancer" | trauma_optional == "AIDS" | trauma_optional == "My son was diagnosed with xx male syndrome", NA ))
+
+# classify as natural or manmade disasters 
+cbdata <- cbdata %>% mutate(what_trauma___10 = replace(what_trauma___10, trauma_optional == "Lost home in fire", 1))
+cbdata <- cbdata %>% mutate(trauma_optional = replace(trauma_optional, trauma_optional == "Lost home in fire", NA))
+
+# classify as military trauma (deployment) 
+cbdata <- cbdata %>% mutate(what_trauma___12 = replace(what_trauma___12, trauma_optional == "Recurrence of severe PTSD", 1))
+cbdata <- cbdata %>% mutate(trauma_optional = replace(trauma_optional,trauma_optional == "Recurrence of severe PTSD", NA))
+
+# 11. classify as forced displacement  
+cbdata <- cbdata %>% mutate(what_trauma___11 = replace(what_trauma___11, trauma_optional == "Displaced from home for renovations" | trauma_optional == "Cross country move before delivery" | trauma_optional == "Being evicted three days before the due date", 1))
+cbdata <- cbdata %>% mutate(trauma_optional = replace(trauma_optional, trauma_optional == "Displaced from home for renovations" | trauma_optional == "Cross country move before delivery" | trauma_optional == "Being evicted three days before the due date", NA))
+
+#  classify as death in family:   
+cbdata <- cbdata %>% mutate(what_trauma___14 = replace(what_trauma___14, trauma_optional == "Death of loved one" | trauma_optional == "Death of an uncle", 1))
+cbdata <- cbdata %>% mutate(trauma_optional = replace(trauma_optional,trauma_optional == "Death of loved one" | trauma_optional == "Death of an uncle", NA ))
+
+# getting rid of the other column 
+cbdata$trauma_optional <- NULL
+
+```
 
 # Allison
 mat_mental_health_other
