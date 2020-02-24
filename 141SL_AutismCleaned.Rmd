@@ -742,3 +742,17 @@ otherbehaviors_familyhistory_otherdiagnoses <- c(21, 448, 695, 712, 941, 1074, 1
 
 cbdata$otherbehaviors_familyhistory_otherdiagnoses <- ifelse(rownames(cbdata)%in%otherbehaviors_familyhistory_otherdiagnoses, 1, 0)
 ```
+
+
+# Adding Baby Age in Years Variable: 5 years as cut off
+```{r}
+babyageyrs = round(cbdata$babyage / 365, 1)
+cbdata$babyageyrs = babyageyrs
+# babyageyrs[which(babyageyrs <= 5)]
+```
+
+# Baby Weight: 45 lbs as cut off
+
+```{r}
+# cbdata$babysweightlbs[cbdata$babysweightlbs <= 45]
+```
