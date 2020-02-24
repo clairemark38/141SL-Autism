@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r, message=FALSE}
 library(readr)
 library(dplyr)
-library(tidyverse)
+library(stringr)
 ChatterBabyData <- read_csv("ChatterBabyData.csv")
 ```
 
