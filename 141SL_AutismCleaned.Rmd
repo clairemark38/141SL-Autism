@@ -12,6 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r, message=FALSE}
 #load packages
 library(readr)
+library(dplyr)
 library(tidyverse)
 ```
 
