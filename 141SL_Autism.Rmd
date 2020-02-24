@@ -392,7 +392,6 @@ cbdata <- cbdata %>% mutate(maternalpregnancyproblems_other = replace(maternalpr
 # classify as Chorioamnionitis 
 cbdata <- cbdata %>% mutate(maternalpregnancyproblems___21 = replace(maternalpregnancyproblems___21, maternalpregnancyproblems_other == "Chorioamnionitis", 1))
 cbdata <- cbdata %>% mutate(maternalpregnancyproblems_other = replace(maternalpregnancyproblems_other, maternalpregnancyproblems_other == "Chorioamnionitis", NA))
- Chorioamnionitis
  
  # classify as bleeding
 cbdata <- cbdata %>% mutate(maternalpregnancyproblems___14 = replace(maternalpregnancyproblems___14, maternalpregnancyproblems_other == "Unusual pain in the abdomen, stress, miscarriage probability, bleeding.", 1))
