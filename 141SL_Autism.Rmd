@@ -595,7 +595,7 @@ cbdata <- cbdata %>% mutate(whichmedsforbaby = replace(whichmedsforbaby, whichme
 cbdata$whichmedsforbaby_arm <- ifelse(cbdata$whichmedsforbaby!="acid reflux medication"|is.na(cbdata$whichmedsforbaby), 0, 1)
 
 # remove whichmedsforbaby column from dataframe
-cbdata <- subset(cbdata, select=-cbdata$whichmedsforbaby)
+cbdata <- subset(cbdata, select=-whichmedsforbaby)
 ```
 
 
