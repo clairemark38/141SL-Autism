@@ -36,6 +36,31 @@ Cleaning/ Transforming the Data:
 cbdata <- ChatterBabyData[,-c(1:7, 217:240)]
 ```
 
+# Dealing with NAs
+Cleaning NA's to 0's: 
+
+```{r}
+which(colnames(cbdata) == "twinsormore"):which(colnames(cbdata) == "birthordertotal")
+cbdata[,c(17:21)][is.na(cbdata[,c(17:21)])] <- 0
+
+which(colnames(cbdata) == "mat_dep"):which(colnames(cbdata) == "momfever")
+cbdata[,c(109:116)][is.na(cbdata[,c(109:116)])] <- 0
+  
+which(colnames(cbdata) == "nicuplacement"):which(colnames(cbdata) == "nicustay")
+cbdata[,c(169:170)][is.na(cbdata[,c(169:170)])] <- 0
+
+cbdata$unusualbehaviors[is.na(cbdata$unusualbehaviors)] <- 0 
+cbdata$babyfood[is.na(cbdata$babyfood)] <- 0 
+cbdata$breastfedattempt[is.na(cbdata$breastfedattempt)] <- 0 
+cbdata$babymeds[is.na(cbdata$babymeds)] <- 0 
+cbdata$art[is.na(cbdata$art)] <- 0 
+cbdata$cryfrequency[is.na(cbdata$cryfrequency)] <- 0 
+cbdata$mom_trauma[is.na(cbdata$mom_trauma)] <- 0 
+cbdata$mompesticides[is.na(cbdata$mompesticides)] <- 0 
+cbdata$dadpesticides[is.na(cbdata$dadpesticides)] <- 0 
+cbdata$asd_genetic[is.na(cbdata$asd_genetic)] <- 0 
+cbdata$marriage[is.na(cbdata$marriage)] <- 0 
+```
 Transforming the weight from kg to pounds then cbind into the same column for lbs: 
 
 ```{r,warning=FALSE}
