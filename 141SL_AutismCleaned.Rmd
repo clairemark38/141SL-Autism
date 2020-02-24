@@ -283,6 +283,9 @@ cbdata$ddfamily_aunt <- ifelse(cbdata$ddfamily_other == "aunt", 1, 0)
 
 # New column for "grandmother" (There were no grandfathers in this variable.)
 cbdata$ddfamily_grandmother <- ifelse(cbdata$ddfamily_other == "grandmother", 1, 0)
+
+# Remove original column
+cbdata <- subset(cbdata, select = -ddfamily_other)
 ```
 
 ## Cleaning otherszbpfamilymember
@@ -333,6 +336,9 @@ cbdata$otherszbpfamilymember_grandfather <- ifelse(cbdata$otherszbpfamilymember 
 
 # New column for "grandmother"
 cbdata$otherszbpfamilymember_grandmother <- ifelse(cbdata$otherszbpfamilymember == "grandmother" | cbdata$otherszbpfamilymember == "grandfather and grandmother" | cbdata$otherszbpfamilymember == "uncle and grandmother" | cbdata$otherszbpfamilymember == "cousin and grandmother", 1, 0)
+
+# Remove original column
+cbdata <- subset(cbdata, select = -otherszbpfamilymember)
 ```
 
 ## Cleaning otherart
@@ -377,6 +383,9 @@ cbdata$otherart_unspecified_meds <- ifelse(cbdata$otherart == "unspecified meds"
 
 # New column for "artificial insemination"
 cbdata$otherart_artificial_insemination <- ifelse(cbdata$otherart == "artificial insemination" | cbdata$otherart == "artificial insemination and letrozole", 1, 0)
+
+# Remove original column
+cbdata <- subset(cbdata, select = -otherart)
 ```
 
 # Lisa
@@ -741,18 +750,4 @@ otherbehaviors_familyhistory_otherdiagnoses <- c(21, 448, 695, 712, 941, 1074, 1
                                                  205, 2079, 2435, 2567)
 
 cbdata$otherbehaviors_familyhistory_otherdiagnoses <- ifelse(rownames(cbdata)%in%otherbehaviors_familyhistory_otherdiagnoses, 1, 0)
-```
-
-
-# Adding Baby Age in Years Variable: 5 years as cut off
-```{r}
-babyageyrs = round(cbdata$babyage / 365, 1)
-cbdata$babyageyrs = babyageyrs
-# babyageyrs[which(babyageyrs <= 5)]
-```
-
-# Baby Weight: 45 lbs as cut off
-
-```{r}
-# cbdata$babysweightlbs[cbdata$babysweightlbs <= 45]
 ```
