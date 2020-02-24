@@ -404,9 +404,6 @@ cbdata <- cbdata %>% mutate(maternalpregnancyproblems_other = replace(maternalpr
 cbdata <- cbdata %>% mutate(maternalpregnancyproblems___13 = replace(maternalpregnancyproblems___13, maternalpregnancyproblems_other == "Calcified placenta" | maternalpregnancyproblems_other == "Placenta calcification" | maternalpregnancyproblems_other == "Placenta hematoma" | maternalpregnancyproblems_other == "placental aging" | maternalpregnancyproblems_other == "Underperfusion placenta" , 1))
 cbdata <- cbdata %>% mutate(maternalpregnancyproblems_other = replace(maternalpregnancyproblems_other, maternalpregnancyproblems_other == "Calcified placenta" | maternalpregnancyproblems_other == "Placenta calcification" | maternalpregnancyproblems_other == "Placenta hematoma" | maternalpregnancyproblems_other == "placental aging"| maternalpregnancyproblems_other == "Underperfusion placenta", NA))
 
-# creating values for the rest of the others, and replacing all NA's with 0
-cbdata$maternalpregnancyproblems_other <- ifelse(is.na(cbdata$maternalpregnancyproblems_other), 0, 1)
-# or 
 # Get rid of the column 
 cbdata$maternalpregnancyproblems_other <- NULL
 ```
