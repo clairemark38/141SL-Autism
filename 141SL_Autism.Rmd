@@ -60,6 +60,9 @@ cbdata$mompesticides[is.na(cbdata$mompesticides)] <- 0
 cbdata$dadpesticides[is.na(cbdata$dadpesticides)] <- 0 
 cbdata$asd_genetic[is.na(cbdata$asd_genetic)] <- 0 
 cbdata$marriage[is.na(cbdata$marriage)] <- 0 
+
+#set babygestion NA to average since none premature
+cbdata$babygestation[which(is.na(cbdata$babygestation) == TRUE)] <- 40
 ```
 Transforming the weight from kg to pounds then cbind into the same column for lbs: 
 
