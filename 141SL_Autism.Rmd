@@ -63,6 +63,13 @@ cbdata$marriage[is.na(cbdata$marriage)] <- 0
 
 #set babygestion NA to average since none premature
 cbdata$babygestation[which(is.na(cbdata$babygestation) == TRUE)] <- 40
+
+#fix some NA's in totalpregnancies by setting to number of live births
+cbdata$totalpregnancies[which(is.na(cbdata$totalpregnancies) == TRUE & is.na(cbdata$momlivebirths) == FALSE)] <- 
+cbdata$momlivebirths[which(is.na(cbdata$totalpregnancies) == TRUE & is.na(cbdata$momlivebirths) == FALSE)]
+
+#fix some NA's in totalpregnancies by setting to 1 if no siblings and not adopted
+cbdata$totalpregnancies[which(is.na(cbdata$totalpregnancies) == TRUE & cbdata$birthordertotal == 0 & cbdata$adoption == 0)] <- 1
 ```
 Transforming the weight from kg to pounds then cbind into the same column for lbs: 
 
