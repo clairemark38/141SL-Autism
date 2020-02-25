@@ -74,28 +74,28 @@ cbdata$totalpregnancies[which(is.na(cbdata$totalpregnancies) == TRUE & cbdata$bi
 # set live births to number of total pregnancies 
 # if number of total pregnancies = number of total siblings + 1(baby)
 # so as to not include miscarriages
-data$momlivebirths[which((is.na(data$momlivebirths) == TRUE) &
-                           (data$totalpregnancies == (data$birthordertotal + 1)))] <-
-  data$totalpregnancies[which((is.na(data$momlivebirths) == TRUE) & 
-                                (data$totalpregnancies == (data$birthordertotal + 1)))]
+cbdata$momlivebirths[which((is.na(cbdata$momlivebirths) == TRUE) &
+                           (cbdata$totalpregnancies == (cbdata$birthordertotal + 1)))] <-
+  cbdata$totalpregnancies[which((is.na(cbdata$momlivebirths) == TRUE) & 
+                                (cbdata$totalpregnancies == (cbdata$birthordertotal + 1)))]
 
 # set live births to number of total pregnancies 
 # if number of total pregnancies = number of full siblings + 1(baby) 
 # so as to not include miscarriages (where birthordertotal = 0 because of NA in olderhalfsiblings)
-data$momlivebirths[which((is.na(data$momlivebirths) == TRUE) &
-                           (data$totalpregnancies == (data$numberfullsiblings + 1)))] <-
-  data$totalpregnancies[which((is.na(data$momlivebirths) == TRUE) & 
-                                (data$totalpregnancies == (data$numberfullsiblings + 1)))]
+cbdata$momlivebirths[which((is.na(cbdata$momlivebirths) == TRUE) &
+                           (cbdata$totalpregnancies == (cbdata$numberfullsiblings + 1)))] <-
+  cbdata$totalpregnancies[which((is.na(cbdata$momlivebirths) == TRUE) & 
+                                (cbdata$totalpregnancies == (cbdata$numberfullsiblings + 1)))]
 
 # set live births to number of full siblings + 1
 # if number of total pregnancies > number of full siblings and 
 # number of older half siblings = 0 so as to not include children only from father and miscarriages
-data$momlivebirths[which((is.na(data$momlivebirths) == TRUE) & 
-                           (data$totalpregnancies > data$numberfullsiblings) &
-                           data$olderhalfsiblings == 0 )] <-
-  data$numberfullsiblings[which((is.na(data$momlivebirths) == TRUE) & 
-                                  (data$totalpregnancies > data$numberfullsiblings) &
-                                  data$olderhalfsiblings == 0 )] + 1
+cbdata$momlivebirths[which((is.na(cbdata$momlivebirths) == TRUE) & 
+                           (cbdata$totalpregnancies > cbdata$numberfullsiblings) &
+                           cbdata$olderhalfsiblings == 0 )] <-
+  cbdata$numberfullsiblings[which((is.na(cbdata$momlivebirths) == TRUE) & 
+                                  (cbdata$totalpregnancies > cbdata$numberfullsiblings) &
+                                  cbdata$olderhalfsiblings == 0 )] + 1
 ```
 Transforming the weight from kg to pounds then cbind into the same column for lbs: 
 
