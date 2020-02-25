@@ -43,6 +43,67 @@ Cleaning/ Transforming the Data:
 #data set using
 cbdata <- ChatterBabyData[, -c(1:7, 217:240)]
 ```
+# Dealing with NAs
+Cleaning NA's to 0's: 
+
+```{r}
+which(colnames(cbdata) == "twinsormore"):which(colnames(cbdata) == "birthordertotal")
+cbdata[,c(17:21)][is.na(cbdata[,c(17:21)])] <- 0
+
+which(colnames(cbdata) == "mat_dep"):which(colnames(cbdata) == "momfever")
+cbdata[,c(109:116)][is.na(cbdata[,c(109:116)])] <- 0
+  
+which(colnames(cbdata) == "nicuplacement"):which(colnames(cbdata) == "nicustay")
+cbdata[,c(169:170)][is.na(cbdata[,c(169:170)])] <- 0
+
+cbdata$unusualbehaviors[is.na(cbdata$unusualbehaviors)] <- 0 
+cbdata$babyfood[is.na(cbdata$babyfood)] <- 0 
+cbdata$breastfedattempt[is.na(cbdata$breastfedattempt)] <- 0 
+cbdata$babymeds[is.na(cbdata$babymeds)] <- 0 
+cbdata$art[is.na(cbdata$art)] <- 0 
+cbdata$cryfrequency[is.na(cbdata$cryfrequency)] <- 0 
+cbdata$mom_trauma[is.na(cbdata$mom_trauma)] <- 0 
+cbdata$mompesticides[is.na(cbdata$mompesticides)] <- 0 
+cbdata$dadpesticides[is.na(cbdata$dadpesticides)] <- 0 
+cbdata$asd_genetic[is.na(cbdata$asd_genetic)] <- 0 
+cbdata$marriage[is.na(cbdata$marriage)] <- 0 
+
+#set babygestion NA to average since none premature
+cbdata$babygestation[which(is.na(cbdata$babygestation) == TRUE)] <- 40
+
+#fix some NA's in totalpregnancies by setting to number of live births
+cbdata$totalpregnancies[which(is.na(cbdata$totalpregnancies) == TRUE & is.na(cbdata$momlivebirths) == FALSE)] <- 
+cbdata$momlivebirths[which(is.na(cbdata$totalpregnancies) == TRUE & is.na(cbdata$momlivebirths) == FALSE)]
+
+#fix some NA's in totalpregnancies by setting to 1 if no siblings and not adopted
+cbdata$totalpregnancies[which(is.na(cbdata$totalpregnancies) == TRUE & cbdata$birthordertotal == 0 & cbdata$adoption == 0)] <- 1
+
+# set live births to number of total pregnancies 
+# if number of total pregnancies = number of total siblings + 1(baby)
+# so as to not include miscarriages
+cbdata$momlivebirths[which((is.na(cbdata$momlivebirths) == TRUE) &
+                           (cbdata$totalpregnancies == (cbdata$birthordertotal + 1)))] <-
+  cbdata$totalpregnancies[which((is.na(cbdata$momlivebirths) == TRUE) & 
+                                (cbdata$totalpregnancies == (cbdata$birthordertotal + 1)))]
+
+# set live births to number of total pregnancies 
+# if number of total pregnancies = number of full siblings + 1(baby) 
+# so as to not include miscarriages (where birthordertotal = 0 because of NA in olderhalfsiblings)
+cbdata$momlivebirths[which((is.na(cbdata$momlivebirths) == TRUE) &
+                           (cbdata$totalpregnancies == (cbdata$numberfullsiblings + 1)))] <-
+  cbdata$totalpregnancies[which((is.na(cbdata$momlivebirths) == TRUE) & 
+                                (cbdata$totalpregnancies == (cbdata$numberfullsiblings + 1)))]
+
+# set live births to number of full siblings + 1
+# if number of total pregnancies > number of full siblings and 
+# number of older half siblings = 0 so as to not include children only from father and miscarriages
+cbdata$momlivebirths[which((is.na(cbdata$momlivebirths) == TRUE) & 
+                           (cbdata$totalpregnancies > cbdata$numberfullsiblings) &
+                           cbdata$olderhalfsiblings == 0 )] <-
+  cbdata$numberfullsiblings[which((is.na(cbdata$momlivebirths) == TRUE) & 
+                                  (cbdata$totalpregnancies > cbdata$numberfullsiblings) &
+                                  cbdata$olderhalfsiblings == 0 )] + 1
+```
 
 Transforming the weight from kg to pounds then cbind into the same column for lbs: 
 
