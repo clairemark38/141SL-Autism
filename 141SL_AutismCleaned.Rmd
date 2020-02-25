@@ -50,7 +50,6 @@ Transforming the weight from kg to pounds then cbind into the same column for lb
 # Convert weight in kg to lbs then to character vector
 cbdata$weightkg <- as.numeric(cbdata$weightkg)
 cbdata$weightkg <- as.character(round(2.20462 * cbdata$weightkg,2))
-rename(cbdata, weightlb = weightkg)
 
 # replace the missing values in `babysweightlbs` with values from weightkg
 cbdata <- cbdata %>% mutate(babysweightlbs = ifelse(babysweightlbs == "NA", weightkg, babysweightlbs))
@@ -390,7 +389,6 @@ cbdata <- subset(cbdata, select = -otherart)
 ```
 
 # Lisa
-# Lisa
 # Cleaning `maternalpregnancyproblems_other`
 ```{r}
 # classify as post partum psychosis
@@ -449,7 +447,7 @@ cbdata <- cbdata %>% mutate(what_trauma___14 = replace(what_trauma___14, trauma_
 cbdata <- cbdata %>% mutate(trauma_optional = replace(trauma_optional,trauma_optional == "Death of loved one" | trauma_optional == "Death of an uncle", NA ))
 # getting rid of the other column 
 cbdata$trauma_optional <- NULL
-
+```
 
 # Allison
 # Cleaning `mat_mental_health_other`
