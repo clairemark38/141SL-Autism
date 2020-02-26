@@ -880,7 +880,15 @@ babyageyrs = round(cbdata$babyage / 365, 1)
 cbdata$babyageyrs = ifelse(babyageyrs <= 5, babyageyrs, NA)
 ```
 
-# selecting columns 81-120
+# selecting columns to keep in range 81-120
 ```{r}
 cbdata[,c("maternalpregnancyproblems___18","mom_trauma", "matmentalhealth___1","matmentalhealth___4", "matmentalhealth___5","matmentalhealth___6", "whenfever___1", "whenfever___2", "whenfever___3","farmmomwhen___1","farmmomwhen___2","farmmomwhen___3")]
+```
+
+# selecting columns to keep in range 1-40
+```{r}
+cbdata[,c("babyage", "country", "sex", "babysweightlbs", "race___0", "race___1", "race___2", "race___3",
+"race___4", "race___5", "race___6", "momsdeliveryage", "dadsdeliveryage", "momsedu", "dadsedu", "asdfamily___1",
+"asdfamily___2", "asdfamily___3", "asdfamily___4", "asdfamily___5", "asdfamily___6", "asdfamily___7",     
+"asd_genetic", "ddfamily___1", "ddfamily___2", "ddfamily___3", "ddfamily___4" )]
 ```
