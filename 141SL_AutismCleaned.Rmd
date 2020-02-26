@@ -880,9 +880,9 @@ babyageyrs = round(cbdata$babyage / 365, 1)
 cbdata$babyageyrs = ifelse(babyageyrs <= 5, babyageyrs, NA)
 ```
 
-# selecting columns to keep in range 1-120,161-250
+# selecting columns to keep in for the models
 ```{r}
-cbdata[,c("babyage", "country", "sex", "babysweightlbs", "race___0", "race___1", "race___2", "race___3",
+cbdata1 <- cbdata[,c("babyage", "country", "sex", "babysweightlbs", "race___0", "race___1", "race___2", "race___3",
 "race___4", "race___5", "race___6", "momsdeliveryage", "dadsdeliveryage", "momsedu", "dadsedu", "asdfamily___1",
 "asdfamily___2", "asdfamily___3", "asdfamily___4", "asdfamily___5", "asdfamily___6", "asdfamily___7",     
 "asd_genetic", "ddfamily___1", "ddfamily___2", "ddfamily___3", "ddfamily___4","ddfamily___5","ddfamily___6", "ddfamily___7",
@@ -898,7 +898,9 @@ cbdata[,c("babyage", "country", "sex", "babysweightlbs", "race___0", "race___1",
 "maternalpregnancyproblems___13", "maternalpregnancyproblems___14", "maternalpregnancyproblems___17",
 "maternalpregnancyproblems___19", "maternalpregnancyproblems___20","maternalpregnancyproblems___18","mom_trauma",
 "matmentalhealth___1","matmentalhealth___4", "matmentalhealth___5","matmentalhealth___6", "whenfever___1", "whenfever___2",
-"whenfever___3","farmmomwhen___1","farmmomwhen___2","farmmomwhen___3","stimulants_pregnancy_when___1",
+"whenfever___3","farmmomwhen___1","farmmomwhen___2","farmmomwhen___3",
+"farmmomwhen___4","farmdadwhen___1","mompesticides","dadpesticides",
+"drugsalcoholtobacco___1","drugsalcoholtobacco___5","drugsalcoholtobacco___6", "drugsalcoholtobacco___7","stimulants_pregnancy_when___1",
 "stimulants_pregnancy_when___2", "stimulants_pregnancy_when___3", "opioids_pregnancy_when___1", "opioids_pregnancy_when___2",
 "opioids_pregnancy_when___3", "babygestation","delivery", "cryfrequency", "colic", "medicalhistorybaby___1",
 "medicalhistorybaby___2", "medicalhistorybaby___25", "medicalhistorybaby___3", "medicalhistorybaby___21",
@@ -908,7 +910,4 @@ cbdata[,c("babyage", "country", "sex", "babysweightlbs", "race___0", "race___1",
 ,"whichmedsforbaby_arm","unusualmovements","unusual_actions_nonagressive","unusual_actions_aggressive",
 "otherbehaviors_delayed_milestones","otherbehaviors_behavioral_abnormalities","otherbehaviors_body_function_abnormalities",
 "otherbehaviors_familyhistory_otherdiagnoses","babyageyrs")]
-```
-```{r}
-cbdata[,c("farmmomwhen___4","farmdadwhen___1","mompesticides","dadpesticides","drugsalcoholtobacco___1","drugsalcoholtobacco___5","drugsalcoholtobacco___6","drugsalcoholtobacco___7")]
 ```
