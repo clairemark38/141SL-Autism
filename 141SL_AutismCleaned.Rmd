@@ -890,5 +890,16 @@ cbdata[,c("maternalpregnancyproblems___18","mom_trauma", "matmentalhealth___1","
 cbdata[,c("babyage", "country", "sex", "babysweightlbs", "race___0", "race___1", "race___2", "race___3",
 "race___4", "race___5", "race___6", "momsdeliveryage", "dadsdeliveryage", "momsedu", "dadsedu", "asdfamily___1",
 "asdfamily___2", "asdfamily___3", "asdfamily___4", "asdfamily___5", "asdfamily___6", "asdfamily___7",     
-"asd_genetic", "ddfamily___1", "ddfamily___2", "ddfamily___3", "ddfamily___4" )]
+"asd_genetic", "ddfamily___1", "ddfamily___2", "ddfamily___3", "ddfamily___4")]
 ```
+
+# selecting columns to keep in range 61-80
+```{r}
+cbdata[,c("maternalpregnancyproblems___1", "maternalpregnancyproblems___2", "maternalpregnancyproblems___3",  "maternalpregnancyproblems___15", "maternalpregnancyproblems___21", "maternalpregnancyproblems___16", "maternalpregnancyproblems___4", "maternalpregnancyproblems___5", "maternalpregnancyproblems___6",  "maternalpregnancyproblems___7", "maternalpregnancyproblems___8", "maternalpregnancyproblems___9",  "maternalpregnancyproblems___10", "maternalpregnancyproblems___11", "maternalpregnancyproblems___12", "maternalpregnancyproblems___13", "maternalpregnancyproblems___14", "maternalpregnancyproblems___17", "maternalpregnancyproblems___19", "maternalpregnancyproblems___20")]
+```
+
+
+
+
+
+
