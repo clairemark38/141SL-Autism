@@ -909,3 +909,6 @@ cbdata[,c("babyage", "country", "sex", "babysweightlbs", "race___0", "race___1",
 "otherbehaviors_delayed_milestones","otherbehaviors_behavioral_abnormalities","otherbehaviors_body_function_abnormalities",
 "otherbehaviors_familyhistory_otherdiagnoses","babyageyrs")]
 ```
+```{r}
+cbdata[,c("farmmomwhen___4","farmdadwhen___1","mompesticides","dadpesticides","drugsalcoholtobacco___1","drugsalcoholtobacco___5","drugsalcoholtobacco___6","drugsalcoholtobacco___7")]
+```
