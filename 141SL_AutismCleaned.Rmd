@@ -879,3 +879,8 @@ cbdata$babysweightlbs = ifelse(cbdata$babysweightlbs <= 45, cbdata$babysweightlb
 babyageyrs = round(cbdata$babyage / 365, 1)
 cbdata$babyageyrs = ifelse(babyageyrs <= 5, babyageyrs, NA)
 ```
+
+# selecting columns 81-120
+```{r}
+cbdata[,c("maternalpregnancyproblems___18","mom_trauma", "matmentalhealth___1","matmentalhealth___4", "matmentalhealth___5","matmentalhealth___6", "whenfever___1", "whenfever___2", "whenfever___3","farmmomwhen___1","farmmomwhen___2","farmmomwhen___3")]
+```
