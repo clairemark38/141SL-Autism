@@ -880,7 +880,7 @@ babyageyrs = round(cbdata$babyage / 365, 1)
 cbdata$babyageyrs = ifelse(babyageyrs <= 5, babyageyrs, NA)
 ```
 
-# selecting columns to keep in range 1-120,161-200
+# selecting columns to keep in range 1-120,161-250
 ```{r}
 cbdata[,c("babyage", "country", "sex", "babysweightlbs", "race___0", "race___1", "race___2", "race___3",
 "race___4", "race___5", "race___6", "momsdeliveryage", "dadsdeliveryage", "momsedu", "dadsedu", "asdfamily___1",
@@ -902,9 +902,10 @@ cbdata[,c("babyage", "country", "sex", "babysweightlbs", "race___0", "race___1",
 "stimulants_pregnancy_when___2", "stimulants_pregnancy_when___3", "opioids_pregnancy_when___1", "opioids_pregnancy_when___2",
 "opioids_pregnancy_when___3", "babygestation","delivery", "cryfrequency", "colic", "medicalhistorybaby___1",
 "medicalhistorybaby___2", "medicalhistorybaby___25", "medicalhistorybaby___3", "medicalhistorybaby___21",
-"medicalhistorybaby___22", "medicalhistorybaby___14", "medicalhistorybaby___5", "medicalhistorybaby___6")]
-```
-```{r}
-cbdata[,c("deaf","deaf1","risk_score_ASD","asdfamily_gma","asdfamily_gpa","ddfamily_grandmother","otherszbpfamilymember_grandfather","otherszbpfamilymember_grandmother"    
-,"whichmedsforbaby_arm","unusualmovements","unusual_actions_nonagressive","unusual_actions_aggressive","otherbehaviors_delayed_milestones","otherbehaviors_behavioral_abnormalities","otherbehaviors_body_function_abnormalities","otherbehaviors_familyhistory_otherdiagnoses","babyageyrs")]
+"medicalhistorybaby___22", "medicalhistorybaby___14", "medicalhistorybaby___5",
+"medicalhistorybaby___6","deaf","deaf1","risk_score_ASD","asdfamily_gma","asdfamily_gpa",
+"ddfamily_grandmother","otherszbpfamilymember_grandfather","otherszbpfamilymember_grandmother"    
+,"whichmedsforbaby_arm","unusualmovements","unusual_actions_nonagressive","unusual_actions_aggressive",
+"otherbehaviors_delayed_milestones","otherbehaviors_behavioral_abnormalities","otherbehaviors_body_function_abnormalities",
+"otherbehaviors_familyhistory_otherdiagnoses","babyageyrs")]
 ```
