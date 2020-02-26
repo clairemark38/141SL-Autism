@@ -894,7 +894,10 @@ cbdata[,c("babyage", "country", "sex", "babysweightlbs", "race___0", "race___1",
 "maternalpregnancyproblems___19", "maternalpregnancyproblems___20","maternalpregnancyproblems___18","mom_trauma", "matmentalhealth___1","matmentalhealth___4", "matmentalhealth___5","matmentalhealth___6", "whenfever___1", "whenfever___2", "whenfever___3","farmmomwhen___1","farmmomwhen___2","farmmomwhen___3")]
 ```
 
-
+# Selections from 161-200
+```{r}
+subset(cbdata, select = c(stimulants_pregnancy_when___1, stimulants_pregnancy_when___2, stimulants_pregnancy_when___3, opioids_pregnancy_when___1, opioids_pregnancy_when___2, opioids_pregnancy_when___3, babygestation, delivery, cryfrequency, colic, medicalhistorybaby___1, medicalhistorybaby___2, medicalhistorybaby___25, medicalhistorybaby___3, medicalhistorybaby___21, medicalhistorybaby___22, medicalhistorybaby___14, medicalhistorybaby___5, medicalhistorybaby___6))
+```
 
 
 
