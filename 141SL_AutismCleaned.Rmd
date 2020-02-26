@@ -895,7 +895,13 @@ cbdata[,c("babyage", "country", "sex", "babysweightlbs", "race___0", "race___1",
 
 # selecting columns to keep in range 61-80
 ```{r}
-cbdata[,c("maternalpregnancyproblems___1", "maternalpregnancyproblems___2", "maternalpregnancyproblems___3",  "maternalpregnancyproblems___15", "maternalpregnancyproblems___21", "maternalpregnancyproblems___16", "maternalpregnancyproblems___4", "maternalpregnancyproblems___5", "maternalpregnancyproblems___6",  "maternalpregnancyproblems___7", "maternalpregnancyproblems___8", "maternalpregnancyproblems___9",  "maternalpregnancyproblems___10", "maternalpregnancyproblems___11", "maternalpregnancyproblems___12", "maternalpregnancyproblems___13", "maternalpregnancyproblems___14", "maternalpregnancyproblems___17", "maternalpregnancyproblems___19", "maternalpregnancyproblems___20")]
+cbdata[,c("maternalpregnancyproblems___1", "maternalpregnancyproblems___2", "maternalpregnancyproblems___3", 
+"maternalpregnancyproblems___15", "maternalpregnancyproblems___21", "maternalpregnancyproblems___16",
+"maternalpregnancyproblems___4", "maternalpregnancyproblems___5", "maternalpregnancyproblems___6", 
+"maternalpregnancyproblems___7", "maternalpregnancyproblems___8", "maternalpregnancyproblems___9", 
+"maternalpregnancyproblems___10", "maternalpregnancyproblems___11", "maternalpregnancyproblems___12",
+"maternalpregnancyproblems___13", "maternalpregnancyproblems___14", "maternalpregnancyproblems___17", 
+"maternalpregnancyproblems___19", "maternalpregnancyproblems___20")]
 ```
 
 
