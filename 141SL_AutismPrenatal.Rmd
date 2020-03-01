@@ -1,0 +1,55 @@
+```{r, message=FALSE}
+#load packages
+library(readr)
+library(dplyr)
+library(stringr)
+```
+
+```{r, message=FALSE}
+#load data
+data <- read_csv("ChatterBabyData.csv")
+```
+
+```{r}
+mean(data$risk_score_ASD)
+var(data$risk_score_ASD)
+hist(data$risk_score_ASD)
+```
+
+```{r}
+cbdata <- data %>% select(babyage, momsdeliveryage, momsedu, sex, art, artmethod___1,
+                          artmethod___7, artmethod___6, artmethod___2, artmethod___3,
+                          artmethod___4, artmethod___5, mom_trauma,
+                          maternalpregnancyproblems___1, maternalpregnancyproblems___2,
+                          maternalpregnancyproblems___3, maternalpregnancyproblems___15,
+                          maternalpregnancyproblems___21, maternalpregnancyproblems___16,
+                          maternalpregnancyproblems___4, maternalpregnancyproblems___5,
+                          maternalpregnancyproblems___6, maternalpregnancyproblems___7,
+                          maternalpregnancyproblems___8, maternalpregnancyproblems___9,
+                          maternalpregnancyproblems___10, maternalpregnancyproblems___11,
+                          maternalpregnancyproblems___12, maternalpregnancyproblems___13,
+                          maternalpregnancyproblems___14, maternalpregnancyproblems___17,
+                          maternalpregnancyproblems___19, maternalpregnancyproblems___20,
+                          maternalpregnancyproblems___18, maternalpregnancyproblems_other,
+                          matmentalhealth___1, matmentalhealth___2, matmentalhealth___3,
+                          matmentalhealth___4, matmentalhealth___5, matmentalhealth___6,
+                          matmentalhealth___7, mat_mental_health_other, mat_dep, mat_anx,
+                          mat_ocd, mat_bp, mat_adhd, mat_pssd, momfever, whenfever___1,
+                          whenfever___2, whenfever___3, tobacco_pregnancy_when___1,
+                          tobacco_pregnancy_when___2, tobacco_pregnancy_when___3,
+                          vaping_pregnancy___1, vaping_pregnancy___2, vaping_pregnancy___3,
+                          alcohol_pregnancy_when___1, alcohol_pregnancy_when___2,
+                          alcohol_pregnancy_when___3, cannabis_pregnancy_when___1,
+                          cannabis_pregnancy_when___2, cannabis_pregnancy_when___3,
+                          stimulants_pregnancy_when___1, stimulants_pregnancy_when___2,
+                          stimulants_pregnancy_when___3, opioids_pregnancy_when___1,
+                          opioids_pregnancy_when___2, opioids_pregnancy_when___3,
+                          psychoactive_pregnancy___1, psychoactive_pregnancy___2,
+                          psychoactive_pregnancy___3, delivery, momlivebirths,
+                          totalpregnancies, maternalproblems, asd, deaf, ddfamily,
+                          szbpfamily, risk_score_ASD) 
+```
+
+```{r}
+summary(cbdata)
+```
