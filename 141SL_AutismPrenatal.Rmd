@@ -7,17 +7,81 @@ library(stringr)
 
 ```{r, message=FALSE}
 #load data
-data <- read_csv("ChatterBabyData.csv")
+cbdata <- read_csv("ChatterBabyData.csv")
 ```
 
 ```{r}
-mean(data$risk_score_ASD)
-var(data$risk_score_ASD)
-hist(data$risk_score_ASD)
+mean(cbdata$risk_score_ASD)
+var(cbdata$risk_score_ASD)
+hist(cbdata$risk_score_ASD)
+```
+
+# Cleaning `maternalpregnancyproblems_other`
+```{r}
+# classify as post partum psychosis
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems___20 = replace(maternalpregnancyproblems___20, maternalpregnancyproblems_other == "post partum anxiety" | maternalpregnancyproblems_other == "Post partum anxiety" | maternalpregnancyproblems_other == "Post-partum anxiety" | maternalpregnancyproblems_other == "Postpartum hemorrhaging" | maternalpregnancyproblems_other == "Perinatal anxiety",1))
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems_other = replace(maternalpregnancyproblems_other, maternalpregnancyproblems_other == "post partum anxiety" | maternalpregnancyproblems_other == "Post partum anxiety" | maternalpregnancyproblems_other == "Post-partum anxiety" | maternalpregnancyproblems_other == "Postpartum hemorrhaging" | maternalpregnancyproblems_other == "Perinatal anxiety", NA ))
+
+# classify as Chorioamnionitis 
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems___21 = replace(maternalpregnancyproblems___21, maternalpregnancyproblems_other == "Chorioamnionitis", 1))
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems_other = replace(maternalpregnancyproblems_other, maternalpregnancyproblems_other == "Chorioamnionitis", NA))
+
+# classify as bleeding
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems___14 = replace(maternalpregnancyproblems___14, maternalpregnancyproblems_other == "Unusual pain in the abdomen, stress, miscarriage probability, bleeding.", 1))
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems_other = replace(maternalpregnancyproblems_other, maternalpregnancyproblems_other == "Unusual pain in the abdomen, stress, miscarriage probability, bleeding.", NA))
+
+# classify as preterm labor
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems___11 = replace(maternalpregnancyproblems___11, maternalpregnancyproblems_other == "Early contractions with diction starting at 30 weeks. I received steroid shot to develop baby's lungs faster.", 1))
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems_other = replace(maternalpregnancyproblems_other, maternalpregnancyproblems_other == "Early contractions with diction starting at 30 weeks. I received steroid shot to develop baby's lungs faster.", NA))
+
+# classify as History of recurrent miscarriage/ recurrent pregnancy loss 
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems___10 = replace(maternalpregnancyproblems___10, maternalpregnancyproblems_other == "Prior full term stillbirth; had double nuchal cord resulting in emergent csection at 36 weeks", 1))
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems_other = replace(maternalpregnancyproblems_other, maternalpregnancyproblems_other == "Prior full term stillbirth; had double nuchal cord resulting in emergent csection at 36 weeks", NA))
+
+# classify as hypertension
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems___9 = replace(maternalpregnancyproblems___9, maternalpregnancyproblems_other == "Protein in urine day of induction and hypertension only at 38 weeks" | maternalpregnancyproblems_other == "Mild hypertension at 37 weeks", 1))
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems_other = replace(maternalpregnancyproblems_other, maternalpregnancyproblems_other == "Protein in urine day of induction and hypertension only at 38 weeks"| maternalpregnancyproblems_other == "Mild hypertension at 37 weeks", 1))
+
+# classify as 13, Placental abruption
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems___13 = replace(maternalpregnancyproblems___13, maternalpregnancyproblems_other == "Calcified placenta" | maternalpregnancyproblems_other == "Placenta calcification" | maternalpregnancyproblems_other == "Placenta hematoma" | maternalpregnancyproblems_other == "placental aging" | maternalpregnancyproblems_other == "Underperfusion placenta" , 1))
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems_other = replace(maternalpregnancyproblems_other, maternalpregnancyproblems_other == "Calcified placenta" | maternalpregnancyproblems_other == "Placenta calcification" | maternalpregnancyproblems_other == "Placenta hematoma" | maternalpregnancyproblems_other == "placental aging"| maternalpregnancyproblems_other == "Underperfusion placenta", NA))
+
+# Get rid of the column 
+cbdata$maternalpregnancyproblems_other <- NULL
+```
+
+# Cleaning `mom_trauma`
+```{r}
+# Convert all Mom Trauma NA's to 0: 
+cbdata$mom_trauma[is.na(cbdata$mom_trauma)] <- 0 
+```
+
+# Cleaning `mat_mental_health_other`
+
+```{r}
+# Getting rid of column
+cbdata$mat_mental_health_other = NULL
+# Cleaning that can be put into other columns
+cbdata[c(216, 520, 598, 1089),115] = 1
+cbdata[240,83] = 1
+cbdata[499,85] = 1
+cbdata[c(1683, 2245), 111] = 1
+
+# Multiple entries for one person
+cbdata[912, c(227, 232)] = 1
+cbdata[915, c(228, 231, 232)] = 1
+cbdata[1667, c(112, 231)] = 1
+cbdata[2579, c(112, 113, 230, 231)] = 1
+cbdata[c(76, 2501), c(111, 112)] = 1
 ```
 
 ```{r}
-cbdata <- data %>% select(babyage, momsdeliveryage, momsedu, sex, art, artmethod___1,
+# Cutting off Baby Age at 5 years old
+cbdata$babyage = ifelse(cbdata$babyage <= 1825, cbdata$babyage, NA)
+```
+
+```{r}
+data <- cbdata %>% select(babyage, momsdeliveryage, momsedu, sex, art, artmethod___1,
                           artmethod___7, artmethod___6, artmethod___2, artmethod___3,
                           artmethod___4, artmethod___5, mom_trauma,
                           maternalpregnancyproblems___1, maternalpregnancyproblems___2,
@@ -30,10 +94,10 @@ cbdata <- data %>% select(babyage, momsdeliveryage, momsedu, sex, art, artmethod
                           maternalpregnancyproblems___12, maternalpregnancyproblems___13,
                           maternalpregnancyproblems___14, maternalpregnancyproblems___17,
                           maternalpregnancyproblems___19, maternalpregnancyproblems___20,
-                          maternalpregnancyproblems___18, maternalpregnancyproblems_other,
+                          maternalpregnancyproblems___18,
                           matmentalhealth___1, matmentalhealth___2, matmentalhealth___3,
                           matmentalhealth___4, matmentalhealth___5, matmentalhealth___6,
-                          matmentalhealth___7, mat_mental_health_other, mat_dep, mat_anx,
+                          matmentalhealth___7, mat_dep, mat_anx,
                           mat_ocd, mat_bp, mat_adhd, mat_pssd, momfever, whenfever___1,
                           whenfever___2, whenfever___3, tobacco_pregnancy_when___1,
                           tobacco_pregnancy_when___2, tobacco_pregnancy_when___3,
@@ -51,5 +115,5 @@ cbdata <- data %>% select(babyage, momsdeliveryage, momsedu, sex, art, artmethod
 ```
 
 ```{r}
-summary(cbdata)
+summary(data)
 ```
