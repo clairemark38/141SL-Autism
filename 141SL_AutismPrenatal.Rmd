@@ -110,8 +110,8 @@ predata <- cbdata %>% select(babyage, momsdeliveryage, momsedu, sex, art, artmet
                           opioids_pregnancy_when___2, opioids_pregnancy_when___3,
                           psychoactive_pregnancy___1, psychoactive_pregnancy___2,
                           psychoactive_pregnancy___3, delivery, momlivebirths,
-                          totalpregnancies, maternalproblems, asd, deaf, ddfamily,
-                          szbpfamily, risk_score_ASD) 
+                          totalpregnancies, maternalproblems1, asd1, deaf1, ddfamily1,
+                          szbpfamily1, risk_score_ASD) 
 ```
 
 
