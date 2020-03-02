@@ -117,6 +117,7 @@ predata <- cbdata %>% select(babyage, momsdeliveryage, momsedu, sex, art, artmet
 
 
 ```{r}
+# filter out age and live births outliers
 predata <- predata %>% filter(momlivebirths != 10 & momsdeliveryage != 12 | momlivebirths != 10 & momsdeliveryage != 18)
 summary(predata)
 ```
