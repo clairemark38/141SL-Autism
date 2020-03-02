@@ -81,7 +81,7 @@ cbdata$babyage = ifelse(cbdata$babyage <= 1825, cbdata$babyage, NA)
 ```
 
 ```{r}
-data <- cbdata %>% select(babyage, momsdeliveryage, momsedu, sex, art, artmethod___1,
+predata <- cbdata %>% select(babyage, momsdeliveryage, momsedu, sex, art, artmethod___1,
                           artmethod___7, artmethod___6, artmethod___2, artmethod___3,
                           artmethod___4, artmethod___5, mom_trauma,
                           maternalpregnancyproblems___1, maternalpregnancyproblems___2,
@@ -115,5 +115,5 @@ data <- cbdata %>% select(babyage, momsdeliveryage, momsedu, sex, art, artmethod
 ```
 
 ```{r}
-summary(data)
+summary(predata)
 ```
