@@ -116,7 +116,7 @@ predata <- cbdata %>% select(babyage, momsdeliveryage, momsedu, sex, art, artmet
 
 # remove observation where ddfamily, szbpfamily, deaf, asd, total preganancies, momlivebirth all equal 8 and momsdeliveryage equals 12
 ```{r}
-predata <- cbdata %>% filter(ddfamily != 8 & szbpfamily !=8 & deaf !=8 & asd != 8)
+predata <- predata %>% filter(ddfamily != 8 & szbpfamily !=8 & deaf !=8 & asd != 8)
 ```
 
 ```{r}
