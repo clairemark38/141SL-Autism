@@ -137,3 +137,17 @@ predata$tri_psychoactives = rowSums(predata[,70:72])
 # getting rid of "when drug" columns
 predata[,52:72] = NULL
 ```
+
+# Remove mat_variable rows that occur after birth
+
+```{r}
+ifelse(cbdata$mat_adhd==3, NA, cbdata$mat_adhd)
+ifelse(cbdata$mat_dep==3, NA, cbdata$mat_dep)
+ifelse(cbdata$mat_anx==3, NA, cbdata$mat_anx)
+ifelse(cbdata$mat_ocd==3, NA, cbdata$mat_ocd)
+ifelse(cbdata$mat_bp==3, NA, cbdata$mat_bp)
+ifelse(cbdata$mat_pssd==3, NA, cbdata$mat_pssd)
+ifelse(cbdata$mat_other==3, NA, cbdata$mat_other)
+```
+
+
