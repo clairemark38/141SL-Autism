@@ -122,7 +122,8 @@ predata <- predata %>% filter(momlivebirths != 10 & momsdeliveryage != 12 | moml
 summary(predata)
 ```
 
-Creating count variables for diff. drugs:
+# Creating count variables for diff. drugs:
+
 ```{r}
 # resulting columns are total number of trimesters drug was used
 predata$tri_tobacco = rowSums(predata[,52:54])
