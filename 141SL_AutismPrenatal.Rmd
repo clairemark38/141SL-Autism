@@ -121,3 +121,18 @@ predata <- cbdata %>% select(babyage, momsdeliveryage, momsedu, sex, art, artmet
 predata <- predata %>% filter(momlivebirths != 10 & momsdeliveryage != 12 | momlivebirths != 10 & momsdeliveryage != 18)
 summary(predata)
 ```
+
+Creating count variables for diff. drugs:
+```{r}
+# resulting columns are total number of trimesters drug was used
+predata$tri_tobacco = rowSums(predata[,52:54])
+predata$tri_vaping = rowSums(predata[,55:57])
+predata$tri_alcohol = rowSums(predata[,58:60])
+predata$tri_cannabis = rowSums(predata[,61:63])
+predata$tri_stimulants = rowSums(predata[,64:66])
+predata$tri_opioids = rowSums(predata[,67:69])
+predata$tri_psychoactives = rowSums(predata[,70:72])
+
+# getting rid of "when drug" columns
+predata[,52:72] = NULL
+```
