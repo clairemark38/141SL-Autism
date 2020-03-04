@@ -121,7 +121,7 @@ cbdata[c(76, 2501), c(111, 112)] = 1
 # Creating maternal mental health count variable
 
 ```{r}
-cbdata %>% mutate(mathealth_count = matmentalhealth___1 + matmentalhealth___2 + matmentalhealth___3 + matmentalhealth___4 + matmentalhealth___5 + matmentalhealth___6 + matmentalhealth___7)
+cbdata <- cbdata %>% mutate(mathealth_count = matmentalhealth___1 + matmentalhealth___2 + matmentalhealth___3 + matmentalhealth___4 + matmentalhealth___5 + matmentalhealth___6 + matmentalhealth___7)
 ```
 
 ```{r}
@@ -147,7 +147,7 @@ predata <- cbdata %>% select(babyage, momsdeliveryage, momsedu, sex, art, artmet
                           matmentalhealth___1, matmentalhealth___2, matmentalhealth___3,
                           matmentalhealth___4, matmentalhealth___5, matmentalhealth___6,
                           matmentalhealth___7, mat_dep, mat_anx,
-                          mat_ocd, mat_bp, mat_adhd, mat_pssd, momfever, whenfever___1,
+                          mat_ocd, mat_bp, mat_adhd, mat_pssd, mathealth_count, momfever, whenfever___1,
                           whenfever___2, whenfever___3, tobacco_pregnancy_when___1,
                           tobacco_pregnancy_when___2, tobacco_pregnancy_when___3,
                           vaping_pregnancy___1, vaping_pregnancy___2, vaping_pregnancy___3,
