@@ -193,4 +193,28 @@ ifelse(cbdata$mat_pssd==3, NA, cbdata$mat_pssd)
 ifelse(cbdata$mat_other==3, NA, cbdata$mat_other)
 ```
 
+# Graphs of Drugs vs Risk Score
+```{r}
+library(ggplot2)
 
+ggplot(predata, aes(x = tri_tobacco, y = risk_score_ASD, group = tri_tobacco)) + geom_boxplot()
+ggplot(predata, aes(x = tri_tobacco, y = risk_score_ASD)) + geom_jitter(color = predata$risk_score_ASD)
+
+ggplot(predata, aes(x = tri_vaping, y = risk_score_ASD, group = tri_vaping)) + geom_boxplot()
+ggplot(predata, aes(x = tri_vaping, y = risk_score_ASD)) + geom_jitter(color = predata$risk_score_ASD)
+
+ggplot(predata, aes(x = tri_alcohol, y = risk_score_ASD, group = tri_alcohol)) + geom_boxplot()
+ggplot(predata, aes(x = tri_alcohol, y = risk_score_ASD)) + geom_jitter(color = predata$risk_score_ASD)
+
+ggplot(predata, aes(x = tri_cannabis, y = risk_score_ASD, group = tri_cannabis)) + geom_boxplot()
+ggplot(predata, aes(x = tri_cannabis, y = risk_score_ASD)) + geom_jitter(color = predata$risk_score_ASD)
+
+ggplot(predata, aes(x = tri_stimulants, y = risk_score_ASD, group = tri_stimulants)) + geom_boxplot()
+ggplot(predata, aes(x = tri_stimulants, y = risk_score_ASD)) + geom_jitter(color = predata$risk_score_ASD)
+
+ggplot(predata, aes(x = tri_opioids, y = risk_score_ASD, group = tri_opioids)) + geom_boxplot()
+ggplot(predata, aes(x = tri_opioids, y = risk_score_ASD)) + geom_jitter(color = predata$risk_score_ASD)
+
+ggplot(predata, aes(x = tri_psychoactives, y = risk_score_ASD, group = tri_psychoactives)) + geom_boxplot()
+ggplot(predata, aes(x = tri_psychoactives, y = risk_score_ASD)) + geom_jitter(color = predata$risk_score_ASD)
+```
