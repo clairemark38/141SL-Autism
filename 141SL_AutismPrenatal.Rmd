@@ -185,16 +185,16 @@ predata$tri_psychoactives = rowSums(predata[,70:72])
 predata[,52:72] = NULL
 ```
 
-# Remove mat_variable rows that occur after birth
+# Convert mat_variable rows that occur after birth
 
 ```{r}
-ifelse(cbdata$mat_adhd==3, NA, cbdata$mat_adhd)
-ifelse(cbdata$mat_dep==3, NA, cbdata$mat_dep)
-ifelse(cbdata$mat_anx==3, NA, cbdata$mat_anx)
-ifelse(cbdata$mat_ocd==3, NA, cbdata$mat_ocd)
-ifelse(cbdata$mat_bp==3, NA, cbdata$mat_bp)
-ifelse(cbdata$mat_pssd==3, NA, cbdata$mat_pssd)
-ifelse(cbdata$mat_other==3, NA, cbdata$mat_other)
+predata$mat_adhd <- ifelse(predata$mat_adhd==3, 0, predata$mat_adhd)
+predata$mat_dep <- ifelse(predata$mat_dep==3, 0, predata$mat_dep)
+predata$mat_anx <- ifelse(predata$mat_anx==3, 0, predata$mat_anx)
+predata$mat_ocd <- ifelse(predata$mat_ocd==3, 0, predata$mat_ocd)
+predata$mat_bp <- ifelse(predata$mat_bp==3, 0, predata$mat_bp)
+predata$mat_pssd <- ifelse(predata$mat_pssd==3, 0, predata$mat_pssd)
+predata$mat_other <- ifelse(predata$mat_other==3, 0, predata$mat_other)
 ```
 
 # Graphs of Drugs vs Risk Score
