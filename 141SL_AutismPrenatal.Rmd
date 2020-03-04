@@ -22,8 +22,7 @@ Cleaning NA's to 0's:
 which(colnames(cbdata) == "mat_dep"):which(colnames(cbdata) == "momfever")
 cbdata[,c(109:116)][is.na(cbdata[,c(109:116)])] <- 0
 
-cbdata$art[is.na(cbdata$art)] <- 0  
-cbdata$mom_trauma[is.na(cbdata$mom_trauma)] <- 0 
+cbdata$art[is.na(cbdata$art)] <- 0 
 cbdata$asd_genetic[is.na(cbdata$asd_genetic)] <- 0 
 
 #fix some NA's in totalpregnancies by setting to number of live births
