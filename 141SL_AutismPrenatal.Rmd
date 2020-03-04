@@ -20,7 +20,7 @@ Cleaning NA's to 0's:
 
 ```{r}
 which(colnames(cbdata) == "mat_dep"):which(colnames(cbdata) == "momfever")
-cbdata[,c(109:116)][is.na(cbdata[,c(109:116)])] <- 0
+cbdata[,c(126:133)][is.na(cbdata[,c(126:133)])] <- 0
 
 cbdata$art[is.na(cbdata$art)] <- 0 
 cbdata$asd_genetic[is.na(cbdata$asd_genetic)] <- 0 
