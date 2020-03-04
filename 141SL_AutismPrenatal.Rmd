@@ -118,6 +118,12 @@ cbdata[2579, c(112, 113, 230, 231)] = 1
 cbdata[c(76, 2501), c(111, 112)] = 1
 ```
 
+# Creating maternal mental health count variable
+
+```{r}
+cbdata %>% mutate(mathealth_count = matmentalhealth___1 + matmentalhealth___2 + matmentalhealth___3 + matmentalhealth___4 + matmentalhealth___5 + matmentalhealth___6 + matmentalhealth___7)
+```
+
 ```{r}
 # Cutting off Baby Age at 5 years old
 cbdata$babyage = ifelse(cbdata$babyage <= 1825, cbdata$babyage, NA)
@@ -156,8 +162,6 @@ predata <- cbdata %>% select(babyage, momsdeliveryage, momsedu, sex, art, artmet
                           totalpregnancies, maternalproblems1, asd1, deaf1, ddfamily1,
                           szbpfamily1, risk_score_ASD) 
 ```
-
-
 
 ```{r}
 # filter out age and live births outliers
@@ -217,4 +221,15 @@ ggplot(predata, aes(x = tri_opioids, y = risk_score_ASD)) + geom_jitter(color = 
 
 ggplot(predata, aes(x = tri_psychoactives, y = risk_score_ASD, group = tri_psychoactives)) + geom_boxplot()
 ggplot(predata, aes(x = tri_psychoactives, y = risk_score_ASD)) + geom_jitter(color = predata$risk_score_ASD)
+```
+
+# Correlation Plot for maternal mental health
+
+```{r}
+library(corrplot)
+
+var1 <- c("matmentalhealth___1", "matmentalhealth___2", "matmentalhealth___3", "matmentalhealth___4", "matmentalhealth___5", "matmentalhealth___6")
+predata1 <- predata[ ,var1]
+corrmat <- round(cor(predata1), 4)
+corrplot(corrmat)
 ```
