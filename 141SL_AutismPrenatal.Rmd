@@ -257,22 +257,7 @@ summary(m11) # maternalproblems1, matmentalhealth___2
 
 ```
 
-# Full Poisson Model
 
-```{r}
-set.seed(12345)
-2388*.7
-i = sample(1:2388, 1672, replace = FALSE)
-training = predata[i,]
-testing = predata[-i,]
-
-model6 = glm(risk_score_ASD ~., data = training, family = "poisson")
-summary(model6)
-
-predictions3 = round(exp(predict(model6, testing)))
-summary(predictions3)
-table(predictions3, testing$risk_score_ASD)
-```
 
 
 
