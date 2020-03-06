@@ -28,10 +28,12 @@ knitr::opts_chunk$set(echo = TRUE)
 \textit{This is my abstract.}
 
 \newpage
-\section{Data Cleaning}
+\section{Research Questions}
 
-\textit{This is what we did and why.} 
+\textit{This is the problem we are solving} 
 
+\newpage
+\section{Variables of the Study and how they were Measured}
 
 \begin{center}
 \begin{tabular}{ | l | l | p{14cm} |} 
@@ -100,6 +102,47 @@ Number & Attribute & Description \\
 \end{center}
 
 
+\newpage
+\section{Exploratory Data Analysis}
+
+\textit{EDA}
+
+\newpage
+\section{Statistical analysis used to answer the research questions}
+
+\textit{Text}
+
+
+\newpage
+\section{Summary of results}
+
+\textit{Text}
+
+
+\newpage
+\section{Interpretation of results}
+
+\textit{Text}
+
+\newpage
+\section{Interpretation of plots}
+
+\textit{Text}
+
+\newpage
+\section{Overall conclusions}
+
+\textit{Text}
+
+\newpage
+\section{Challenges of the study}
+
+\textit{Text}
+
+\newpage
+\section{Recommendations for the future}
+
+\textit{Text}
 
 
 
