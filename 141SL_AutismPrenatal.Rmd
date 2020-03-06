@@ -243,3 +243,16 @@ predata1 <- predata[ ,var1]
 corrmat <- round(cor(predata1), 4)
 corrplot(corrmat)
 ```
+# Controlling for Sex: 
+
+```{r}
+
+maledata <- predata %>% filter(sex == 1)
+m10 <- glm(risk_score_ASD ~ maternalproblems1 + maternalpregnancyproblems___15 + maternalpregnancyproblems___19 +  matmentalhealth___2 + asd1 + mat_pssd, data = maledata, family = "poisson")
+summary(m10) # matmentalhealth___2 , maternalpregnancyproblems___19 
+
+femaledata <- predata %>% filter(sex == 0)
+m11 <- glm(risk_score_ASD ~ maternalproblems1 + maternalpregnancyproblems___15 + maternalpregnancyproblems___19 +  matmentalhealth___2 + asd1 + mat_pssd, data = femaledata, family = "poisson")
+summary(m11) # maternalproblems1, matmentalhealth___2
+
+```
