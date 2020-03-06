@@ -36,7 +36,7 @@ knitr::opts_chunk$set(echo = TRUE)
 \section{Variables of the Study and how they were Measured}
 
 \begin{center}
-\begin{tabular}{ | l | l | p{14cm} |} 
+\begin{tabular}{ | l | l | p{10cm} |} 
 \hline
 \multicolumn{3}{|c|}{Data Codebook} \\
 \hline
