@@ -258,7 +258,7 @@ summary(m11) # maternalproblems1, matmentalhealth___2
 ```
 
 # Current Random Forest Model
-```
+```{r}
 drops <- c("maternalpregnancyproblems___19", "maternalpregnancyproblems___20", "matmentalhealth___1", "matmentalhealth___2", "matmentalhealth___3","matmentalhealth___4", "matmentalhealth___5", "matmentalhealth___6", "matmentalhealth___7", "mat_dep", "mat_anx", "mat_ocd", "mat_bp","mat_adhd","mat_pssd","maternalproblems1")
 predata1 <- na.omit(predata[ , !(names(predata) %in% drops)])
 
