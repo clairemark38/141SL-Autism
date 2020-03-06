@@ -1,0 +1,105 @@
+---
+title: 'Stats 141SL '
+author: "Rose Din (ID: 804764627), Lisa Kaunitz (ID: 404731988), Claire Markey (ID: 104789928), Allison Ocelo (ID: 404799327), Cristina Sanchez (ID: 805119924), and Kayla Schroeder (ID: 804729436) - Section 1A"
+header-includes:
+- \usepackage[usenames ,dvipsnames ,svgnames ,table]{xcolor}
+- \usepackage{fontspec}
+- \newfontfamily\comic[Scale=2]{ComicSansMS}
+- \usepackage{graphicx}
+- \usepackage{tabularx}
+- \usepackage{enumitem}
+- \usepackage{amsmath,amssymb,amsthm}
+date: "03/05/2020"
+output: 
+  pdf_document:
+    latex_engine: xelatex
+    toc: true
+    toc_depth: 3
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+\thispagestyle{empty}
+\newpage
+\section{Abstract}
+
+\textit{This is my abstract.}
+
+\newpage
+\section{Data Cleaning}
+
+\textit{This is what we did and why.} 
+
+
+\begin{center}
+\begin{tabular}{ | l | l | p{14cm} |} 
+\hline
+\multicolumn{3}{|c|}{Data Codebook} \\
+\hline
+Number & Attribute & Description \\
+\hline
+\hline
+1 & babyage & Babies current age in Days. \\ \hline
+2 & momsdeliveryage & Mother's Age at Delivery.\\ \hline
+3 & momsedu & Mother's Education Level.	\\ \hline
+4 & sex & Baby's Gender.	\\ \hline
+5 & art & Was your baby conceived with the help of assisted reproductive technology (ART) such as IVF, IUI, etc...?	.\\ \hline	
+6 & artmethod 1  & In vitro fertilization (IVF) assisted in conceiving baby.	\\ \hline
+7 & artmethod 2 & Egg donation assisted in conceiving baby.\\ \hline	
+8 & artmethod 3 & Sperm donation assisted in conceiving baby.	\\ \hline
+9 & artmethod 4 & Embryo adoption assisted in conceiving baby.\\ \hline	
+10 & artmethod 5 & OTHER (?) assisted in conceiving baby.\\ \hline
+11 & artmethod 6 & Intracytoplasmic sperm injection (ICSI) assisted in conceiving baby.\\ \hline	
+12 & artmethod 7 & Intrauterine insemination (IUI) assisted in conceiving baby.\\ \hline	
+13 & mom trauma & Did the mother experience any extremely stressful event during pregnancy, such as the death of a family member, divorce, homelessness, living in a war zone, or abuse?\\ \hline	
+14 & maternalpregnancyproblems (1-21) & Were there any of the following interventions, complications, or abnormalities during this pregnancy with baby?
+1, Gestational diabetes | 2, Infections requiring antibiotics | 3, Placenta previa | 15, Placenta accreta | 21, Chorioamnionitis | 16, Hyperemesis gravidarum | 4, Antidepressants to treat depression | 5, Anticonvulsants to treat seizures | 6, Intrauterine growth restriction (IUGR) | 7, Preeclampsia/eclampsia | 8, Anemia | 9, Hypertension (high blood pressure) | 10, History of recurrent miscarriage/ recurrent pregnancy loss | 11, Preterm labor | 12, Cerclage, cervical incompetence, or insufficiency | 13, Placental abruption | 14, Vaginal bleeding | 17, Treatment with opioids including Subutex (buprenorphine), suboxone, methadone | 19, Perinatal or Post-partum depression | 20, Perinatal or Post-partum psychosis | 18, Other (please specify)	\\ \hline
+15 & matmentalhealth (1-7) & Has mother had any of the following diagnoses, before, during, or after pregnancy?	
+1, depression | 2, anxiety | 3, obsessive compulsive disorder | 4, bipolar disorder | 5, ADHD | 6, psychosis, schizophrenia, or schizoaffective disorder | 7, Other	.\\ \hline		   
+16 & mat dep & Maternal depression	
+1, Before pregnancy | 2, During pregnancy | 3, After pregnancy	.\\ \hline	
+17 & mat anx & Maternal anxiety. 
+1, Before pregnancy | 2, During pregnancy | 3, After pregnancy	.\\ \hline		   
+18 & mat ocd & Maternal obsessive compulsive disorder
+1, Before pregnancy | 2, During pregnancy | 3, After pregnancy.\\ \hline	   
+19 & mat bp & Maternal bipolar disorder.
+1, Before pregnancy | 2, During pregnancy | 3, After pregnancy. \\ \hline
+20 & mat adhd & Maternal ADHD.
+1, Before pregnancy | 2, During pregnancy | 3, After pregnancy.\\ \hline	   
+21 & mat pssd & Maternal psychosis, schizophrenia, or schizoaffective disorder.
+1, Before pregnancy | 2, During pregnancy | 3, After pregnancy.\\ \hline	   
+22 & momfever &Did mother have a fever (>101F, 38.3C) during pregnancy?	\\ \hline		   
+23 & whenfever (1-3) & During which trimester was mother's fever?
+1, First trimester (weeks 1-12)|2, Second trimester (weeks 13-27)|3, Third Trimester (weeks 28-40). \\ \hline	   
+24 & delivery & How was your baby delivered? 
+1, Unassisted Vaginal Birth|2, Assisted Vaginal Birth (forceps, vacuum)|3, Planned Caesarean|4, Emergency Caesarean	\\ \hline
+25 & momlivebirths & How many total live births has mother had, including your baby?\\ \hline		   
+26 & totalpregnancies & How many total pregnancies has mother had, including your baby?	\\ \hline		   
+27 & maternalproblems1 & Total number of pregnancy problems mother experienced during pregnancy (excluding other and Suboxone use).
+1 = have 1+ pregnancy problems, 0 otherwise.\\ \hline		   
+28 & asd1 & Total number of family members with ASD (experiencing other)	
+1 = have 1+ family members with ASD, 0 otherwise.\\ \hline		   
+29 & deaf1 & Total number of family members Deaf (experiencing other).
+1 = have 1+ family members Deaf, 0 otherwise.\\ \hline	
+30 & ddfamily1 &Did any of the following family members have a history of developmental delay while an infant?
+1 = have 1+ family members with developmental delay, 0 otherwise\\ \hline	   
+31 & szbpfamily1 & Total number of family members with SZ/BP (experiencing other). 
+1 = have 1+ family members with SZ/BP, 0 otherwise. \\ \hline		   
+32 & tri tabacco & Total number of trimesters tabacco was used. \\ \hline		   
+33 & tri vaping & Total number of trimesters vaping was used.\\ \hline		   
+34 & tri alcohol & Total number of trimesters alcohol was used.	\\ \hline
+35 & tri cannabis & Total number of trimesters cannabis was used.\\ \hline		   
+36 & tri stimulants & Total number of trimesters stimulants were used.	\\ \hline	   
+37 & tri opioids & Total number of trimesters opioids were used.\\ \hline		   
+38 & tri psychoactives & Total number of trimesters psychoactives were used.\\ \hline		   
+39 & risk score ASD & Total number of ASD risk behaviors.  Large number suggests higher risk.\\ 
+\hline
+\end{tabular} 
+\end{center}
+
+
+
+
+
