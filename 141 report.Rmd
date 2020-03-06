@@ -30,7 +30,7 @@ knitr::opts_chunk$set(echo = TRUE)
 \newpage
 \section{Research Questions}
 
-\textit{This is the problem we are solving} 
+\textit{This is the problem we are solving - } 
 
 \newpage
 \section{Variables of the Study and how they were Measured}
@@ -103,7 +103,7 @@ Number & Attribute & Description \\
 
 
 \newpage
-\section{Exploratory Data Analysis}
+\section{Exploratory Data Analysis - }
 
 \textit{EDA}
 
@@ -125,7 +125,7 @@ Number & Attribute & Description \\
 \textit{Text}
 
 \newpage
-\section{Interpretation of plots}
+\section{Interpretation of plots - }
 
 \textit{Text}
 
@@ -135,12 +135,12 @@ Number & Attribute & Description \\
 \textit{Text}
 
 \newpage
-\section{Challenges of the study}
+\section{Challenges of the study - }
 
 \textit{Text}
 
 \newpage
-\section{Recommendations for the future}
+\section{Recommendations for the future - }
 
 \textit{Text}
 
