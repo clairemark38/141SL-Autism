@@ -281,7 +281,8 @@ pred <- predict(rf.pre,test.pre,type="response")
 table(round(pred,0),test.pre$risk_score_ASD)
 mean(round(pred,0)!=test.pre$risk_score_ASD) # test error rate
 ```
-Variables to include in final models: babyage, momdeliveryage,momsedu,delivery,babymortality,sex,tri_alcohol,tri_tobacco,
+Variables to include in final models: 
+babyage,momsdeliveryage,momsedu,delivery,babymortality,mathealth_count,sex,tri_alcohol,tri_tobacco,
 mom_trauma,asd1,szbpfamily1,ddfamily1,maternalpregnancyproblems___8,artmethod___1,whenfever___3,
 tri_tobacco,tri_vaping,deaf1,tri_cannabis,maternalpregnancyproblems___1,maternalpregnancyproblems___2,
 maternalpregnancyproblems___3,maternalpregnancyproblems___16,maternalpregnancyproblems___4,
