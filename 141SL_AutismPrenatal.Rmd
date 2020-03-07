@@ -160,7 +160,9 @@ predata <- cbdata %>% select(babyage, momsdeliveryage, momsedu, sex, art, artmet
                           psychoactive_pregnancy___1, psychoactive_pregnancy___2,
                           psychoactive_pregnancy___3, delivery, momlivebirths,
                           totalpregnancies, maternalproblems1, asd1, deaf1, ddfamily1,
-                          szbpfamily1, risk_score_ASD) 
+                          szbpfamily1, risk_score_ASD)
+
+predata <- predata %>% mutate(babymortality = totalpregnancies-momlivebirths)
 ```
 
 ```{r}
@@ -259,22 +261,30 @@ summary(m11) # maternalproblems1, matmentalhealth___2
 
 # Current Random Forest Model
 ```{r}
-drops <- c("maternalpregnancyproblems___19", "maternalpregnancyproblems___20", "matmentalhealth___1", "matmentalhealth___2", "matmentalhealth___3","matmentalhealth___4", "matmentalhealth___5", "matmentalhealth___6", "matmentalhealth___7", "mat_dep", "mat_anx", "mat_ocd", "mat_bp","mat_adhd","mat_pssd","maternalproblems1")
+library(randomForest)
+
+drops <- c("maternalpregnancyproblems___19", "maternalpregnancyproblems___20", "matmentalhealth___1", "matmentalhealth___2", "matmentalhealth___3","matmentalhealth___4", "matmentalhealth___5", "matmentalhealth___6", "matmentalhealth___7", "mat_dep", "mat_anx", "mat_ocd", "mat_bp","mat_adhd","mat_pssd","maternalproblems1","art","momlivebirths","totalpregnancies")
 predata1 <- na.omit(predata[ , !(names(predata) %in% drops)])
 
+
+
 set.seed(12345)
-train <- sample(1:nrow(predata1), nrow(predata1)*.7)
+train <- sample(1:nrow(predata1), nrow(predata)*.7)
 train.pre <- predata1[train,]
 test.pre <- predata1[-train,]
 
-library(randomForest)
-rf.pre <- randomForest(as.factor(risk_score_ASD)~.,data=train.pre,mtry=10,importance=TRUE,ntrees=1000)
+rf.pre <- randomForest(risk_score_ASD~.,data=train.pre,mtry=16,importance=TRUE,ntrees=1000)
 importance(rf.pre)
 varImpPlot(rf.pre)
 
-pred <- predict(rf.pre,test.pre,type="class")
-table(pred,test.pre$risk_score_ASD)
-mean(pred!=test.pre$risk_score_ASD) # test error rate
+pred <- predict(rf.pre,test.pre,type="response")
+table(round(pred,0),test.pre$risk_score_ASD)
+mean(round(pred,0)!=test.pre$risk_score_ASD) # test error rate
 ```
-
+Variables to include in final models: babyage, momdeliveryage,momsedu,delivery,babymortality,sex,tri_alcohol,tri_tobacco,
+mom_trauma,asd1,szbpfamily1,ddfamily1,maternalpregnancyproblems___8,artmethod___1,whenfever___3,
+tri_tobacco,tri_vaping,deaf1,tri_cannabis,maternalpregnancyproblems___1,maternalpregnancyproblems___2,
+maternalpregnancyproblems___3,maternalpregnancyproblems___16,maternalpregnancyproblems___4,
+maternalpregnancyproblems___7,maternalpregnancyproblems___9,maternalpregnancyproblems___11,maternalpregnancyproblems___13,
+maternalpregnancyproblems___14,maternalpregnancyproblems___18
 
