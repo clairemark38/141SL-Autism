@@ -307,7 +307,7 @@ summary(m2) # mathealth_count, deaf1
 summary(m3) # momsedu, delivery, mathealth_count, maternalpregnancyproblems___8
 
 # `mathealth_count` was significant in all the models
-# `momsedu`, `deaf1` was significant in m1 and m2
+# `momsedu`, `deaf1` was significant in two of the models
 
 ```
 
