@@ -85,7 +85,13 @@ Number & Attribute & Description \\
 \newpage
 \section{Exploratory Data Analysis}
 
-\textit{EDA}
+## Controlling for Sex: 
+
+### Male 
+
+### Female
+
+
 
 \newpage
 \section{Statistical analysis used to answer the research questions}
