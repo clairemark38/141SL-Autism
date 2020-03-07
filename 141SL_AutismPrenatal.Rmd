@@ -266,7 +266,7 @@ predata <- predata %>% mutate(babymortality = totalpregnancies-momlivebirths)
 ```{r}
 library(randomForest)
 
-drops <- c("maternalpregnancyproblems___19", "maternalpregnancyproblems___20", "matmentalhealth___1", "matmentalhealth___2", "matmentalhealth___3","matmentalhealth___4", "matmentalhealth___5", "matmentalhealth___6", "matmentalhealth___7", "mat_dep", "mat_anx", "mat_ocd", "mat_bp","mat_adhd","mat_pssd","maternalproblems1","art","momlivebirths","totalpregnancies")
+drops <- c("maternalpregnancyproblems___19", "maternalpregnancyproblems___20", "matmentalhealth___1", "matmentalhealth___2", "matmentalhealth___3","matmentalhealth___4", "matmentalhealth___5", "matmentalhealth___6", "matmentalhealth___7", "mat_dep", "mat_anx", "mat_ocd", "mat_bp","mat_adhd","mat_pssd","maternalproblems1","art","momlivebirths","totalpregnancies","matmentalhealth___18","babyage")
 predata1 <- na.omit(predata[ , !(names(predata) %in% drops)])
 
 
@@ -290,5 +290,5 @@ mom_trauma,asd1,szbpfamily1,ddfamily1,maternalpregnancyproblems___8,artmethod___
 tri_tobacco,tri_vaping,deaf1,tri_cannabis,maternalpregnancyproblems___1,maternalpregnancyproblems___2,
 maternalpregnancyproblems___3,maternalpregnancyproblems___16,maternalpregnancyproblems___4,
 maternalpregnancyproblems___7,maternalpregnancyproblems___9,maternalpregnancyproblems___11,maternalpregnancyproblems___13,
-maternalpregnancyproblems___14,maternalpregnancyproblems___18
+maternalpregnancyproblems___14
 
