@@ -311,6 +311,18 @@ summary(m3) # momsedu, delivery, mathealth_count, maternalpregnancyproblems___8
 
 ```
 
+# Checking model accuracy for Poisson:  
+ 
+```{r}
+library(msme)
+P__disp(m1)
+P__disp(m2)
+P__disp(m3)
+AIC(m1)
+AIC(m2)
+AIC(m3)
+```
+ 
 
 
 
