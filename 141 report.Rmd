@@ -30,8 +30,9 @@ knitr::opts_chunk$set(echo = TRUE)
 \newpage
 \section{Research Questions}
 
-\textit{This is the problem we are solving} 
+1. What are the significant risk factors that predispose a child to asd behaviors?
 
+2. Is there a significant difference when looking at predictors for autism in males vs females? 
 
 \section{Variables of the Study and how they were Measured}
 
