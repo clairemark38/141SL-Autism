@@ -279,11 +279,8 @@ install.packages("randomForestExplainer")
 library(randomForestExplainer)
 min_depth_frame <- min_depth_distribution(rf.pre)
 plot_min_depth_distribution(min_depth_frame, mean_sample = "relevant_trees", k = 15)
-importance_frame <- measure_importance(forest)
-min_depth_frame <- min_depth_distribution(rf.pre)
-min_depth_frame
-importance_frame <- measure_importance(rf.pre)
-importance_frame
+# importance_frame <- measure_importance(forest)
+# importance_frame
 ```
 
 Variables to include in final models: 
