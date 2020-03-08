@@ -272,6 +272,20 @@ pred <- predict(rf.pre,test.pre,type="response")
 table(round(pred,0),test.pre$risk_score_ASD)
 mean(round(pred,0)!=test.pre$risk_score_ASD) # test error rate
 ```
+
+# Random Forest Plots
+```{r}
+install.packages("randomForestExplainer")
+library(randomForestExplainer)
+min_depth_frame <- min_depth_distribution(rf.pre)
+plot_min_depth_distribution(min_depth_frame, mean_sample = "relevant_trees", k = 15)
+importance_frame <- measure_importance(forest)
+min_depth_frame <- min_depth_distribution(rf.pre)
+min_depth_frame
+importance_frame <- measure_importance(rf.pre)
+importance_frame
+```
+
 Variables to include in final models: 
 momsdeliveryage,momsedu,delivery,babymortality,mathealth_count,sex,tri_alcohol,tri_tobacco,
 mom_trauma,asd1,szbpfamily1,ddfamily1,maternalpregnancyproblems___8,artmethod___1,whenfever___3,
@@ -327,8 +341,10 @@ AIC(m3) # 4718.472
 ```
 
 
-
-
+# For final report
+ ```{r}
+write.csv(predata,'predata.csv')
+```
 
 
 
