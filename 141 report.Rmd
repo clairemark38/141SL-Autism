@@ -106,7 +106,7 @@ library(randomForest)
 drops <- c("maternalpregnancyproblems___19", "maternalpregnancyproblems___20", "matmentalhealth___1", "matmentalhealth___2", "matmentalhealth___3","matmentalhealth___4", "matmentalhealth___5", "matmentalhealth___6", "matmentalhealth___7", "mat_dep", "mat_anx", "mat_ocd","mat_bp","mat_adhd","mat_pssd","maternalproblems1","art","momlivebirths","totalpregnancies","maternalpregnancyproblems___18","momfever")
 predata1 <- na.omit(predata[ , !(names(predata) %in% drops)])
 
-rf.pre <- randomForest(risk_score_ASD~.,data=train.pre,mtry=16,importance=TRUE,ntrees=1000)
+rf.pre <- randomForest(risk_score_ASD~.,data=predata1,mtry=16,importance=TRUE,ntrees=1000)
 ```
 ```{r,echo=FALSE}
 library(randomForestExplainer)
