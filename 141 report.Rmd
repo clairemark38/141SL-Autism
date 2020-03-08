@@ -97,7 +97,7 @@ Number & Attribute & Description \\
 \section{Statistical analysis used to answer the research questions}
 A random forest model was run on prenatal factors to determine which variables were important risk factors for `risk_score_ASD`. Highly correlated variables were dropped from the data before running the random forest model. Important variables were determined from the node purity and mean squared error measures, 14 total variables were selected as important risk factors from `risk_score_ASD`. These variables were included in the final Poisson model. A Poisson Model was chosen since we are using count data and the dispersion parameter was less than 1, in other words our variance was less than our expected value for all of our models.
 
-```{r,echo=FALSE}
+```{r,echo=FALSE,warning=FALSE}
 library(readr)
 predata <- read_csv("~/predata.csv")
 
