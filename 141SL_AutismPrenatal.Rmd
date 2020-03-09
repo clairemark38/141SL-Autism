@@ -302,16 +302,13 @@ femaledata <- predata %>% filter(sex == 0)
 ```{r}
 
 m1 <- glm(risk_score_ASD ~ momsdeliveryage+momsedu+delivery+babymortality + mathealth_count + sex+tri_alcohol+tri_tobacco+
-mom_trauma+maternalpregnancyproblems___8+artmethod___1 +
-tri_tobacco+tri_vaping+deaf1+tri_cannabis, data = predata, family = "poisson")
+mom_trauma+maternalpregnancyproblems___8+artmethod___1 +tri_vaping+deaf1+tri_cannabis, data = predata, family = "poisson")
 
 m2 <- glm(risk_score_ASD ~ momsdeliveryage+momsedu+delivery+babymortality + mathealth_count + tri_alcohol+tri_tobacco+
-mom_trauma+maternalpregnancyproblems___8+artmethod___1 +
-tri_tobacco+tri_vaping+deaf1+tri_cannabis, data = maledata, family = "poisson")
+mom_trauma+maternalpregnancyproblems___8+artmethod___1 +tri_vaping+deaf1+tri_cannabis, data = maledata, family = "poisson")
 
 m3 <- glm(risk_score_ASD ~ momsdeliveryage+momsedu+delivery+babymortality + mathealth_count +tri_alcohol+tri_tobacco+
-mom_trauma+maternalpregnancyproblems___8+artmethod___1 +
-tri_tobacco+tri_vaping+deaf1+tri_cannabis, data = femaledata, family = "poisson")
+mom_trauma+maternalpregnancyproblems___8+artmethod___1 +tri_vaping+deaf1+tri_cannabis, data = femaledata, family = "poisson")
 
 summary(m1) # momsedu, mathealth_count, sex, deaf1
 summary(m2) # mathealth_count, deaf1 
