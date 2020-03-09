@@ -150,6 +150,12 @@ options(xtable.comment = FALSE)
 xtable(m1)
 ```
 
+### Predata Model Diagnostic Plots
+```{r, echo=FALSE}
+par(mfrow=c(2,2))
+plot(m1)
+```
+
 ### Maledata Table 
 
 ```{r, echo=FALSE, message=FALSE, results='asis', warning=FALSE}
@@ -157,11 +163,23 @@ options(xtable.comment = FALSE)
 xtable(m2)
 ```
 
+### Maledata Model Diagnostic Plots
+```{r, echo=FALSE}
+par(mfrow=c(2,2))
+plot(m2)
+```
+
 ### Femaledata Table 
 
 ```{r, echo=FALSE, message=FALSE, results='asis', warning=FALSE}
 options(xtable.comment = FALSE)
 xtable(m3)
+```
+
+### Femaledata Model Diagnostic Plots
+```{r, echo=FALSE}
+par(mfrow=c(2,2))
+plot(m3)
 ```
 
 \newpage
