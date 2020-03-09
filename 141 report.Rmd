@@ -164,14 +164,6 @@ options(xtable.comment = FALSE)
 xtable(m3)
 ```
 
-
-
-\newpage
-\section{Summary of results}
-
-\textit{Text}
-
-
 \newpage
 \section{Interpretation of results}
 
