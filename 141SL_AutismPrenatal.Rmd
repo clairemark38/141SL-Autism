@@ -304,7 +304,6 @@ predata$sex <- as.factor(predata$sex)
 predata$mom_trauma <- as.factor(predata$mom_trauma)
 predata$maternalpregnancyproblems___8 <- as.factor(predata$maternalpregnancyproblems___8)
 predata$artmethod___1 <- as.factor(predata$artmethod___1)
-predata$whenfever___3 <- as.factor(predata$whenfever___3)
 predata$maternalpregnancyproblems___1 <- as.factor(predata$maternalpregnancyproblems___1)
 predata$maternalpregnancyproblems___2 <- as.factor(predata$maternalpregnancyproblems___2)
 predata$maternalpregnancyproblems___3 <- as.factor(predata$maternalpregnancyproblems___3)
@@ -356,6 +355,7 @@ AIC(m3) # 4718.472
 
 
 # For final report
+
 ```{r}
 write.csv(predata,'predata.csv')
 ```
