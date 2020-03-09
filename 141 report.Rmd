@@ -45,8 +45,8 @@ Number & Attribute & Description \\
 \hline
 \hline
 1 & momsdeliveryage & Mother's Age at Delivery.\\ \hline
-2 & momsedu & Mother's Education Level.	\\ \hline
-3 & delivery & How was your baby delivered? \\ \hline
+2 & momsedu & Mother's Education Level. 1, Less than High School | 2, High School Graduate | 3, Some College, Trade School, or Associates Degree | 4, College Graduate (Bachelors) | 5, Graduate School | 6, Not Sure/Unknown		\\ \hline
+3 & delivery & How was your baby delivered? 1, Unassisted Vaginal Birth|2, Assisted Vaginal Birth (forceps, vacuum)|3, Planned Caesarean|4, Emergency Caesarean	\\ \hline
 4 & babymortality & Misscarriages, or infant death at birth \\ \hline
 5 & mathealth count & Maternal mental health count\\ \hline
 6 & sex & Baby's Gender. 1 = Male, 0 = Female	\\ \hline
@@ -66,17 +66,17 @@ Number & Attribute & Description \\
 29 & deaf1 & Total number of family members Deaf (experiencing other).
 1 = have 1+ family members Deaf, 0 otherwise.\\ \hline	
 17 & maternalpregnancyproblems 1 & Were there any of the following interventions, complications, or abnormalities during this pregnancy with baby - Gestational diabetes. \\ \hline
-18 & maternalpregnancyproblems 2 & Were there any of the following interventions, complications, or abnormalities during this pregnancy with baby - Infections requiring antibiotics . \\ \hline
-19 & maternalpregnancyproblems 3 & Were there any of the following interventions, complications, or abnormalities during this pregnancy with baby - Placenta previa. \\ \hline
-20 & maternalpregnancyproblems 4 & Were there any of the following interventions, complications, or abnormalities during this pregnancy with baby - Antidepressants to treat depression. \\ \hline
-21 & maternalpregnancyproblems 7 & Were there any of the following interventions, complications, or abnormalities during this pregnancy with baby - Preeclampsia/eclampsia . \\ \hline
-22 & maternalpregnancyproblems 8 & Were there any of the following interventions, complications, or abnormalities during this pregnancy with baby -  Anemia. \\ \hline
-23 & maternalpregnancyproblems 9 & Were there any of the following interventions, complications, or abnormalities during this pregnancy with baby - Hypertension (high blood pressure). \\ \hline
-24 & maternalpregnancyproblems 11 & Were there any of the following interventions, complications, or abnormalities during this pregnancy with baby - Preterm labor. \\ \hline
-25 & maternalpregnancyproblems 13 & Were there any of the following interventions, complications, or abnormalities during this pregnancy with baby - Placental abruption. \\ \hline
-26 & maternalpregnancyproblems 14 & Were there any of the following interventions, complications, or abnormalities during this pregnancy with baby - Vaginal bleeding. \\ \hline
-27 & maternalpregnancyproblems 16 & Were there any of the following interventions, complications, or abnormalities during this pregnancy with baby -  Hyperemesis gravidarum. \\ \hline
-28 & risk score ASD & Total number of ASD risk behaviors.  Large number suggests higher risk.\\ 
+18 & maternalpregnancyproblems 2 & Infections requiring antibiotics . \\ \hline
+19 & maternalpregnancyproblems 3 & Placenta previa. \\ \hline
+20 & maternalpregnancyproblems 4 & Antidepressants to treat depression. \\ \hline
+21 & maternalpregnancyproblems 7 & Preeclampsia/eclampsia . \\ \hline
+22 & maternalpregnancyproblems 8 & Anemia. \\ \hline
+23 & maternalpregnancyproblems 9 &Hypertension (high blood pressure). \\ \hline
+24 & maternalpregnancyproblems 11 & Preterm labor. \\ \hline
+25 & maternalpregnancyproblems 13 & Placental abruption. \\ \hline
+26 & maternalpregnancyproblems 14 & Vaginal bleeding. \\ \hline
+27 & maternalpregnancyproblems 16 & Hyperemesis gravidarum. \\ \hline
+28 & risk score ASD & Total number of ASD risk behaviors.  Large number suggests higher risk.\\  
 \hline 
 \end{tabular} 
 \end{center}
