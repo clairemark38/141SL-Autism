@@ -273,6 +273,30 @@ table(round(pred,0),test.pre$risk_score_ASD)
 mean(round(pred,0)!=test.pre$risk_score_ASD) # test error rate
 ```
 
+# Controlling for Sex: 
+```{r}
+maledata <- predata %>% filter(sex == 1)
+femaledata <- predata %>% filter(sex == 0)
+```
+# Converting binary variables to factors
+```{r}
+predata$delivery <- as.factor(predata$delivery)
+predata$sex <- as.factor(predata$sex)
+predata$mom_trauma <- as.factor(predata$mom_trauma)
+predata$maternalpregnancyproblems___8 <- as.factor(predata$maternalpregnancyproblems___8)
+predata$artmethod___1 <- as.factor(predata$artmethod___1)
+predata$maternalpregnancyproblems___1 <- as.factor(predata$maternalpregnancyproblems___1)
+predata$maternalpregnancyproblems___2 <- as.factor(predata$maternalpregnancyproblems___2)
+predata$maternalpregnancyproblems___3 <- as.factor(predata$maternalpregnancyproblems___3)
+predata$maternalpregnancyproblems___16 <- as.factor(predata$maternalpregnancyproblems___16)
+predata$maternalpregnancyproblems___4 <- as.factor(predata$maternalpregnancyproblems___4)
+predata$maternalpregnancyproblems___7 <- as.factor(predata$maternalpregnancyproblems___7)
+predata$maternalpregnancyproblems___9 <- as.factor(predata$maternalpregnancyproblems___9)
+predata$maternalpregnancyproblems___11 <- as.factor(predata$maternalpregnancyproblems___11)
+predata$maternalpregnancyproblems___13 <- as.factor(predata$maternalpregnancyproblems___13)
+predata$maternalpregnancyproblems___14 <- as.factor(predata$maternalpregnancyproblems___14)
+```
+
 # Random Forest Plots
 ```{r}
 install.packages("randomForestExplainer")
@@ -291,30 +315,7 @@ maternalpregnancyproblems___3,maternalpregnancyproblems___16,maternalpregnancypr
 maternalpregnancyproblems___7,maternalpregnancyproblems___9,maternalpregnancyproblems___11,maternalpregnancyproblems___13,
 maternalpregnancyproblems___14
 
-# Controlling for Sex: 
-```{r}
-maledata <- predata %>% filter(sex == 1)
-femaledata <- predata %>% filter(sex == 0)
-```
 
-```{r}
-# converting binary variables to factors
-predata$delivery <- as.factor(predata$delivery)
-predata$sex <- as.factor(predata$sex)
-predata$mom_trauma <- as.factor(predata$mom_trauma)
-predata$maternalpregnancyproblems___8 <- as.factor(predata$maternalpregnancyproblems___8)
-predata$artmethod___1 <- as.factor(predata$artmethod___1)
-predata$maternalpregnancyproblems___1 <- as.factor(predata$maternalpregnancyproblems___1)
-predata$maternalpregnancyproblems___2 <- as.factor(predata$maternalpregnancyproblems___2)
-predata$maternalpregnancyproblems___3 <- as.factor(predata$maternalpregnancyproblems___3)
-predata$maternalpregnancyproblems___16 <- as.factor(predata$maternalpregnancyproblems___16)
-predata$maternalpregnancyproblems___4 <- as.factor(predata$maternalpregnancyproblems___4)
-predata$maternalpregnancyproblems___7 <- as.factor(predata$maternalpregnancyproblems___7)
-predata$maternalpregnancyproblems___9 <- as.factor(predata$maternalpregnancyproblems___9)
-predata$maternalpregnancyproblems___11 <- as.factor(predata$maternalpregnancyproblems___11)
-predata$maternalpregnancyproblems___13 <- as.factor(predata$maternalpregnancyproblems___13)
-predata$maternalpregnancyproblems___14 <- as.factor(predata$maternalpregnancyproblems___14)
-```
 
 # Creating Models: 
 
