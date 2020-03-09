@@ -321,7 +321,7 @@ summary(m3) # momsedu, delivery, mathealth_count, maternalpregnancyproblems___8
 
 # Checking model accuracy for Poisson:  
  
- ```{r}
+```{r}
 library(msme)
 
 # If the dispersion (P < 1), then the model fits the data well, underdispersion:
@@ -336,7 +336,7 @@ AIC(m3) # 4718.472
 
 
 # For final report
- ```{r}
+```{r}
 write.csv(predata,'predata.csv')
 ```
 
