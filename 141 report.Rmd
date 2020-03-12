@@ -301,7 +301,7 @@ plot(m3)
   Before interpreting the plots, it is important that we know what we are looking for in our analysis. For a poisson regression model, it is important we check if the mean and variances are equal by looking at the dispersion parameter. Using the msme function in the `msme` library, we can see that we do not need to worry about this since the dispersion for all three of our models is less than one. If we were to see a large difference, we would account for using a negative binomial regression model, however our in depth data cleaning took care of that assumption. Next, we want to look at the independence of variables - due to the in-depth cleaning of variables and analysis of correlation, we already expect this assumption to be met, however taking a look at the summary plots of our models will confirm this. Finally, we would like to check for linearity in our models. 
 
 
-```{r echo=FALSE, warning=FALSE}
+```{r echo=FALSE, warning=FALSE, message=FALSE}
 library(msme)
 # If the dispersion (P < 1), then the model fits the data well, underdispersion:
 p1 <- 0.7981416 # P__disp(m1)[2]
