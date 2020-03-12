@@ -238,7 +238,7 @@ mom_trauma+maternalpregnancyproblems___8+artmethod___1 +tri_vaping+deaf1+tri_can
 ```
 
 ## Tables 
-```{r}
+```{r, echo=FALSE}
 library(xtable)
 options(xtable.floating = FALSE)
 options(xtable.timestamp = "")
