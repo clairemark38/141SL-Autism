@@ -89,15 +89,78 @@ Number & Attribute & Description \\
 \newpage
 \section{Exploratory Data Analysis}
 
-As a start point for exploratory data analysis, literature review revealed that there are certain factors that increase a child’s risk for autism spectrum disorder: child’s sex, family history, other disorders present in the child, extremely preterm babies, and the parents’ delivery ages. Males are four times more likely than females to get autism. A child’s risk for autism spectrum disorder increases if a relative, such as a sibling, parent, cousin, etc., has already been diagnosed with the disorder. Pre-existing health conditions such as fragile X syndrome, tuberous sclerosis, and Rett syndrome, also increase a baby’s risk. Babies born before 26 weeks of gestation are at higher risk compared to those born later. Finally, children born to older parents at the time of delivery are at higher risk for autism spectrum disorder compared to those born to younger parents.
-To look further into some of these potential risk factors, boxplots were created to explore the relationships of these factors with a child’s risk score for ASD.
-[insert code for box plots here, change the codes to ggplot2]
-Aside from the factors indicated by literature review, a correlation plot was created to examine if any of the at-risk behaviors were correlated with each other. It turned out that many of them in fact were correlated. If a child had a certain at-risk behavior, it was also likely that he or she had another.
-[insert code for correlation plot here, change the code to ggplot2]
-(discuss drugs vs risk scores)
-[insert code for box plots and jitter plots]
-Correlation for maternal mental health
-[insert code for correlation plot]
+## The Five Factors from Literature Review
+
+  To begin our exploratory data analysis, the client provided us with an online article to get familiar with autism spectrum disorder. Literature review from this study revealed that there are certain factors that increase a child’s risk for ASD: the child’s sex, the child’s family history, other disorders present in the child, if the child was born extremely preterm, and the parents’ delivery ages (“Autism spectrum disorder”). Males are four times more likely than females to develop ASD (“Autism spectrum disorder”). A child’s risk for autism spectrum disorder increases if a relative, such as a sibling, parent, cousin, etc., has already been diagnosed with the disorder (“Autism spectrum disorder”). Pre-existing health conditions such as fragile X syndrome, tuberous sclerosis, and Rett syndrome, also increase a baby’s risk (“Autism spectrum disorder”). Babies born before 26 weeks of gestation are at higher risk compared to those born later (“Autism spectrum disorder”). Finally, children born to older parents at the time of delivery are at higher risk for autism spectrum disorder compared to those born to younger parents (“Autism spectrum disorder”).
+
+  To look further into some of these potential risk factors, box plots were created to explore the relationships of these factors with a child’s risk score for ASD. It should also be noted that this exploratory data analysis was done before any data cleaning. Hence, we saw what needed to be cleaned through some of the following graphs.
+
+```{r, warning=FALSE, message=FALSE, echo=FALSE}
+library(readr)
+library(ggplot2)
+
+adata <- read_csv("ChatterBabyData.csv")
+
+# Sex vs Risk Score; 0 = female, 1 = male
+adata$sex <- ifelse(adata$sex == 0, "Female", "Male")
+ggplot(data = adata, aes(x = sex, y = risk_score_ASD, group = sex)) + geom_boxplot() + ggtitle("Box Plot of Child's Sex and Child's ASD Risk Score") + labs(y = "Child's Risk Score for ASD", x = "Child's Sex")
+
+# Family History vs Risk Score; asd1 = 1+ family member(s) also has ASD
+adata$asd1 <- ifelse(adata$asd1 == 0, "No", "yes")
+ggplot(data = adata, aes(x = asd1, y = risk_score_ASD, group = asd1)) + geom_boxplot() + ggtitle("Box Plot of Child's Family History and Child's ASD Risk Score") + labs(y = "Child's Risk Score for ASD", x = "Does At Least One Family Member Have ASD?")
+
+# Other disorders: Was the autism diagnosis related to a genetic mutation such as fragile X or 22q11.2 deletion syndrome?
+adata$asd_genetic <- ifelse(adata$asd_genetic == 0, "No", "Yes")
+ggplot(data = adata, aes(x = asd_genetic, y = risk_score_ASD, group = asd_genetic)) + geom_boxplot() + ggtitle("Box Plot of Other Disorders and Child's ASD Risk Score") + labs(y = "Child's Risk Score for ASD", x = "Was the Child's ASD Diagnosis Related to a Genetic Mutation?")
+
+# Preterm Babies and Risk Score (born before 26 weeks)
+adata$preterm <- ifelse(adata$babygestation < 26, "Yes", "No")
+ggplot(data = adata, aes(x = preterm, y = risk_score_ASD, group = preterm)) + geom_boxplot() + ggtitle("Box Plot of Prematurity and Child's ASD Risk Score") + labs(y = "Child's Risk Score for ASD", x = "Was the baby born before 26 weeks?")
+
+# Parent's Ages vs Risk Score
+# Using all mom's ages
+# ggplot(data = adata, aes(x = momsdeliveryage, y = risk_score_ASD, group = momsdeliveryage)) + geom_boxplot()
+# Using all dad's ages
+# ggplot(data = adata, aes(x = dadsdeliveryage, y = risk_score_ASD, group = dadsdeliveryage)) + geom_boxplot()
+# Separating into older vs younger (above or below 35)
+adata$oldermom <- ifelse(adata$momsdeliveryage >= 35, "Yes", "No")
+adata$olderdad <- ifelse(adata$dadsdeliveryage >= 35, "Yes", "No")
+ggplot(data = adata, aes(x = oldermom, y = risk_score_ASD, group = oldermom)) + geom_boxplot() + ggtitle("Box Plot of Mother's Delivery Age and Child's ASD Risk Score") + labs(y = "Child's Risk Score for ASD", x = "Was the Mother Aged 35 or Older During Delivery?")
+ggplot(data = adata, aes(x = olderdad, y = risk_score_ASD, group = olderdad)) + geom_boxplot() + ggtitle("Box Plot of Father's Delivery Age and Child's ASD Risk Score") + labs(y = "Child's Risk Score for ASD", x = "Was the Father Aged 35 or Older During Delivery?")
+```
+
+  The risk scores ranged from one through twelve. Out of all of the box plots above, the graph of asd_genetic and risk_score_ASD seemed like the only one that had a major enough difference visible to the eye. The NA’s present in the data indicated that there needed to be some cleaning done.
+
+## Drug Use During Pregnancy and Risk Score
+
+Aside from those five risk factors, we were also interested if a mother’s drug use during pregnancy would be associated with an increase in a child’s risk score for ASD. We created new variables to count the number of pregnancy trimesters that a mother used a certain type of drug. We then examined jitter plots of these new variables in relation to the child’s risk score for ASD. These plots were made after we cleaned the data set and began looking at prenatal factors.
+
+```{r, warning=FALSE, message=FALSE, echo=FALSE}
+predata <- read_csv("predata.csv")
+
+# ggplot(predata, aes(x = tri_tobacco, y = risk_score_ASD, group = tri_tobacco)) + geom_boxplot()
+ggplot(predata, aes(x = tri_tobacco, y = risk_score_ASD, color = risk_score_ASD)) + geom_jitter() + scale_color_gradientn(colours = rainbow(12)) + ggtitle("Jitter Plot of Tobacco Use During Pregnancy and Child's ASD Risk Score") + labs(y = "Child's Risk Score for ASD", x = "Number of Trimesters Tobacco Was Used")
+
+# ggplot(predata, aes(x = tri_vaping, y = risk_score_ASD, group = tri_vaping)) + geom_boxplot()
+ggplot(predata, aes(x = tri_vaping, y = risk_score_ASD, color = risk_score_ASD)) + geom_jitter() + scale_color_gradientn(colours = rainbow(12)) + ggtitle("Jitter Plot of Vaping During Pregnancy and Child's ASD Risk Score") + labs(y = "Child's Risk Score for ASD", x = "Number of Trimesters Mother Vaped")
+
+# ggplot(predata, aes(x = tri_alcohol, y = risk_score_ASD, group = tri_alcohol)) + geom_boxplot()
+ggplot(predata, aes(x = tri_alcohol, y = risk_score_ASD, color = risk_score_ASD)) + geom_jitter() + scale_color_gradientn(colours = rainbow(12)) + ggtitle("Jitter Plot of Alcohol Use During Pregnancy and Child's ASD Risk Score") + labs(y = "Child's Risk Score for ASD", x = "Number of Trimesters Alcohol Was Used")
+
+# ggplot(predata, aes(x = tri_cannabis, y = risk_score_ASD, group = tri_cannabis)) + geom_boxplot()
+ggplot(predata, aes(x = tri_cannabis, y = risk_score_ASD, color = risk_score_ASD)) + geom_jitter() + scale_color_gradientn(colours = rainbow(12)) + ggtitle("Jitter Plot of Cannabis Use During Pregnancy and Child's ASD Risk Score") + labs(y = "Child's Risk Score for ASD", x = "Number of Trimesters Cannabis Was Used")
+
+# ggplot(predata, aes(x = tri_stimulants, y = risk_score_ASD, group = tri_stimulants)) + geom_boxplot()
+ggplot(predata, aes(x = tri_stimulants, y = risk_score_ASD, color = risk_score_ASD)) + geom_jitter() + scale_color_gradientn(colours = rainbow(12)) + ggtitle("Jitter Plot of Stimulant Use During Pregnancy and Child's ASD Risk Score") + labs(y = "Child's Risk Score for ASD", x = "Number of Trimesters Stimulants Were Used")
+
+# ggplot(predata, aes(x = tri_opioids, y = risk_score_ASD, group = tri_opioids)) + geom_boxplot()
+ggplot(predata, aes(x = tri_opioids, y = risk_score_ASD, color = risk_score_ASD)) + geom_jitter() + scale_color_gradientn(colours = rainbow(12)) + ggtitle("Jitter Plot of Opioid Use During Pregnancy and Child's ASD Risk Score") + labs(y = "Child's Risk Score for ASD", x = "Number of Trimesters Opioids Were Used")
+
+# ggplot(predata, aes(x = tri_psychoactives, y = risk_score_ASD, group = tri_psychoactives)) + geom_boxplot()
+ggplot(predata, aes(x = tri_psychoactives, y = risk_score_ASD, color = risk_score_ASD)) + geom_jitter() + scale_color_gradientn(colours = rainbow(12)) + ggtitle("Jitter Plot of Psychoactive Use During Pregnancy and Child's ASD Risk Score") + labs(y = "Child's Risk Score for ASD", x = "Number of Trimesters Psychoactives Were Used")
+```
+
+	There was not much difference in the child’s risk score when examining different drugs used during the trimesters of pregnancy. However, we found that there are not a lot of mothers that used certain drugs during pregnancy, such as psychoactives or opioids. Therefore, there was not enough data present for some of the drugs to examine if they were significant factors or not.
 
 ## Controlling for Sex: 
 
@@ -287,6 +350,8 @@ ggplot(df, aes(x = model, y = dispersion, fill = AIC)) +
 \section{Bibliography}
 
 “Autism and Gender.” Autism Support - Leading UK Charity - National Autistic Society, www.autism.org.uk/about/what-is/gender.aspx.
+
+“Autism spectrum disorder.” Mayo Clinic, 6 Jan. 2018, www.mayoclinic.org/diseases-conditions/autism-spectrum-disorder/symptoms-causes/syc-20352928.
 
 Halladay, Alycia K, et al. “Sex and Gender Differences in Autism Spectrum Disorder: Summarizing Evidence Gaps and Identifying Emerging Areas of Priority.” Molecular Autism, BioMed Central, 13 June 2015, www.ncbi.nlm.nih.gov/pmc/articles/PMC4465158/.
 
