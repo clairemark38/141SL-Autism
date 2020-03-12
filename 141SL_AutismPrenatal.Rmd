@@ -15,6 +15,7 @@ mean(cbdata$risk_score_ASD)
 var(cbdata$risk_score_ASD)
 hist(cbdata$risk_score_ASD)
 ```
+
 # Dealing with NAs
 Cleaning NA's to 0's: 
 
@@ -60,6 +61,7 @@ cbdata$momlivebirths[which((is.na(cbdata$momlivebirths) == TRUE) &
 ```
 
 # Cleaning `maternalpregnancyproblems_other`
+
 ```{r}
 # classify as post partum psychosis
 cbdata <- cbdata %>% mutate(maternalpregnancyproblems___20 = replace(maternalpregnancyproblems___20, maternalpregnancyproblems_other == "post partum anxiety" | maternalpregnancyproblems_other == "Post partum anxiety" | maternalpregnancyproblems_other == "Post-partum anxiety" | maternalpregnancyproblems_other == "Postpartum hemorrhaging" | maternalpregnancyproblems_other == "Perinatal anxiety",1))
@@ -94,6 +96,7 @@ cbdata$maternalpregnancyproblems_other <- NULL
 ```
 
 # Cleaning `mom_trauma`
+
 ```{r}
 # Convert all Mom Trauma NA's to 0: 
 cbdata$mom_trauma[is.na(cbdata$mom_trauma)] <- 0 
@@ -208,6 +211,7 @@ predata$mat_pssd <- ifelse(predata$mat_pssd==2, 1, predata$mat_pssd)
 ```
 
 # Graphs of Drugs vs Risk Score
+
 ```{r}
 library(ggplot2)
 
@@ -245,19 +249,19 @@ corrplot(corrmat)
 ```
 
 # Create new column
+
 ```{r}
 predata <- predata %>% mutate(babymortality = totalpregnancies-momlivebirths)
 ```
 
-
 # Current Random Forest Model
+
 ```{r}
 library(randomForest)
 
 drops <- c("maternalpregnancyproblems___19", "maternalpregnancyproblems___20", "matmentalhealth___1", "matmentalhealth___2", "matmentalhealth___3","matmentalhealth___4", "matmentalhealth___5", "matmentalhealth___6", "matmentalhealth___7", "mat_dep", "mat_anx", "mat_ocd", "mat_bp","mat_adhd","mat_pssd","maternalproblems1","art","momlivebirths","totalpregnancies","matmentalhealth___18","babyage","momfever")
+
 predata1 <- na.omit(predata[ , !(names(predata) %in% drops)])
-
-
 
 set.seed(12345)
 train <- sample(1:nrow(predata1), nrow(predata)*.7)
@@ -273,12 +277,8 @@ table(round(pred,0),test.pre$risk_score_ASD)
 mean(round(pred,0)!=test.pre$risk_score_ASD) # test error rate
 ```
 
-# Controlling for Sex: 
-```{r}
-maledata <- predata %>% filter(sex == 1)
-femaledata <- predata %>% filter(sex == 0)
-```
 # Converting binary variables to factors
+
 ```{r}
 predata$delivery <- as.factor(predata$delivery)
 predata$sex <- as.factor(predata$sex)
@@ -297,7 +297,15 @@ predata$maternalpregnancyproblems___13 <- as.factor(predata$maternalpregnancypro
 predata$maternalpregnancyproblems___14 <- as.factor(predata$maternalpregnancyproblems___14)
 ```
 
+# Controlling for Sex: 
+
+```{r}
+maledata <- predata %>% filter(sex == 1)
+femaledata <- predata %>% filter(sex == 0)
+```
+
 # Random Forest Plots
+
 ```{r}
 install.packages("randomForestExplainer")
 library(randomForestExplainer)
@@ -314,8 +322,6 @@ tri_tobacco,tri_vaping,deaf1,tri_cannabis,maternalpregnancyproblems___1,maternal
 maternalpregnancyproblems___3,maternalpregnancyproblems___16,maternalpregnancyproblems___4,
 maternalpregnancyproblems___7,maternalpregnancyproblems___9,maternalpregnancyproblems___11,maternalpregnancyproblems___13,
 maternalpregnancyproblems___14
-
-
 
 # Creating Models: 
 
@@ -353,7 +359,6 @@ AIC(m2) # 5164.465
 AIC(m3) # 4718.472
 
 ```
-
 
 # For final report
 
