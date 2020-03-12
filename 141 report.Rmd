@@ -25,17 +25,21 @@ knitr::opts_chunk$set(echo = TRUE)
 \newpage
 \section{Abstract}
 
-\textit{In this study, we worked to determine factors that predispose children to autistic behaviors. To do this, we explored a dataset obtained from the ChatterBaby application’s survey which included input from users across the globe. We began by cleaning the dataset to remove missing values and performed some initial data analysis along with random forest modeling to determine which factors were most important of all prenatal factors. A poisson model was then used to explain the data. In our literature review, we uncovered that autism diagnoses in males is systematically different from these same diagnoses in females and we want to determine if this difference in sex is statistically significant when looking at predictors for autism in the different sexes. As such, we chose to develop additional poisson models that were separated by sex in an effort to control for this discrepancy. Through this modeling we found that there are a multitude of different risk factors that are statistically significant, however, these risk factors vary by sex. Consequently, we conclude that there is a significant difference between males and females regarding risk factors that predispose a child to ASD behaviors and that the number of mental health diagnoses for the mother is chief amongst the risk factors as this is the only factor that appears in all three models.}
+In this study, we worked to determine factors that predispose children to autistic behaviors. To do this, we explored a dataset obtained from the ChatterBaby application’s survey which included input from users across the globe. We began by cleaning the dataset to remove missing values and performed some initial data analysis along with random forest modeling to determine which factors were most important of all prenatal factors. A Poisson model was then used to explain the data. In our literature review, we uncovered that autism diagnoses in males is systematically different from these same diagnoses in females and we want to determine if this difference in sex is statistically significant when looking at predictors for autism in the different sexes. As such, we chose to develop additional Poisson models that were separated by sex in an effort to control for this discrepancy. Through this modeling we found that there are a multitude of different risk factors that are statistically significant, however, these risk factors vary by sex. Consequently, we conclude that there is a significant difference between males and females regarding risk factors that predispose a child to ASD behaviors and that the number of mental health diagnoses for the mother is chief amongst the risk factors as this is the only factor that appears in all three models. 
 
 \newpage
 \section{Research Questions}
 
-1. What are the significant risk factors that predispose a child to asd behaviors?
+In our study, we developed two research questions concentrating on significant predictors that can detect if a child will exhibit behaviors that relate to having Autistic Spectrum Disorder, a developmental disorder that impairs communication and interaction, and if there is a difference in these predictors for males and females. Our first research question focuses on discovering risk factors that could predispose a child’s tendency towards exhibiting behaviors that relate to having ASD. We examine the mother’s prenatal characteristics in order to see if any of these factors increase their child’s ASD behaviors and determine what these factors may be. Our second research question arose after our literature review, which found that the signs for ASD in boys can be diagnosed as early as two years of age while it may take up to 14 years for girls due to the differences in the way that autism presents itself between genders (Geelhand). We also found that there is a stark difference in the proportion of males versus females that have autism with the most recent ratio being 3 males for every female (National Autistic Society). Taking this into account, our second research question focuses on whether there is a significant difference in the predictors of ASD for males versus females and what these specific predictors are.
 
-2. Is there a significant difference when looking at predictors for autism in males vs females? 
 
 \section{Variables of the Study and how they were Measured}
 
+For this study, only prenatal factors were taken into account. Any variable that was not clearly a factor from the time before a child was born was removed and the subsetted dataset “predata” was created. This dataset contains 68 predictors and the outcome variable `risk_score_ASD`. Binary variables coded as numeric were converted to factors where 1 means an attribute is present and 0 means not present. The variable `delivery` was converted to a factor as the numbers indicate a certain type of delivery method. All other variables were kept as numeric.
+
+Nine variables in “predata” were created from other variables in the original dataset; these are `mathealth_count`, `babymortality` and 7 variables beginning with “tri_.”  The count variable “mathealth_count” created from “matmentalhealth” tells how many different mental health diagnoses the mother had before, during, or after pregnancy. This was done by summing the binary variables under “matmentalhealth.” The series of count variables beginning with “tri_” were created from the “drugsalcoholtobacco” categories and they tell how many trimesters a mother used a certain drug for (1, 2, or 3). The variable “babymortality” conveys pregnancies that resulted in a mother not having a live birth so the variable is a difference of “totalpregnacies” and “momslivebirths.” 
+
+## Final Predata Codebook
 \begin{center}
 \begin{tabular}{ | l | l | p{10cm} |} 
 \hline
@@ -85,37 +89,73 @@ Number & Attribute & Description \\
 \newpage
 \section{Exploratory Data Analysis}
 
+As a start point for exploratory data analysis, literature review revealed that there are certain factors that increase a child’s risk for autism spectrum disorder: child’s sex, family history, other disorders present in the child, extremely preterm babies, and the parents’ delivery ages. Males are four times more likely than females to get autism. A child’s risk for autism spectrum disorder increases if a relative, such as a sibling, parent, cousin, etc., has already been diagnosed with the disorder. Pre-existing health conditions such as fragile X syndrome, tuberous sclerosis, and Rett syndrome, also increase a baby’s risk. Babies born before 26 weeks of gestation are at higher risk compared to those born later. Finally, children born to older parents at the time of delivery are at higher risk for autism spectrum disorder compared to those born to younger parents.
+To look further into some of these potential risk factors, boxplots were created to explore the relationships of these factors with a child’s risk score for ASD.
+[insert code for box plots here, change the codes to ggplot2]
+Aside from the factors indicated by literature review, a correlation plot was created to examine if any of the at-risk behaviors were correlated with each other. It turned out that many of them in fact were correlated. If a child had a certain at-risk behavior, it was also likely that he or she had another.
+[insert code for correlation plot here, change the code to ggplot2]
+(discuss drugs vs risk scores)
+[insert code for box plots and jitter plots]
+Correlation for maternal mental health
+[insert code for correlation plot]
+
 ## Controlling for Sex: 
 
-### Male 
+The literature mentions that there are three contributers to sex differences in ASD rates: biologically driven differences, gender socialization, and limited research and measurement tools. Fundamentally, young girls  with ASD have proven to achieve more basic milestones on time compared to boys. They have overall better social skills and better peer relationships, which disrupts the typical bias and norms set in the standards for ASD. A recent study by the Children’s National Health Systems shows that in current diagnostic practices, in order for females to have an ASD diagnosis they must present more concurrent behavioral, developmental or mental health issues, compared to their male counterparts. A significant factor that plays into these modern discrepancies is that most of the research and testing done on figuring out diagnosis and symptoms of ASD was on a majority of male patients, so many of the benchmarks for the diagnosis will tend to follow that for males, rather than for females. 
+Due to the overwhelming significance and differences highlighted in our outside research of gender and ASD diagnosis, we decided to talk a look if our very own data will follow the literature.
 
-### Female
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(ggplot2)
+library(readr)
+predata <- read_csv("~/Desktop/STATS 141SL/Final Project/predata.csv")
+ggplot(predata, aes(x = risk_score_ASD, fill = sex, color = sex)) + 
+  geom_histogram(binwidth = 1) +
+  facet_grid(sex ~ .) + 
+  theme_bw() + 
+  ggtitle("ASD risk score for Males vs. Females")
+  
+```
+
+
+The boxplot above did not follow our expectations at first because it appears that there is no significant difference of the means of the risk scores between males and females. However, it is important to note that the NA’s likely play a significant role in these outputs. Moreover, we can see that there tends to be more frequent high risk scores for males as opposed to females, so when we run our final models it is still worth looking into the significance that sex will have on determining the factors of ASD. 
 
 
 
 \newpage
 \section{Statistical analysis used to answer the research questions}
   A random forest model was run on prenatal factors to determine which variables were important risk factors for `risk_score_ASD`. Highly correlated variables were dropped from the data before running the random forest model because having too many variables containing similar information will result in inaccurate importance measures due to a model weighing too much on one set of related variables compared to another set of variables. Important variables were determined from the node purity and mean squared error measures. From these measures, 14 total variables were selected as important risk factors from `risk_score_ASD` to be included in our final model. 
-  Poisson regression is used to predict a dependent variable that consists of “count data” given one or more independent variables. A Poisson Model with these important prenatal variables was chosen for our statistical analysis since our response variable (‘risk_score_ASD`) consists of count data and the dispersion parameter for all models was less than one, indicating the variance of the model was less than the expected value for all three models. Assumptions of this model also include independence of observations and the distribution of counts following a Poisson distribution. (insert histogram of `risk_score_ASD` here)
+   Poisson regression is used to predict a dependent variable that consists of “count data” given one or more independent variables. A Poisson Model with these important prenatal variables was chosen for our statistical analysis since our response variable (`risk_score_ASD`) consists of count data and the dispersion parameter for all models was less than one, indicating the variance of the model was less than the expected value for all three models. Assumptions of this model also include independence of observations and the distribution of counts following a Poisson distribution.
+   
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(ggplot2)
+ggplot(predata, aes(x = risk_score_ASD)) + geom_histogram(binwidth = 0.5, color = "black", fill = "light blue", aes(y = ..density..)) +
+  theme_bw() +
+  geom_density(alpha = 0.2, fill = "#FF6666") +
+  ggtitle("Histogram of Risk Score ASD") + 
+  scale_y_continuous(name = "Frequency") + 
+  scale_x_continuous(name = "Risk Score")
+
+```
+
+   
+   
 
 ```{r,echo=FALSE}
-library(readr)
-predata <- read_csv("~/predata.csv")
-
-library(randomForest)
-
-drops <- c("maternalpregnancyproblems___19", "maternalpregnancyproblems___20", "matmentalhealth___1", "matmentalhealth___2", "matmentalhealth___3","matmentalhealth___4", "matmentalhealth___5", "matmentalhealth___6", "matmentalhealth___7", "mat_dep", "mat_anx", "mat_ocd","mat_bp","mat_adhd","mat_pssd","maternalproblems1","art","momlivebirths","totalpregnancies","maternalpregnancyproblems___18","momfever")
-predata1 <- na.omit(predata[ , !(names(predata) %in% drops)])
-rf.pre <- randomForest(risk_score_ASD~.,data=predata1,mtry=16,importance=TRUE,ntrees=1000)
+# library(readr)
+# predata <- read_csv("~/Desktop/STATS 141SL/Final Project/predata.csv")
+# library(randomForest)
+# drops <- c("maternalpregnancyproblems___19", "maternalpregnancyproblems___20", "matmentalhealth___1", "matmentalhealth___2", "matmentalhealth___3","matmentalhealth___4", "matmentalhealth___5", "matmentalhealth___6", "matmentalhealth___7", "mat_dep", "mat_anx", "mat_ocd","mat_bp","mat_adhd","mat_pssd","maternalproblems1","art","momlivebirths","totalpregnancies","maternalpregnancyproblems___18","momfever")
+# predata1 <- na.omit(predata[ , !(names(predata) %in% drops)])
+# rf.pre <- randomForest(risk_score_ASD~.,data=predata1,mtry=16,importance=TRUE,ntrees=1000)
 ```
 
 ```{r,echo=FALSE,warning=FALSE,message=FALSE}
-library(randomForestExplainer)
-min_depth_frame <- min_depth_distribution(rf.pre)
-plot_min_depth_distribution(min_depth_frame, mean_sample = "relevant_trees", k = 15)
-```
-# Controlling for Sex: 
-```{r}
+# library(randomForestExplainer)
+# min_depth_frame <- min_depth_distribution(rf.pre)
+# plot_min_depth_distribution(min_depth_frame, mean_sample = "relevant_trees", k = 15)
+
+# controlling for Sex 
 library(dplyr)
 maledata <- predata %>% filter(sex == 1)
 femaledata <- predata %>% filter(sex == 0)
@@ -128,13 +168,10 @@ femaledata <- predata %>% filter(sex == 0)
 ```{r, echo=FALSE, message=FALSE, results='asis', warning=FALSE}
 m1 <- glm(risk_score_ASD ~ momsdeliveryage+momsedu+delivery+babymortality + mathealth_count + sex+tri_alcohol+tri_tobacco+
 mom_trauma+maternalpregnancyproblems___8+artmethod___1 +tri_vaping+deaf1+tri_cannabis, data = predata, family = "poisson")
-
 m2 <- glm(risk_score_ASD ~ momsdeliveryage+momsedu+delivery+babymortality + mathealth_count + tri_alcohol+tri_tobacco+
 mom_trauma+maternalpregnancyproblems___8+artmethod___1 +tri_vaping+deaf1+tri_cannabis, data = maledata, family = "poisson")
-
 m3 <- glm(risk_score_ASD ~ momsdeliveryage+momsedu+delivery+babymortality + mathealth_count +tri_alcohol+tri_tobacco+
 mom_trauma+maternalpregnancyproblems___8+artmethod___1 +tri_vaping+deaf1+tri_cannabis, data = femaledata, family = "poisson")
-
 ```
 
 ## Tables 
@@ -186,28 +223,73 @@ plot(m3)
 \newpage
 \section{Interpretation of results}
 
-\textit{Text}
+   By running a random forest on all of the prenatal variables we found that the significant risk factors that predispose a child to ASD behaviors are: `momsdeliveryage`, `momsedu`, `delivery`, `babymortality`, `mathealth_count`, `sex`, `tri_alcohol`, `tri_tobacco`, `mom_trauma`, `maternalpregnancyproblems___8`, `artmethod___1`, `tri_vaping`, `deaf1`, and `tri_cannabis`. These variables were chosen based on the mean of their minimal depth calculated from our random forest model. In conducting Poisson regression for three models, we used these variables. The first focused on answering our first posed research question  while the second and third models were driven towards answering our second research question.
+
+   Our first model used the 14 predetermined variables and had four significant factors: mother’s education level, a count variable that we created consisting of how many mental health diagnoses the mother has, the sex of the child, and whether the child has more than one deaf family member. The p-values for these predictors are 0.02299, 0.00234, 0.01915, and 0.01774 respectively, which are all significant at a 0.01 alpha level. Based on these findings, we can see that a level increase in the mother’s education will increase a child’s risk score by 1.02. We also observed that each additional mental health diagnosis for the mother will increase the risk score by 0.97. If a child is male, then the risk score will be increased by 1.04. Additionally, if a child has more than one deaf family member, then the child’s risk score will increase by 1.07. We were interested by the variables that were not statistically significant in our model as this seemed to be counterintuitive to literature that we had reviewed and our prior knowledge. For example, the number of trimesters that a mother used tobacco did not have any statistical significance in the model with a p-value of only 0.88, although we found that for every additional trimester that the mother used tobacco that the risk score would increase by about .99. In fact, all four of the substances that we included in our model were not statistically significant and were observed to increase the risk score by 1.01 for alcohol, 0.97 for vaping, 0.98 for cannabis, and as previously stated, 0.99 for tobacco.
+
+   Due to the signifcance of the variable ”sex” in our first model, we chose to control for gender in our next two models. Our second model had all of the variables present in the initial model without “sex” but focused on the impact of the gender being male on the statistically significant predictors. In this Poisson model, we saw two predictors significant at the 0.01 level, the number of mental health diagnoses for the mother and whether the child has more than one deaf family member with p-values of 0.0389 and 0.0260 respectively. One of our predictors, `maternalpregnancyproblems___8` which is coded as the mother having anemia, a condition in which the blood does not have enough oxygen to carry to the body’s tissues, was significant at the 0.05 level with a p-value of 0.0511. Based on our findings, an increase in mental health diagnoses for the mother increases their child’s risk score by about 0.97, which is the same value that we observed in our model that did not control for gender. In this case, we can determine that the mental health score does not impact a child’s risk score if the child is a male. If the child has more than one deaf family member, their risk score increases by 1.09, which is slightly higher than our first model. This indicates that, on average, a male child will have a larger risk score if they have more than one deaf family member. If a male child has a mother that has anemia, then their risk score will increase by about 0.92. In comparison to our first model, we observe that the variable for mother’s education is no longer significant with a p-value calculated of only 0.6389.
+
+   For our third model, the data set was filtered by gender being female to focus on the impact of a baby’s gender and contained the variables from the first model, except for “sex.”  This model had the most statistically significant predictors with those being the mother’s education level, two of the delivery methods of the pregnancy those of which being planned and emergency C-section, the number of mental health diagnoses for the mother, the number of trimesters a mother used tobacco, and whether the mother had anemia during the pregnancy with p-values of 0.00531, 0.08332, 0.07570, 0.03819, 0.05802, and 0.01713 respectively. We can see that a level increase in the mother’s education will increase a child’s risk score by 1.04 given all else constant, which is slightly higher than our first model. A mother having delivered their baby through a planned C-section increases their child’s risk score by 1.06 while delivery through an emergency C-section increases this score by 1.07. These factors are statistically significant for this model only which controls for female children specifically.  Also, based on these findings, an increase in mental health diagnoses for the mother increases their child’s risk score by about 0.97, which is the same value that we observed in our first model. In this case, we can determine that the mental health score does not impact a child’s risk score based on gender as this value is the same for male and female children. We can also see that for an increase in the number of trimesters that a mother used tobacco, their child’s risk score increases by 0.93. Lastly, if a mother had anemia during their pregnancy, their child’s risk score will increase by 1.1.
+
 
 \newpage
 \section{Interpretation of plots}
 
-\textit{Text}
+  Before interpreting the plots, it is important that we know what we are looking for in our analysis. For a poisson regression model, it is important we check if the mean and variances are equal by looking at the dispersion parameter. Using the msme function in the `msme` library, we can see that we do not need to worry about this since the dispersion for all three of our models is less than one. If we were to see a large difference, we would account for using a negative binomial regression model, however our in depth data cleaning took care of that assumption. Next, we want to look at the independence of variables - due to the in-depth cleaning of variables and analysis of correlation, we already expect this assumption to be met, however taking a look at the summary plots of our models will confirm this. Finally, we would like to check for linearity in our models. 
+
+
+```{r echo=FALSE, warning=FALSE}
+library(msme)
+# If the dispersion (P < 1), then the model fits the data well, underdispersion:
+p1 <- 0.7981416 # P__disp(m1)[2]
+p2 <- 0.7480804 # P__disp(m2)[2]
+p3 <- 0.8358594 # P__disp(m3)[2]
+a1 <- AIC(m1) # 9885.705
+a2 <- AIC(m2) # 5164.465
+a3 <- AIC(m3) # 4718.472
+
+df <- data.frame(dispersion = c(p1, p2, p3), AIC = c(a1, a2, a3), model = c(1, 2, 3))
+ggplot(df, aes(x = model, y = dispersion, fill = AIC)) + 
+  geom_point(shape = 21, size = 4) + 
+  theme_bw() + 
+  scale_y_continuous(name = "Dispersion Parameter") + 
+  scale_x_continuous(name = "Model", breaks = c(1,2,3)) + 
+  ggtitle("Dispersion Parameters and Model Accuracy")
+
+```
+
+
+
 
 \newpage
 \section{Overall conclusions}
 
-\textit{This study was quite informative in discerning which risk factors are significant in predisposing children to ASD behaviors and if a significant difference exists when looking at predictors for autism in males and females. In order to effectively discern the answers to these questions, we look at all three models: one for all children, one for males, and one for females. As mentioned in the interpretation of results section above, we discovered that mother’s education level, a count variable that we created consisting of how many mental health diagnoses the mother has, the sex of the child, and whether the child has more than one deaf family member were all significant in the full model. Meanwhile for males the number of mental health diagnoses for the mother, whether the child has more than one deaf family member, and the mother having anemia were significant while for females mother’s education level, two of the delivery methods of the pregnancy those of which being planned and emergency C-section, the number of mental health diagnoses for the mother, the number of trimesters a mother used tobacco, and whether the mother had anemia during the pregnancy were significant. These findings show that the models point to diverging risk factors for ASD behaviors between males and females. Clearly, then, there is a significant difference when looking at predictors for autism in males and females.
-Using the understanding acquired by modeling the sexes both together and separate, we are then able to come to a more informed conclusion about the significant risk factors that predispose a child to ASD behaviors.  Specifically notable among the commonalities for predictors amongst males and females was the presence of significance for both number of mental health diagnoses for the mother and whether or not the mother had anemia during pregnancy. As such, we can conclude that these factors are major risk factors that predispose a child to ASD behaviors, with number of mental health diagnoses for the mother being of extreme importance given that it was a significant factor in the full model as well. Additionally, whether the child has more than one deaf family member was also present as a significant factor in both the full model and the model with just males and also mother’s education level is a significant factor in both the full and female models, so these factors are notable as major risk factors as well. Some factors appeared in only one of the models, and thus are significant risk factors but weigh less heavily than the factors in multiple models with regards to predisposition of a child to ASD behaviors. These factors are two of the delivery methods of the pregnancy (those of which  being planned and emergency C-section) and the number of trimesters a mother used tobacco.}
+   This study was quite informative in discerning which risk factors are significant in predisposing children to ASD behaviors and if a significant difference exists when looking at predictors for autism in males and females. In order to effectively discern the answers to these questions, we look at all three models: one for all children, one for males, and one for females. As mentioned in the interpretation of results section above, we discovered that mother’s education level, a count variable that we created consisting of how many mental health diagnoses the mother has, the sex of the child, and whether the child has more than one deaf family member were all significant in the full model. Meanwhile for males the number of mental health diagnoses for the mother, whether the child has more than one deaf family member, and the mother having anemia were significant while for females mother’s education level, two of the delivery methods of the pregnancy those of which being planned and emergency C-section, the number of mental health diagnoses for the mother, the number of trimesters a mother used tobacco, and whether the mother had anemia during the pregnancy were significant. These findings show that the models point to diverging risk factors for ASD behaviors between males and females. Clearly, then, there is a significant difference when looking at predictors for autism in males and females.
+   
+   Using the understanding acquired by modeling the sexes both together and separate, we are then able to come to a more informed conclusion about the significant risk factors that predispose a child to ASD behaviors.  Specifically notable among the commonalities for predictors amongst males and females was the presence of significance for both number of mental health diagnoses for the mother and whether or not the mother had anemia during pregnancy. As such, we can conclude that these factors are major risk factors that predispose a child to ASD behaviors, with number of mental health diagnoses for the mother being of extreme importance given that it was a significant factor in the full model as well. Additionally, whether the child has more than one deaf family member was also present as a significant factor in both the full model and the model with just males and also mother’s education level is a significant factor in both the full and female models, so these factors are notable as major risk factors as well. Some factors appeared in only one of the models, and thus are significant risk factors but weigh less heavily than the factors in multiple models with regards to predisposition of a child to ASD behaviors. These factors are two of the delivery methods of the pregnancy (those of which  being planned and emergency C-section) and the number of trimesters a mother used tobacco.
 
 \newpage
 \section{Challenges of the study}
   Many of the challenges we faced during this project occurred when cleaning the dataset. These challenges included determining how to handle NAs, sifting through the `other` variables, finding variables with small counts, removing outliers, and addressing collinearity among variables. In dealing with NAs, we either removed observations with NAs in prenatal columns that we were interested in or set the NAs to 0 (particularly when the variable of interest was binary). Cleaning the ‘other’ columns proved to be very time consuming with a variety of responses present in these columns. Responses were either categorized into existing columns, combined to create new columns if enough similar responses were found, or removed due to obvious inconsistencies. Outliers were determined by looking at the summary statistics of the columns. Outliers with a large number of NAs and inconsistencies of columns such as mother’s age and number of live births were removed. Collinearity was dealt with by plotting correlation plots between variables and either completely removing one variable or combining highly correlated variables to make a new measure. It should be noted that implications involving collinearity, including its effect on the precision of estimates may be due to an unrepresentative sample or insufficient information in the sample [2]. Another challenge unrelated to cleaning the dataset was converting binary columns and non-numeric variables to factors. All of our variables were type “double” so after running a couple models and getting strange results, we solved this issue by converting binary/categorical variables to type “factor”.
+  
   Some of the challenges that we encountered during this project were not solved. These unsolvable challenges occured when testing the prediction accuracy of our model. Our models all had a high test error rate and our predictions of the response only ranged from 5 to 7. The actual response variable of `risk_score_ASD` had a range of 1 to 12 with a median of 6, so these results did not match our expectations. We got these results despite checking and meeting the assumptions of our model and are not entirely sure why our poisson model did a poor job predicting our response. Another challenge we faced was that our findings from our literature review did not match our actual findings after running the model. Variables such as `asd’ (number of family members with asd) and ‘mat_pssd` (whether or not mom has psychosis, schizophrenia, or schizoaffective disorder) were not significant, while `momsedu` was highly significant across all three models. Even after running a random forest model to select for important variables to include in our model to refine our model to only including 14 prenatal factors, all three models only had 2 to 3 statistically significant variables.
   Overall, challenges that involved cleaning the survey data and converting column types to reflect the type of variable being measured were worked through and solvable issues. Challenges that involved testing the prediction accuracy of our model and some of the findings were unsolvable something to further explore in future work.
 
 
 \newpage
 \section{Recommendations for the future}
-  In the future, we recommend that other risk factors occurring at different times in a mother’s life be explored. In our work, we narrowed the scope of our research question by only exploring prenatal risk factors. We recommend that additional models and analysis be done on postnatal risk factors and their effect on `risk_score_ASD`. Additional analysis could be done on the delivery method and its effect on the autism risk score. According to our models, having a cesarean section significantly increases the risk score for autism. It would be interesting to explore the reasons for having a cesarean section, whether it was planned, due to prolonged labor, abnormal positioning, cord prolapse, etc. and see if any of these effects are significant risk factors for autism. 
-  We also recommend changing some aspects of the survey in order to simplify the data cleaning process. Many of the `other` columns that we cleaned ended up being discarded due to low counts. We recommend that maternal health problems be condensed to include specific categories that you would want to study. This would mean possibly getting rid of some of the fill in “other” options on the survey. In addition, a lot of collinearity between variables were present, so there could be additional condensing of survey questions/variables to avoid these associations.
 
+  In the future, we recommend that other risk factors occurring at different times in a mother’s life be explored. In our work, we narrowed the scope of our research question by only exploring prenatal risk factors. We recommend that additional models and analysis be done on postnatal risk factors and their effect on `risk_score_ASD`. Additional analysis could be done on the delivery method and its effect on the autism risk score. According to our models, having a cesarean section significantly increases the risk score for autism. It would be interesting to explore the reasons for having a cesarean section, whether it was planned, due to prolonged labor, abnormal positioning, cord prolapse, etc. and see if any of these effects are significant risk factors for autism. 
+  
+  We also recommend changing some aspects of the survey in order to simplify the data cleaning process. Many of the `other` columns that we cleaned ended up being discarded due to low counts. We recommend that maternal health problems be condensed to include specific categories that you would want to study. This would mean possibly getting rid of some of the fill in “other” options on the survey. In addition, a lot of collinearity between variables were present, so there could be additional condensing of survey questions/variables to avoid these associations.
+  
+\newpage
+\section{Bibliography}
+
+“Autism and Gender.” Autism Support - Leading UK Charity - National Autistic Society, www.autism.org.uk/about/what-is/gender.aspx.
+
+Halladay, Alycia K, et al. “Sex and Gender Differences in Autism Spectrum Disorder: Summarizing Evidence Gaps and Identifying Emerging Areas of Priority.” Molecular Autism, BioMed Central, 13 June 2015, www.ncbi.nlm.nih.gov/pmc/articles/PMC4465158/.
+
+“Poisson Regression Analysis Using SPSS Statistics.” How to Perform a Poisson Regression Analysis in SPSS Statistics | Laerd Statistics, statistics.laerd.com/spss-tutorials/poisson-regression-using-spss-statistics.php.
+
+Vatcheva, Kristina P, et al. “Multicollinearity in Regression Analyses Conducted in Epidemiologic Studies.” Epidemiology (Sunnyvale, Calif.), U.S. National Library of Medicine, Apr. 2016, www.ncbi.nlm.nih.gov/pmc/articles/PMC4888898/.
