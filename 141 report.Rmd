@@ -27,6 +27,197 @@ knitr::opts_chunk$set(echo = TRUE)
 
 In this study, we worked to determine factors that predispose children to autistic behaviors. To do this, we explored a dataset obtained from the ChatterBaby application’s survey which included input from users across the globe. We began by cleaning the dataset to remove missing values and performed some initial data analysis along with random forest modeling to determine which factors were most important of all prenatal factors. A Poisson model was then used to explain the data. In our literature review, we uncovered that autism diagnoses in males is systematically different from these same diagnoses in females and we want to determine if this difference in sex is statistically significant when looking at predictors for autism in the different sexes. As such, we chose to develop additional Poisson models that were separated by sex in an effort to control for this discrepancy. Through this modeling we found that there are a multitude of different risk factors that are statistically significant, however, these risk factors vary by sex. Consequently, we conclude that there is a significant difference between males and females regarding risk factors that predispose a child to ASD behaviors and that the number of mental health diagnoses for the mother is chief amongst the risk factors as this is the only factor that appears in all three models. 
 
+```{r echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+#load packages
+library(readr)
+library(dplyr)
+library(stringr)
+
+#load data
+cbdata <- read_csv("~/Desktop/STATS 141SL/Final Project/ChatterBabyData.csv")
+
+# Dealing with NAs
+# Cleaning NA's to 0's: 
+
+which(colnames(cbdata) == "mat_dep"):which(colnames(cbdata) == "momfever")
+cbdata[,c(126:133)][is.na(cbdata[,c(126:133)])] <- 0
+cbdata$art[is.na(cbdata$art)] <- 0 
+cbdata$asd_genetic[is.na(cbdata$asd_genetic)] <- 0 
+#fix some NA's in totalpregnancies by setting to number of live births
+cbdata$totalpregnancies[which(is.na(cbdata$totalpregnancies) == TRUE & is.na(cbdata$momlivebirths) == FALSE)] <- 
+cbdata$momlivebirths[which(is.na(cbdata$totalpregnancies) == TRUE & is.na(cbdata$momlivebirths) == FALSE)]
+#fix some NA's in totalpregnancies by setting to 1 if no siblings and not adopted
+cbdata$totalpregnancies[which(is.na(cbdata$totalpregnancies) == TRUE & cbdata$birthordertotal == 0 & cbdata$adoption == 0)] <- 1
+# set live births to number of total pregnancies 
+# if number of total pregnancies = number of total siblings + 1(baby)
+# so as to not include miscarriages
+cbdata$momlivebirths[which((is.na(cbdata$momlivebirths) == TRUE) &
+                           (cbdata$totalpregnancies == (cbdata$birthordertotal + 1)))] <-
+  cbdata$totalpregnancies[which((is.na(cbdata$momlivebirths) == TRUE) & 
+                                (cbdata$totalpregnancies == (cbdata$birthordertotal + 1)))]
+# set live births to number of total pregnancies 
+# if number of total pregnancies = number of full siblings + 1(baby) 
+# so as to not include miscarriages (where birthordertotal = 0 because of NA in olderhalfsiblings)
+cbdata$momlivebirths[which((is.na(cbdata$momlivebirths) == TRUE) &
+                           (cbdata$totalpregnancies == (cbdata$numberfullsiblings + 1)))] <-
+  cbdata$totalpregnancies[which((is.na(cbdata$momlivebirths) == TRUE) & 
+                                (cbdata$totalpregnancies == (cbdata$numberfullsiblings + 1)))]
+# set live births to number of full siblings + 1
+# if number of total pregnancies > number of full siblings and 
+# number of older half siblings = 0 so as to not include children only from father and miscarriages
+cbdata$momlivebirths[which((is.na(cbdata$momlivebirths) == TRUE) & 
+                           (cbdata$totalpregnancies > cbdata$numberfullsiblings) &
+                           cbdata$olderhalfsiblings == 0 )] <-
+  cbdata$numberfullsiblings[which((is.na(cbdata$momlivebirths) == TRUE) & 
+                                  (cbdata$totalpregnancies > cbdata$numberfullsiblings) &
+                                  cbdata$olderhalfsiblings == 0 )] + 1
+
+# Cleaning `maternalpregnancyproblems_other`
+
+# classify as post partum psychosis
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems___20 = replace(maternalpregnancyproblems___20, maternalpregnancyproblems_other == "post partum anxiety" | maternalpregnancyproblems_other == "Post partum anxiety" | maternalpregnancyproblems_other == "Post-partum anxiety" | maternalpregnancyproblems_other == "Postpartum hemorrhaging" | maternalpregnancyproblems_other == "Perinatal anxiety",1))
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems_other = replace(maternalpregnancyproblems_other, maternalpregnancyproblems_other == "post partum anxiety" | maternalpregnancyproblems_other == "Post partum anxiety" | maternalpregnancyproblems_other == "Post-partum anxiety" | maternalpregnancyproblems_other == "Postpartum hemorrhaging" | maternalpregnancyproblems_other == "Perinatal anxiety", NA ))
+# classify as Chorioamnionitis 
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems___21 = replace(maternalpregnancyproblems___21, maternalpregnancyproblems_other == "Chorioamnionitis", 1))
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems_other = replace(maternalpregnancyproblems_other, maternalpregnancyproblems_other == "Chorioamnionitis", NA))
+# classify as bleeding
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems___14 = replace(maternalpregnancyproblems___14, maternalpregnancyproblems_other == "Unusual pain in the abdomen, stress, miscarriage probability, bleeding.", 1))
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems_other = replace(maternalpregnancyproblems_other, maternalpregnancyproblems_other == "Unusual pain in the abdomen, stress, miscarriage probability, bleeding.", NA))
+# classify as preterm labor
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems___11 = replace(maternalpregnancyproblems___11, maternalpregnancyproblems_other == "Early contractions with diction starting at 30 weeks. I received steroid shot to develop baby's lungs faster.", 1))
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems_other = replace(maternalpregnancyproblems_other, maternalpregnancyproblems_other == "Early contractions with diction starting at 30 weeks. I received steroid shot to develop baby's lungs faster.", NA))
+# classify as History of recurrent miscarriage/ recurrent pregnancy loss 
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems___10 = replace(maternalpregnancyproblems___10, maternalpregnancyproblems_other == "Prior full term stillbirth; had double nuchal cord resulting in emergent csection at 36 weeks", 1))
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems_other = replace(maternalpregnancyproblems_other, maternalpregnancyproblems_other == "Prior full term stillbirth; had double nuchal cord resulting in emergent csection at 36 weeks", NA))
+# classify as hypertension
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems___9 = replace(maternalpregnancyproblems___9, maternalpregnancyproblems_other == "Protein in urine day of induction and hypertension only at 38 weeks" | maternalpregnancyproblems_other == "Mild hypertension at 37 weeks", 1))
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems_other = replace(maternalpregnancyproblems_other, maternalpregnancyproblems_other == "Protein in urine day of induction and hypertension only at 38 weeks"| maternalpregnancyproblems_other == "Mild hypertension at 37 weeks", 1))
+# classify as 13, Placental abruption
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems___13 = replace(maternalpregnancyproblems___13, maternalpregnancyproblems_other == "Calcified placenta" | maternalpregnancyproblems_other == "Placenta calcification" | maternalpregnancyproblems_other == "Placenta hematoma" | maternalpregnancyproblems_other == "placental aging" | maternalpregnancyproblems_other == "Underperfusion placenta" , 1))
+cbdata <- cbdata %>% mutate(maternalpregnancyproblems_other = replace(maternalpregnancyproblems_other, maternalpregnancyproblems_other == "Calcified placenta" | maternalpregnancyproblems_other == "Placenta calcification" | maternalpregnancyproblems_other == "Placenta hematoma" | maternalpregnancyproblems_other == "placental aging"| maternalpregnancyproblems_other == "Underperfusion placenta", NA))
+# Get rid of the column 
+cbdata$maternalpregnancyproblems_other <- NULL
+
+
+# Cleaning `mom_trauma`
+# Convert all Mom Trauma NA's to 0: 
+cbdata$mom_trauma[is.na(cbdata$mom_trauma)] <- 0
+
+# Cleaning `mat_mental_health_other`
+# Getting rid of column
+cbdata$mat_mental_health_other = NULL
+# Cleaning that can be put into other columns
+cbdata[c(216, 520, 598, 1089),115] = 1
+cbdata[240,83] = 1
+cbdata[499,85] = 1
+cbdata[c(1683, 2245), 111] = 1
+# Multiple entries for one person
+cbdata[912, c(227, 232)] = 1
+cbdata[915, c(228, 231, 232)] = 1
+cbdata[1667, c(112, 231)] = 1
+cbdata[2579, c(112, 113, 230, 231)] = 1
+cbdata[c(76, 2501), c(111, 112)] = 1
+
+# Creating maternal mental health count variable
+cbdata <- cbdata %>% mutate(mathealth_count = matmentalhealth___1 + matmentalhealth___2 + matmentalhealth___3 + matmentalhealth___4 + matmentalhealth___5 + matmentalhealth___6 + matmentalhealth___7)
+
+# Cutting off Baby Age at 5 years old
+cbdata$babyage = ifelse(cbdata$babyage <= 1825, cbdata$babyage, NA)
+
+predata <- cbdata %>% select(babyage, momsdeliveryage, momsedu, sex, art, artmethod___1,
+                          artmethod___7, artmethod___6, artmethod___2, artmethod___3,
+                          artmethod___4, artmethod___5, mom_trauma,
+                          maternalpregnancyproblems___1, maternalpregnancyproblems___2,
+                          maternalpregnancyproblems___3, maternalpregnancyproblems___15,
+                          maternalpregnancyproblems___21, maternalpregnancyproblems___16,
+                          maternalpregnancyproblems___4, maternalpregnancyproblems___5,
+                          maternalpregnancyproblems___6, maternalpregnancyproblems___7,
+                          maternalpregnancyproblems___8, maternalpregnancyproblems___9,
+                          maternalpregnancyproblems___10, maternalpregnancyproblems___11,
+                          maternalpregnancyproblems___12, maternalpregnancyproblems___13,
+                          maternalpregnancyproblems___14, maternalpregnancyproblems___17,
+                          maternalpregnancyproblems___19, maternalpregnancyproblems___20,
+                          maternalpregnancyproblems___18,
+                          matmentalhealth___1, matmentalhealth___2, matmentalhealth___3,
+                          matmentalhealth___4, matmentalhealth___5, matmentalhealth___6,
+                          matmentalhealth___7, mat_dep, mat_anx,
+                          mat_ocd, mat_bp, mat_adhd, mat_pssd, mathealth_count, momfever, whenfever___1,
+                          whenfever___2, whenfever___3, tobacco_pregnancy_when___1,
+                          tobacco_pregnancy_when___2, tobacco_pregnancy_when___3,
+                          vaping_pregnancy___1, vaping_pregnancy___2, vaping_pregnancy___3,
+                          alcohol_pregnancy_when___1, alcohol_pregnancy_when___2,
+                          alcohol_pregnancy_when___3, cannabis_pregnancy_when___1,
+                          cannabis_pregnancy_when___2, cannabis_pregnancy_when___3,
+                          stimulants_pregnancy_when___1, stimulants_pregnancy_when___2,
+                          stimulants_pregnancy_when___3, opioids_pregnancy_when___1,
+                          opioids_pregnancy_when___2, opioids_pregnancy_when___3,
+                          psychoactive_pregnancy___1, psychoactive_pregnancy___2,
+                          psychoactive_pregnancy___3, delivery, momlivebirths,
+                          totalpregnancies, maternalproblems1, asd1, deaf1, ddfamily1,
+                          szbpfamily1, risk_score_ASD)
+
+# filter out age and live births outliers
+predata <- predata %>% filter(momlivebirths != 10 & momsdeliveryage != 12 | momlivebirths != 10 & momsdeliveryage != 18)
+summary(predata)
+
+# Creating count variables for diff. drugs:
+# resulting columns are total number of trimesters drug was used
+predata$tri_tobacco = rowSums(predata[,52:54])
+predata$tri_vaping = rowSums(predata[,55:57])
+predata$tri_alcohol = rowSums(predata[,58:60])
+predata$tri_cannabis = rowSums(predata[,61:63])
+predata$tri_stimulants = rowSums(predata[,64:66])
+predata$tri_opioids = rowSums(predata[,67:69])
+predata$tri_psychoactives = rowSums(predata[,70:72])
+# getting rid of "when drug" columns
+predata[,52:72] = NULL
+
+# Convert mat_variable rows that occur after birth
+
+predata$mat_adhd <- ifelse(predata$mat_adhd==3, 0, predata$mat_adhd)
+predata$mat_dep <- ifelse(predata$mat_dep==3, 0, predata$mat_dep)
+predata$mat_anx <- ifelse(predata$mat_anx==3, 0, predata$mat_anx)
+predata$mat_ocd <- ifelse(predata$mat_ocd==3, 0, predata$mat_ocd)
+predata$mat_bp <- ifelse(predata$mat_bp==3, 0, predata$mat_bp)
+predata$mat_pssd <- ifelse(predata$mat_pssd==3, 0, predata$mat_pssd)
+
+# Convert mat_variable rows to show that mental health problem occurs before or during pregnancy
+predata$mat_adhd <- ifelse(predata$mat_adhd==2, 1, predata$mat_adhd)
+predata$mat_dep <- ifelse(predata$mat_dep==2, 1, predata$mat_dep)
+predata$mat_anx <- ifelse(predata$mat_anx==2, 1, predata$mat_anx)
+predata$mat_ocd <- ifelse(predata$mat_ocd==2, 1, predata$mat_ocd)
+predata$mat_bp <- ifelse(predata$mat_bp==2, 1, predata$mat_bp)
+predata$mat_pssd <- ifelse(predata$mat_pssd==2, 1, predata$mat_pssd)
+
+# Create new column
+
+predata <- predata %>% mutate(babymortality = totalpregnancies-momlivebirths)
+
+# Converting binary variables to factors
+predata$delivery <- as.factor(predata$delivery)
+predata$sex <- as.factor(predata$sex)
+predata$mom_trauma <- as.factor(predata$mom_trauma)
+predata$maternalpregnancyproblems___8 <- as.factor(predata$maternalpregnancyproblems___8)
+predata$artmethod___1 <- as.factor(predata$artmethod___1)
+predata$maternalpregnancyproblems___1 <- as.factor(predata$maternalpregnancyproblems___1)
+predata$maternalpregnancyproblems___2 <- as.factor(predata$maternalpregnancyproblems___2)
+predata$maternalpregnancyproblems___3 <- as.factor(predata$maternalpregnancyproblems___3)
+predata$maternalpregnancyproblems___16 <- as.factor(predata$maternalpregnancyproblems___16)
+predata$maternalpregnancyproblems___4 <- as.factor(predata$maternalpregnancyproblems___4)
+predata$maternalpregnancyproblems___7 <- as.factor(predata$maternalpregnancyproblems___7)
+predata$maternalpregnancyproblems___9 <- as.factor(predata$maternalpregnancyproblems___9)
+predata$maternalpregnancyproblems___11 <- as.factor(predata$maternalpregnancyproblems___11)
+predata$maternalpregnancyproblems___13 <- as.factor(predata$maternalpregnancyproblems___13)
+predata$maternalpregnancyproblems___14 <- as.factor(predata$maternalpregnancyproblems___14)
+
+# Controlling for Sex:
+maledata <- predata %>% filter(sex == 1)
+femaledata <- predata %>% filter(sex == 0)
+
+
+```
+
+
 \newpage
 \section{Research Questions}
 
