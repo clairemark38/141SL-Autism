@@ -107,7 +107,7 @@ Due to the overwhelming significance and differences highlighted in our outside 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(ggplot2)
 library(readr)
-predata <- read_csv("~/Desktop/STATS 141SL/Final Project/predata.csv")
+predata <- read_csv("~predata.csv")
 ggplot(predata, aes(x = risk_score_ASD, fill = sex, color = sex)) + 
   geom_histogram(binwidth = 1) +
   facet_grid(sex ~ .) + 
