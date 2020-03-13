@@ -221,7 +221,7 @@ femaledata <- predata %>% filter(sex == 0)
 \newpage
 \section{Research Questions}
 
-In our study, we developed two research questions concentrating on significant predictors that can detect if a child will exhibit behaviors that relate to having Autistic Spectrum Disorder, a developmental disorder that impairs communication and interaction, and if there is a difference in these predictors for males and females. Our first research question focuses on discovering risk factors that could predispose a child’s tendency towards exhibiting behaviors that relate to having ASD. We examine the mother’s prenatal characteristics in order to see if any of these factors increase their child’s ASD behaviors and determine what these factors may be. Our second research question arose after our literature review, which found that the signs for ASD in boys can be diagnosed as early as two years of age while it may take up to 14 years for girls due to the differences in the way that autism presents itself between genders (Halladay). We also found that there is a stark difference in the proportion of males versus females that have autism with the most recent ratio being 3 males for every female (National Autistic Society). Taking this into account, our second research question focuses on whether there is a significant difference in the predictors of ASD for males versus females and what these specific predictors are.
+In our study, we developed two research questions concentrating on significant predictors that can detect if a child will exhibit behaviors that relate to having Autistic Spectrum Disorder, a developmental disorder that impairs communication and interaction, and if there is a difference in these predictors for males and females. Our first research question focuses on discovering risk factors that could predispose a child’s tendency towards exhibiting behaviors that relate to having ASD. We examine the mother’s prenatal characteristics in order to see if any of these factors increase their child’s ASD behaviors and determine what these factors may be. Our second research question arose after our literature review, which found that the signs for ASD in boys can be diagnosed as early as two years of age while it may take up to 14 years for girls due to the differences in the way that autism presents itself between genders (Geelhand). We also found that there is a stark difference in the proportion of males versus females that have autism with the most recent ratio being 3 males for every female (National Autistic Society). Taking this into account, our second research question focuses on whether there is a significant difference in the predictors of ASD for males versus females and what these specific predictors are.
 
 
 \section{Variables of the Study and how they were Measured}
@@ -543,6 +543,9 @@ ggplot(df, aes(x = model, y = dispersion, fill = AIC)) +
 “Autism and Gender.” Autism Support - Leading UK Charity - National Autistic Society, www.autism.org.uk/about/what-is/gender.aspx.
 
 “Autism spectrum disorder.” Mayo Clinic, 6 Jan. 2018, www.mayoclinic.org/diseases-conditions/autism-spectrum-disorder/symptoms-causes/syc-20352928.
+
+Geelhand, Philippine, et al. “The Role of Gender in the Perception of Autism Symptom Severity and Future 
+Behavioral Development.” Molecular Autism, 2019, www.molecularautism.biomedcentral.com.
 
 Halladay, Alycia K, et al. “Sex and Gender Differences in Autism Spectrum Disorder: Summarizing Evidence Gaps and Identifying Emerging Areas of Priority.” Molecular Autism, BioMed Central, 13 June 2015, www.ncbi.nlm.nih.gov/pmc/articles/PMC4465158/.
 
