@@ -327,28 +327,28 @@ ggplot(data = adata, aes(x = olderdad, y = risk_score_ASD, group = olderdad)) + 
 Aside from those five risk factors, we were also interested if a mother’s drug use during pregnancy would be associated with an increase in a child’s risk score for ASD. We created new variables to count the number of pregnancy trimesters that a mother used a certain type of drug. We then examined jitter plots of these new variables in relation to the child’s risk score for ASD. These plots were made after we cleaned the data set and began looking at prenatal factors.
 
 ```{r, warning=FALSE, message=FALSE, echo=FALSE}
-predata <- read_csv("predata.csv")
+predata1 <- read_csv("predata.csv")
 
-# ggplot(predata, aes(x = tri_tobacco, y = risk_score_ASD, group = tri_tobacco)) + geom_boxplot()
-ggplot(predata, aes(x = tri_tobacco, y = risk_score_ASD, color = risk_score_ASD)) + geom_jitter() + scale_color_gradientn(colours = rainbow(12)) + ggtitle("Jitter Plot of Tobacco Use During Pregnancy and Child's ASD Risk Score") + labs(y = "Child's Risk Score for ASD", x = "Number of Trimesters Tobacco Was Used")
+# ggplot(predata1, aes(x = tri_tobacco, y = risk_score_ASD, group = tri_tobacco)) + geom_boxplot()
+ggplot(predata1, aes(x = tri_tobacco, y = risk_score_ASD, color = risk_score_ASD)) + geom_jitter() + scale_color_gradientn(colours = rainbow(12)) + ggtitle("Jitter Plot of Tobacco Use During Pregnancy and Child's ASD Risk Score") + labs(y = "Child's Risk Score for ASD", x = "Number of Trimesters Tobacco Was Used")
 
-# ggplot(predata, aes(x = tri_vaping, y = risk_score_ASD, group = tri_vaping)) + geom_boxplot()
-ggplot(predata, aes(x = tri_vaping, y = risk_score_ASD, color = risk_score_ASD)) + geom_jitter() + scale_color_gradientn(colours = rainbow(12)) + ggtitle("Jitter Plot of Vaping During Pregnancy and Child's ASD Risk Score") + labs(y = "Child's Risk Score for ASD", x = "Number of Trimesters Mother Vaped")
+# ggplot(predata1, aes(x = tri_vaping, y = risk_score_ASD, group = tri_vaping)) + geom_boxplot()
+ggplot(predata1, aes(x = tri_vaping, y = risk_score_ASD, color = risk_score_ASD)) + geom_jitter() + scale_color_gradientn(colours = rainbow(12)) + ggtitle("Jitter Plot of Vaping During Pregnancy and Child's ASD Risk Score") + labs(y = "Child's Risk Score for ASD", x = "Number of Trimesters Mother Vaped")
 
-# ggplot(predata, aes(x = tri_alcohol, y = risk_score_ASD, group = tri_alcohol)) + geom_boxplot()
-ggplot(predata, aes(x = tri_alcohol, y = risk_score_ASD, color = risk_score_ASD)) + geom_jitter() + scale_color_gradientn(colours = rainbow(12)) + ggtitle("Jitter Plot of Alcohol Use During Pregnancy and Child's ASD Risk Score") + labs(y = "Child's Risk Score for ASD", x = "Number of Trimesters Alcohol Was Used")
+# ggplot(predata1, aes(x = tri_alcohol, y = risk_score_ASD, group = tri_alcohol)) + geom_boxplot()
+ggplot(predata1, aes(x = tri_alcohol, y = risk_score_ASD, color = risk_score_ASD)) + geom_jitter() + scale_color_gradientn(colours = rainbow(12)) + ggtitle("Jitter Plot of Alcohol Use During Pregnancy and Child's ASD Risk Score") + labs(y = "Child's Risk Score for ASD", x = "Number of Trimesters Alcohol Was Used")
 
-# ggplot(predata, aes(x = tri_cannabis, y = risk_score_ASD, group = tri_cannabis)) + geom_boxplot()
-ggplot(predata, aes(x = tri_cannabis, y = risk_score_ASD, color = risk_score_ASD)) + geom_jitter() + scale_color_gradientn(colours = rainbow(12)) + ggtitle("Jitter Plot of Cannabis Use During Pregnancy and Child's ASD Risk Score") + labs(y = "Child's Risk Score for ASD", x = "Number of Trimesters Cannabis Was Used")
+# ggplot(predata1, aes(x = tri_cannabis, y = risk_score_ASD, group = tri_cannabis)) + geom_boxplot()
+ggplot(predata1, aes(x = tri_cannabis, y = risk_score_ASD, color = risk_score_ASD)) + geom_jitter() + scale_color_gradientn(colours = rainbow(12)) + ggtitle("Jitter Plot of Cannabis Use During Pregnancy and Child's ASD Risk Score") + labs(y = "Child's Risk Score for ASD", x = "Number of Trimesters Cannabis Was Used")
 
-# ggplot(predata, aes(x = tri_stimulants, y = risk_score_ASD, group = tri_stimulants)) + geom_boxplot()
-ggplot(predata, aes(x = tri_stimulants, y = risk_score_ASD, color = risk_score_ASD)) + geom_jitter() + scale_color_gradientn(colours = rainbow(12)) + ggtitle("Jitter Plot of Stimulant Use During Pregnancy and Child's ASD Risk Score") + labs(y = "Child's Risk Score for ASD", x = "Number of Trimesters Stimulants Were Used")
+# ggplot(predata1, aes(x = tri_stimulants, y = risk_score_ASD, group = tri_stimulants)) + geom_boxplot()
+ggplot(predata1, aes(x = tri_stimulants, y = risk_score_ASD, color = risk_score_ASD)) + geom_jitter() + scale_color_gradientn(colours = rainbow(12)) + ggtitle("Jitter Plot of Stimulant Use During Pregnancy and Child's ASD Risk Score") + labs(y = "Child's Risk Score for ASD", x = "Number of Trimesters Stimulants Were Used")
 
-# ggplot(predata, aes(x = tri_opioids, y = risk_score_ASD, group = tri_opioids)) + geom_boxplot()
-ggplot(predata, aes(x = tri_opioids, y = risk_score_ASD, color = risk_score_ASD)) + geom_jitter() + scale_color_gradientn(colours = rainbow(12)) + ggtitle("Jitter Plot of Opioid Use During Pregnancy and Child's ASD Risk Score") + labs(y = "Child's Risk Score for ASD", x = "Number of Trimesters Opioids Were Used")
+# ggplot(predata1, aes(x = tri_opioids, y = risk_score_ASD, group = tri_opioids)) + geom_boxplot()
+ggplot(predata1, aes(x = tri_opioids, y = risk_score_ASD, color = risk_score_ASD)) + geom_jitter() + scale_color_gradientn(colours = rainbow(12)) + ggtitle("Jitter Plot of Opioid Use During Pregnancy and Child's ASD Risk Score") + labs(y = "Child's Risk Score for ASD", x = "Number of Trimesters Opioids Were Used")
 
-# ggplot(predata, aes(x = tri_psychoactives, y = risk_score_ASD, group = tri_psychoactives)) + geom_boxplot()
-ggplot(predata, aes(x = tri_psychoactives, y = risk_score_ASD, color = risk_score_ASD)) + geom_jitter() + scale_color_gradientn(colours = rainbow(12)) + ggtitle("Jitter Plot of Psychoactive Use During Pregnancy and Child's ASD Risk Score") + labs(y = "Child's Risk Score for ASD", x = "Number of Trimesters Psychoactives Were Used")
+# ggplot(predata1, aes(x = tri_psychoactives, y = risk_score_ASD, group = tri_psychoactives)) + geom_boxplot()
+ggplot(predata1, aes(x = tri_psychoactives, y = risk_score_ASD, color = risk_score_ASD)) + geom_jitter() + scale_color_gradientn(colours = rainbow(12)) + ggtitle("Jitter Plot of Psychoactive Use During Pregnancy and Child's ASD Risk Score") + labs(y = "Child's Risk Score for ASD", x = "Number of Trimesters Psychoactives Were Used")
 ```
 
 	There was not much difference in the child’s risk score when examining different drugs used during the trimesters of pregnancy. However, we found that there are not a lot of mothers that used certain drugs during pregnancy, such as psychoactives or opioids. Therefore, there was not enough data present for some of the drugs to examine if they were significant factors or not.
@@ -361,8 +361,8 @@ Due to the overwhelming significance and differences highlighted in our outside 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(ggplot2)
 library(readr)
-predata <- read_csv("~predata.csv")
-ggplot(predata, aes(x = risk_score_ASD, fill = sex, color = sex)) + 
+predata2 <- read_csv("~predata.csv")
+ggplot(predata2, aes(x = risk_score_ASD, fill = sex, color = sex)) + 
   geom_histogram(binwidth = 1) +
   facet_grid(sex ~ .) + 
   theme_bw() + 
@@ -383,7 +383,7 @@ The boxplot above did not follow our expectations at first because it appears th
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(ggplot2)
-ggplot(predata, aes(x = risk_score_ASD)) + geom_histogram(binwidth = 0.5, color = "black", fill = "light blue", aes(y = ..density..)) +
+ggplot(predata2, aes(x = risk_score_ASD)) + geom_histogram(binwidth = 0.5, color = "black", fill = "light blue", aes(y = ..density..)) +
   theme_bw() +
   geom_density(alpha = 0.2, fill = "#FF6666") +
   ggtitle("Histogram of Risk Score ASD") + 
