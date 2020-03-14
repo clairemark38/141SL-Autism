@@ -387,9 +387,37 @@ The boxplot above did not follow our expectations at first because it appears th
 \section{Statistical analysis used to answer the research questions}
 
 A random forest model was run on prenatal factors to determine which variables were important risk factors for `risk_score_ASD`. Highly correlated variables were dropped from the data before running the random forest model because having too many variables containing similar information will result in inaccurate importance measures due to a model weighing too much on one set of related variables compared to another set of variables. Important variables were determined from the node purity and mean squared error measures. From these measures, 14 total variables were selected as important risk factors from `risk_score_ASD` to be included in our final model.
-   
-Poisson regression was used to model the response variable, `risk_score_ASD` which consists of “count data”. Three models were created including one full model, one model controlling for males, and one model controlling for females. A Poisson Model was chosen for our statistical analysis rather than a negative binomial model, which also handles count data, since the dispersion parameter for all three models was less than one, indicating the variance for each model was less than the expected value for each model. Assumptions of this model also include independence of observations and the distribution of counts following a Poisson distribution. The AIC measures for all three models also indicate that the models controlling by gender fit the data better than the full model. In particular, the female model appears to fit the data the best due to its small AIC value relative to the other two models. These AIC measures coincide with our literature review and EDA, where males and females have different risk factors associated with ASD risk score.
-   
+
+```{r,echo=FALSE,warning=FALSE,message=FALSE}
+library(randomForest)
+drops <- c("maternalpregnancyproblems___19", "maternalpregnancyproblems___20", "matmentalhealth___1", "matmentalhealth___2", "matmentalhealth___3","matmentalhealth___4", "matmentalhealth___5", "matmentalhealth___6", "matmentalhealth___7", "mat_dep", "mat_anx", "mat_ocd","mat_bp","mat_adhd","mat_pssd","maternalproblems1","art","momlivebirths","totalpregnancies","maternalpregnancyproblems___18","momfever")
+predata1 <- na.omit(predata[ , !(names(predata) %in% drops)])
+rf.pre <- randomForest(risk_score_ASD~.,data=predata1,mtry=16,importance=TRUE,ntrees=1000)
+library(randomForestExplainer)
+min_depth_frame <- min_depth_distribution(rf.pre)
+plot_min_depth_distribution(min_depth_frame, mean_sample = "relevant_trees", k = 15)
+```
+
+Poisson regression was used to model the response variable, `risk_score_ASD` which consists of “count data”. Three models were created including one full model, one model controlling for males, and one model controlling for females. A Poisson Model was chosen for our statistical analysis rather than a negative binomial model, which also handles count data, since the dispersion parameter for all three models was less than one, indicating the variance for each model was less than the expected value for each model (seen in the dispersion plot below). Assumptions of this model also include independence of observations and the distribution of counts following a Poisson distribution (seen in the density plot below). The AIC measures for all three models also indicate that the models controlling by gender fit the data better than the full model. In particular, the female model appears to fit the data the best due to its small AIC value relative to the other two models. These AIC measures coincide with our literature review and EDA, where males and females have different risk factors associated with ASD risk score.
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+library(msme)
+# If the dispersion (P < 1), then the model fits the data well, underdispersion:
+p1 <- 0.7981416 # P__disp(m1)[2]
+p2 <- 0.7480804 # P__disp(m2)[2]
+p3 <- 0.8358594 # P__disp(m3)[2]
+a1 <- AIC(m1) # 9885.705
+a2 <- AIC(m2) # 5164.465
+a3 <- AIC(m3) # 4718.472
+df <- data.frame(dispersion = c(p1, p2, p3), AIC = c(a1, a2, a3), model = c(1, 2, 3))
+ggplot(df, aes(x = model, y = dispersion, fill = AIC)) + 
+  geom_point(shape = 21, size = 4) + 
+  theme_bw() + 
+  scale_y_continuous(name = "Dispersion Parameter") + 
+  scale_x_continuous(name = "Model", breaks = c(1,2,3)) + 
+  ggtitle("Dispersion Parameters and Model Accuracy")
+```
+
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(ggplot2)
@@ -399,24 +427,9 @@ ggplot(predata2, aes(x = risk_score_ASD)) + geom_histogram(binwidth = 0.5, color
   ggtitle("Histogram of Risk Score ASD") + 
   scale_y_continuous(name = "Frequency") + 
   scale_x_continuous(name = "Risk Score")
-
-```
-
-   
-   
-
-```{r echo=FALSE, warning=FALSE, message=FALSE}
-library(randomForest)
-drops <- c("maternalpregnancyproblems___19", "maternalpregnancyproblems___20", "matmentalhealth___1", "matmentalhealth___2", "matmentalhealth___3","matmentalhealth___4", "matmentalhealth___5", "matmentalhealth___6", "matmentalhealth___7", "mat_dep", "mat_anx", "mat_ocd","mat_bp","mat_adhd","mat_pssd","maternalproblems1","art","momlivebirths","totalpregnancies","maternalpregnancyproblems___18","momfever")
-predata1 <- na.omit(predata[ , !(names(predata) %in% drops)])
-rf.pre <- randomForest(risk_score_ASD~.,data=predata1,mtry=16,importance=TRUE,ntrees=1000)
 ```
 
 ```{r,echo=FALSE,warning=FALSE,message=FALSE}
-library(randomForestExplainer)
-min_depth_frame <- min_depth_distribution(rf.pre)
-plot_min_depth_distribution(min_depth_frame, mean_sample = "relevant_trees", k = 15)
-
 # controlling for Sex 
 library(dplyr)
 maledata <- predata %>% filter(sex == 1)
