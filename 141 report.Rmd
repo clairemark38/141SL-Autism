@@ -325,6 +325,7 @@ ggplot(data = adata, aes(x = preterm, y = risk_score_ASD, group = preterm)) + ge
 
 Figure 4.1.5 consists of distributions based on a child's diagnosis of a genetic mutation, such as fragile X syndrome, and Figure 4.1.6 compares babies born prior to 26 weeks of gestation versus those born later. Those whose ASD diagnosis was related to a genetic mutation have a different distribution and median in risk score compared to those who did not. It can also be observed that the 25th and 75th percentiles of those born before 26 weeks of gestation differs from those who were not.
 
+\newpage
 
 ## Drug Use During Pregnancy and Risk Score
 
@@ -539,9 +540,6 @@ In the future, we recommend that other risk factors occurring at different times
 We also recommend changing some aspects of the survey in order to simplify the data cleaning process. Many of the `other` columns that we cleaned ended up being discarded due to low counts. We recommend that maternal health problems be condensed to include specific categories that you would want to study. This would mean possibly getting rid of some of the fill in “other” options on the survey. In addition, a lot of collinearity between variables were present, so there could be additional condensing of survey questions/variables to avoid these associations.
   
 \newpage
-
-\setlength{\parindent}{-4em}
-\setlength{\parskip}{1em}
 
 \section{Bibliography}
 
