@@ -400,6 +400,16 @@ plot_min_depth_distribution(min_depth_frame, mean_sample = "relevant_trees", k =
 
 Poisson regression was used to model the response variable, `risk_score_ASD` which consists of “count data”. Three models were created including one full model, one model controlling for males, and one model controlling for females. A Poisson Model was chosen for our statistical analysis rather than a negative binomial model, which also handles count data, since the dispersion parameter for all three models was less than one, indicating the variance for each model was less than the expected value for each model (seen in the dispersion plot below). Assumptions of this model also include independence of observations and the distribution of counts following a Poisson distribution (seen in the density plot below). The AIC measures for all three models also indicate that the models controlling by gender fit the data better than the full model. In particular, the female model appears to fit the data the best due to its small AIC value relative to the other two models. These AIC measures coincide with our literature review and EDA, where males and females have different risk factors associated with ASD risk score.
 
+```{r, echo=FALSE, message=FALSE, results='asis', warning=FALSE}
+# final models
+m1 <- glm(risk_score_ASD ~ momsdeliveryage+momsedu+delivery+babymortality + mathealth_count + sex+tri_alcohol+tri_tobacco+
+mom_trauma+maternalpregnancyproblems___8+artmethod___1 +tri_vaping+deaf1+tri_cannabis, data = predata, family = "poisson")
+m2 <- glm(risk_score_ASD ~ momsdeliveryage+momsedu+delivery+babymortality + mathealth_count + tri_alcohol+tri_tobacco+
+mom_trauma+maternalpregnancyproblems___8+artmethod___1 +tri_vaping+deaf1+tri_cannabis, data = maledata, family = "poisson")
+m3 <- glm(risk_score_ASD ~ momsdeliveryage+momsedu+delivery+babymortality + mathealth_count +tri_alcohol+tri_tobacco+
+mom_trauma+maternalpregnancyproblems___8+artmethod___1 +tri_vaping+deaf1+tri_cannabis, data = femaledata, family = "poisson")
+```
+
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
 library(msme)
 # If the dispersion (P < 1), then the model fits the data well, underdispersion:
@@ -438,14 +448,6 @@ femaledata <- predata %>% filter(sex == 0)
 
 \section{Summary of results}
 
-```{r, echo=FALSE, message=FALSE, results='asis', warning=FALSE}
-m1 <- glm(risk_score_ASD ~ momsdeliveryage+momsedu+delivery+babymortality + mathealth_count + sex+tri_alcohol+tri_tobacco+
-mom_trauma+maternalpregnancyproblems___8+artmethod___1 +tri_vaping+deaf1+tri_cannabis, data = predata, family = "poisson")
-m2 <- glm(risk_score_ASD ~ momsdeliveryage+momsedu+delivery+babymortality + mathealth_count + tri_alcohol+tri_tobacco+
-mom_trauma+maternalpregnancyproblems___8+artmethod___1 +tri_vaping+deaf1+tri_cannabis, data = maledata, family = "poisson")
-m3 <- glm(risk_score_ASD ~ momsdeliveryage+momsedu+delivery+babymortality + mathealth_count +tri_alcohol+tri_tobacco+
-mom_trauma+maternalpregnancyproblems___8+artmethod___1 +tri_vaping+deaf1+tri_cannabis, data = femaledata, family = "poisson")
-```
 
 ## Tables 
 ```{r, echo=FALSE}
@@ -501,31 +503,6 @@ Due to the signifcance of the variable ”sex” in our first model, we chose to
 
 For our third model, the data set was filtered by gender being female to focus on the impact of a baby’s gender and contained the variables from the first model, except for “sex.”  This model had the most statistically significant predictors with those being the mother’s education level, two of the delivery methods of the pregnancy those of which being planned and emergency C-section, the number of mental health diagnoses for the mother, the number of trimesters a mother used tobacco, and whether the mother had anemia during the pregnancy with p-values of 0.00531, 0.08332, 0.07570, 0.03819, 0.05802, and 0.01713 respectively. We can see that a level increase in the mother’s education will increase a child’s risk score by a factor of 1.04 given all else constant, which is slightly higher than our first model. A mother having delivered their baby through a planned C-section increases their child’s risk score by a factor of 1.06 while delivery through an emergency C-section increases this score by a factor of 1.07. These factors are statistically significant for this model only which controls for female children specifically.  Also, based on these findings, an increase in mental health diagnoses for the mother decreases their child’s risk score by a factor of about 0.03, which is the same value that we observed in our first model. In this case, we can determine that the mental health score does not impact a child’s risk score based on gender as this value is the same for male and female children. We can also see that for an increase in the number of trimesters that a mother used tobacco, their child’s risk score decreases by a factor of 0.07. Lastly, if a mother had anemia during their pregnancy, their child’s risk score will increase by a factor of 1.1. 
 
-
-\section{Interpretation of plots}
-
-Before interpreting the plots, it is important that we know what we are looking for in our analysis. For a poisson regression model, it is important we check if the mean and variances are equal by looking at the dispersion parameter. Using the msme function in the `msme` library, we can see that we do not need to worry about this since the dispersion for all three of our models is less than one. If we were to see a large difference, we would account for using a negative binomial regression model, however our in depth data cleaning took care of that assumption. Next, we want to look at the independence of variables - due to the in-depth cleaning of variables and analysis of correlation, we already expect this assumption to be met, however taking a look at the summary plots of our models will confirm this. Finally, we would like to check for linearity in our models. 
-
-
-```{r echo=FALSE, warning=FALSE, message=FALSE}
-library(msme)
-# If the dispersion (P < 1), then the model fits the data well, underdispersion:
-p1 <- 0.7981416 # P__disp(m1)[2]
-p2 <- 0.7480804 # P__disp(m2)[2]
-p3 <- 0.8358594 # P__disp(m3)[2]
-a1 <- AIC(m1) # 9885.705
-a2 <- AIC(m2) # 5164.465
-a3 <- AIC(m3) # 4718.472
-
-df <- data.frame(dispersion = c(p1, p2, p3), AIC = c(a1, a2, a3), model = c(1, 2, 3))
-ggplot(df, aes(x = model, y = dispersion, fill = AIC)) + 
-  geom_point(shape = 21, size = 4) + 
-  theme_bw() + 
-  scale_y_continuous(name = "Dispersion Parameter") + 
-  scale_x_continuous(name = "Model", breaks = c(1,2,3)) + 
-  ggtitle("Dispersion Parameters and Model Accuracy")
-
-```
 
 
 
