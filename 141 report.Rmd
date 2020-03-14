@@ -24,7 +24,7 @@ knitr::opts_chunk$set(echo = TRUE)
 \thispagestyle{empty}
 \newpage
 \section{Abstract}
-\.par
+\par
 
 In this study, we worked to determine factors that predispose children to autistic behaviors. To do this, we explored a dataset obtained from the ChatterBaby application’s survey which included input from users across the globe. We began by cleaning the dataset to remove missing values and performed some initial data analysis along with random forest modeling to determine which factors were most important of all prenatal factors. A Poisson model was then used to explain the data. In our literature review, we uncovered that autism diagnoses in males is systematically different from these same diagnoses in females and we want to determine if this difference in sex is statistically significant when looking at predictors for autism in the different sexes. As such, we chose to develop additional Poisson models that were separated by sex in an effort to control for this discrepancy. Through this modeling we found that there are a multitude of different risk factors that are statistically significant, however, these risk factors vary by sex. Consequently, we conclude that there is a significant difference between males and females regarding risk factors that predispose a child to ASD behaviors and that the number of mental health diagnoses for the mother is chief amongst the risk factors as this is the only factor that appears in all three models. 
 
@@ -224,7 +224,7 @@ femaledata <- predata %>% filter(sex == 0)
 
 \setlength{\parindent}{4em}
 \setlength{\parskip}{1em}
-.\par
+\par
 In our study, we developed two research questions concentrating on significant predictors that can detect if a child will exhibit behaviors that relate to having Autistic Spectrum Disorder, a developmental disorder that impairs communication and interaction, and if there is a difference in these predictors for males and females. Our first research question focuses on discovering risk factors that could predispose a child’s tendency towards exhibiting behaviors that relate to having ASD. We examine the mother’s prenatal characteristics in order to see if any of these factors increase their child’s ASD behaviors and determine what these factors may be. Our second research question arose after our literature review, which found that the signs for ASD in boys can be diagnosed as early as two years of age while it may take up to 14 years for girls due to the differences in the way that autism presents itself between genders (Geelhand). We also found that there is a stark difference in the proportion of males versus females that have autism with the most recent ratio being 3 males for every female (National Autistic Society). Taking this into account, our second research question focuses on whether there is a significant difference in the predictors of ASD for males versus females and what these specific predictors are.
 
 
@@ -232,7 +232,7 @@ In our study, we developed two research questions concentrating on significant p
 
 \setlength{\parindent}{4em}
 \setlength{\parskip}{1em}
-.\par
+\par
 For this study, only prenatal factors were taken into account. Any variable that was not clearly a factor from the time before a child was born was removed and the subsetted dataset “predata” was created. This dataset contains 68 predictors and the outcome variable `risk_score_ASD`. Binary variables coded as numeric were converted to factors where 1 means an attribute is present and 0 means not present. The variable `delivery` was converted to a factor as the numbers indicate a certain type of delivery method. All other variables were kept as numeric. \par Nine variables in “predata” were created from other variables in the original dataset; these are `mathealth_count`, `babymortality` and 7 variables beginning with “tri_.”  The count variable “mathealth_count” created from “matmentalhealth” tells how many different mental health diagnoses the mother had before, during, or after pregnancy. This was done by summing the binary variables under “matmentalhealth.” The series of count variables beginning with “tri_” were created from the “drugsalcoholtobacco” categories and they tell how many trimesters a mother used a certain drug for (1, 2, or 3). The variable “babymortality” conveys pregnancies that resulted in a mother not having a live birth so the variable is a difference of “totalpregnacies” and “momslivebirths.” 
 
 ## Final Predata Codebook
@@ -289,7 +289,7 @@ Number & Attribute & Description \\
 
 \setlength{\parindent}{4em}
 \setlength{\parskip}{1em}
-.\par 
+\par 
 To begin our exploratory data analysis, the client provided us with an online article to get familiar with autism spectrum disorder. Literature review from this study revealed that there are certain factors that increase a child’s risk for ASD: the child’s sex, the child’s family history, other disorders present in the child, if the child was born extremely preterm, and the parents’ delivery ages (“Autism spectrum disorder”). Males are more likely than females to develop ASD (“Autism spectrum disorder”). A child’s risk for autism spectrum disorder increases if a relative, such as a sibling, parent, cousin, etc., has already been diagnosed with the disorder (“Autism spectrum disorder”). Pre-existing health conditions such as fragile X syndrome, tuberous sclerosis, and Rett syndrome, can increase a baby’s risk (“Autism spectrum disorder”). Babies born before 26 weeks of gestation are at higher risk compared to those born later (“Autism spectrum disorder”). Finally, children born to older parents at the time of delivery are at higher risk for autism spectrum disorder compared to those born to younger parents (“Autism spectrum disorder”). \par
 
 In order look further into some of these potential risk factors, boxplots were created in order to take a look at the distribution of ASD risk scores in relation to these variables. It should be noted that these plots were created prior any data cleaning. Hence, we saw what needed to be cleaned through some of the following graphs.
@@ -310,7 +310,7 @@ ggplot(data = adata, aes(x = asd1, y = risk_score_ASD, group = asd1)) + geom_box
 ```
 \setlength{\parindent}{4em}
 \setlength{\parskip}{1em}
-.\par
+\par
 Figure 4.1.1 consists of the ASD risk score distributions based on males versus females. Figure 4.1.2 separates the visualizations based on family history of ASD diagnosis. For both, the median is around 6 and unfortunately, there is not much difference between the medians and distributions regardless of whatever category the observations fell in.
 
 ```{r, warning=FALSE, message=FALSE, echo=FALSE, fig.width=3, fig.height=3}
@@ -322,7 +322,7 @@ ggplot(data = adata, aes(x = olderdad, y = risk_score_ASD, group = olderdad)) + 
 ```
 \setlength{\parindent}{4em}
 \setlength{\parskip}{1em}
-.\par
+\par
 Figure 4.1.3 visualizes the mother’s delivery age and Figure 4.1.4 visualizes the father’s delivery age compared to risk score. These boxplots look similar to the previous ones and there is not much difference regardless if the parents were under or over 35 years of age. However, it can be noted that this is an area that still needs to be heavily researched.
 
 ```{r, warning=FALSE, message=FALSE, echo=FALSE, fig.width=3, fig.height=3}
@@ -336,13 +336,13 @@ ggplot(data = adata, aes(x = preterm, y = risk_score_ASD, group = preterm)) + ge
 ```
 \setlength{\parindent}{4em}
 \setlength{\parskip}{1em}
-.\par
+\par
 
 Figure 4.1.5 consists of distributions based on a child's diagnosis of a genetic mutation, such as fragile X syndrome, and Figure 4.1.6 compares babies born prior to 26 weeks of gestation versus those born later. Those whose ASD diagnosis was related to a genetic mutation have a different distribution and median in risk score compared to those who did not. It can also be observed that the 25th and 75th percentiles of those born before 26 weeks of gestation differs from those who were not.
 
 
 ## Drug Use During Pregnancy and Risk Score
-.\par 
+\par 
 After cleaning the data set, we wanted to look at the relationships between drug use during pregnancy and risk score in order to potentially include these in our models. The seven main drugs listed on the survey were tobacco, vaping, alcohol, cannabis, stimulants (such as cocaine), opioids, and psychoactives (such as hallucinogens). However, one of our main concerns was if there was enough data on each drug. Response bias was potentially present in the survey data and underreporting could have occurred because some of the mothers may not have been truthful about their drug habits. Therefore, jitter plots were made to examine how many data points we had in each category. On the x-axis for all of the jitter plots, we have the number of trimesters a mother used that particular drug. The colors correspond to the risk score and basically follow the colors of a rainbow, beginning with red equaling 1 up to magenta equaling 12.
 
 ```{r, warning=FALSE, message=FALSE, echo=FALSE, fig.width=7}
@@ -350,7 +350,7 @@ predata1 <- read_csv("predata.csv")
 
 ggplot(predata1, aes(x = tri_tobacco, y = risk_score_ASD, color = risk_score_ASD)) + geom_jitter() + scale_color_gradientn(colours = rainbow(12)) + ggtitle("Jitter Plot of Tobacco Use During Pregnancy and Child's ASD Risk Score") + labs(y = "Child's Risk Score for ASD", x = "Number of Trimesters Tobacco Was Used", caption = "Figure 4.2.1") + theme(plot.title = element_text(hjust = 0.5, size = 12), plot.caption = element_text(face = "italic", hjust = 1))
 ```
-.\par 
+\par 
 Figure 4.2.1 is a distribution of risk scores based on the mothers' smoking habits. An overwhelming majority of mothers did not smoke during pregnancy, but there were quite a number who did.
 
 
@@ -359,7 +359,7 @@ ggplot(predata1, aes(x = tri_vaping, y = risk_score_ASD, color = risk_score_ASD)
 
 ggplot(predata1, aes(x = tri_alcohol, y = risk_score_ASD, color = risk_score_ASD)) + geom_jitter() + scale_color_gradientn(colours = rainbow(12)) + ggtitle("Jitter Plot of Alcohol Use During Pregnancy and Child's ASD Risk Score") + labs(y = "Child's Risk Score for ASD", x = "Number of Trimesters Alcohol Was Used", caption = "Figure 4.2.3") + theme(plot.title = element_text(hjust = 0.5, size = 12), plot.caption = element_text(face = "italic", hjust = 1))
 ```
-.\par
+\par
 Figure 4.2.2 is based on a mother's vaping habit and Figure 4.2.3 is based in a mother's drinking habit. Drinking was more popular than vaping during pregnancy. So, it was a bit concerning that the data did not have many mothers who vaped.
 
 ```{r, warning=FALSE, message=FALSE, echo=FALSE, fig.width=7}
@@ -367,7 +367,7 @@ ggplot(predata1, aes(x = tri_cannabis, y = risk_score_ASD, color = risk_score_AS
 
 ggplot(predata1, aes(x = tri_stimulants, y = risk_score_ASD, color = risk_score_ASD)) + geom_jitter() + scale_color_gradientn(colours = rainbow(12)) + ggtitle("Jitter Plot of Stimulant Use During Pregnancy and Child's ASD Risk Score") + labs(y = "Child's Risk Score for ASD", x = "Number of Trimesters Stimulants Were Used", caption = "Figure 4.2.5") + theme(plot.title = element_text(hjust = 0.5, size = 12), plot.caption = element_text(face = "italic", hjust = 1))
 ```
-.\par
+\par
 Figure 4.2.4 is based on cannabis use and Figure 4.2.5 is based on stimulant use. A decent number of mothers used cannabis during pregnancy and not that many used stimulants.
 
 ```{r, warning=FALSE, message=FALSE, echo=FALSE, fig.width=7}
@@ -380,7 +380,7 @@ ggplot(predata1, aes(x = tri_psychoactives, y = risk_score_ASD, color = risk_sco
 Finally, Figure 4.2.6 examines the use of opioids and Figure 4.2.7 examines the use of psychoactives. There were only around 18 mothers who used opioids and only 3 mothers who used psychoactives during pregnancy. Hence, there was not enough data present for these drugs to examine them for significance in our models.
 
 ## Controlling for Sex: 
-.\par
+\par
 The literature mentions that there are three contributers to sex differences in ASD rates: biologically driven differences, gender socialization, and limited research and measurement tools. Fundamentally, young girls  with ASD have proven to achieve more basic milestones on time compared to boys. They have overall better social skills and better peer relationships, which disrupts the typical bias and norms set in the standards for ASD. A recent study by the Children’s National Health Systems shows that in current diagnostic practices, in order for females to have an ASD diagnosis they must present more concurrent behavioral, developmental or mental health issues, compared to their male counterparts. A significant factor that plays into these modern discrepancies is that most of the research and testing done on figuring out diagnosis and symptoms of ASD was on a majority of male patients, so many of the benchmarks for the diagnosis will tend to follow that for males, rather than for females. Due to the overwhelming significance and differences highlighted in our outside research of gender and ASD diagnosis, we decided to talk a look if our very own data will follow the literature.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -402,7 +402,7 @@ The boxplot above did not follow our expectations at first because it appears th
 
 
 \section{Statistical analysis used to answer the research questions}
-.\par
+\par
   A random forest model was run on prenatal factors to determine which variables were important risk factors for `risk_score_ASD`. Highly correlated variables were dropped from the data before running the random forest model because having too many variables containing similar information will result in inaccurate importance measures due to a model weighing too much on one set of related variables compared to another set of variables. Important variables were determined from the node purity and mean squared error measures. From these measures, 14 total variables were selected as important risk factors from `risk_score_ASD` to be included in our final model. \par
    Poisson regression was used to model the response variable, `risk_score_ASD` which consists of “count data”. Three models were created including one full model, one model controlling for males, and one model controlling for females. A Poisson Model was chosen for our statistical analysis rather than a negative binomial model, which also handles count data, since the dispersion parameter for all three models was less than one, indicating the variance for each model was less than the expected value for each model. Assumptions of this model also include independence of observations and the distribution of counts following a Poisson distribution. The AIC measures for all three models also indicate that the models controlling by gender fit the data better than the full model. In particular, the female model appears to fit the data the best due to its small AIC value relative to the other two models. These AIC measures coincide with our literature review and EDA, where males and females have different risk factors associated with ASD risk score.
    
@@ -422,18 +422,18 @@ ggplot(predata2, aes(x = risk_score_ASD)) + geom_histogram(binwidth = 0.5, color
    
 
 ```{r,echo=FALSE}
-# library(readr)
-# predata <- read_csv("~/Desktop/STATS 141SL/Final Project/predata.csv")
-# library(randomForest)
-# drops <- c("maternalpregnancyproblems___19", "maternalpregnancyproblems___20", "matmentalhealth___1", "matmentalhealth___2", "matmentalhealth___3","matmentalhealth___4", "matmentalhealth___5", "matmentalhealth___6", "matmentalhealth___7", "mat_dep", "mat_anx", "mat_ocd","mat_bp","mat_adhd","mat_pssd","maternalproblems1","art","momlivebirths","totalpregnancies","maternalpregnancyproblems___18","momfever")
-# predata1 <- na.omit(predata[ , !(names(predata) %in% drops)])
-# rf.pre <- randomForest(risk_score_ASD~.,data=predata1,mtry=16,importance=TRUE,ntrees=1000)
+library(readr)
+predata <- read_csv("~/Desktop/STATS 141SL/Final Project/predata.csv")
+library(randomForest)
+drops <- c("maternalpregnancyproblems___19", "maternalpregnancyproblems___20", "matmentalhealth___1", "matmentalhealth___2", "matmentalhealth___3","matmentalhealth___4", "matmentalhealth___5", "matmentalhealth___6", "matmentalhealth___7", "mat_dep", "mat_anx", "mat_ocd","mat_bp","mat_adhd","mat_pssd","maternalproblems1","art","momlivebirths","totalpregnancies","maternalpregnancyproblems___18","momfever")
+predata1 <- na.omit(predata[ , !(names(predata) %in% drops)])
+rf.pre <- randomForest(risk_score_ASD~.,data=predata1,mtry=16,importance=TRUE,ntrees=1000)
 ```
 
 ```{r,echo=FALSE,warning=FALSE,message=FALSE}
-# library(randomForestExplainer)
-# min_depth_frame <- min_depth_distribution(rf.pre)
-# plot_min_depth_distribution(min_depth_frame, mean_sample = "relevant_trees", k = 15)
+library(randomForestExplainer)
+min_depth_frame <- min_depth_distribution(rf.pre)
+plot_min_depth_distribution(min_depth_frame, mean_sample = "relevant_trees", k = 15)
 
 # controlling for Sex 
 library(dplyr)
@@ -501,7 +501,7 @@ plot(m3)
 \section{Interpretation of results}
 \setlength{\parindent}{4em}
 \setlength{\parskip}{1em}
-.\par  
+\par  
 
    By running a random forest on all of the prenatal variables we found that the significant risk factors that predispose a child to ASD behaviors are: `momsdeliveryage`, `momsedu`, `delivery`, `babymortality`, `mathealth_count`, `sex`, `tri_alcohol`, `tri_tobacco`, `mom_trauma`, `maternalpregnancyproblems___8`, `artmethod___1`, `tri_vaping`, `deaf1`, and `tri_cannabis`. These variables were chosen based on the mean of their minimal depth calculated from our random forest model. In conducting Poisson regression for three models, we used these variables. The first focused on answering our first posed research question  while the second and third models were driven towards answering our second research question. \par
 
@@ -513,7 +513,7 @@ plot(m3)
 
 
 \section{Interpretation of plots}
-.\par 
+\par 
   Before interpreting the plots, it is important that we know what we are looking for in our analysis. For a poisson regression model, it is important we check if the mean and variances are equal by looking at the dispersion parameter. Using the msme function in the `msme` library, we can see that we do not need to worry about this since the dispersion for all three of our models is less than one. If we were to see a large difference, we would account for using a negative binomial regression model, however our in depth data cleaning took care of that assumption. Next, we want to look at the independence of variables - due to the in-depth cleaning of variables and analysis of correlation, we already expect this assumption to be met, however taking a look at the summary plots of our models will confirm this. Finally, we would like to check for linearity in our models. 
 
 
@@ -551,7 +551,7 @@ ggplot(df, aes(x = model, y = dispersion, fill = AIC)) +
    While we found statistical significance in all the aformentioned cases, it is important to note that these differences may not be of practical significance. Some of these risk factors present themselves as only minor contributiors to an individual's risk of developing autism. As such, determining which factors are truly practically significant should be assessed based on the specific needs of an individual project using this data.
 
 \section{Challenges of the study}
-.\par 
+\par 
   Many of the challenges we faced during this project occurred when cleaning the dataset. These challenges included determining how to handle NAs, sifting through the `other` variables, finding variables with small counts, removing outliers, and addressing collinearity among variables. In dealing with NAs, we either removed observations with NAs in prenatal columns that we were interested in or set the NAs to 0 (particularly when the variable of interest was binary). Cleaning the ‘other’ columns proved to be very time consuming with a variety of responses present in these columns. Responses were either categorized into existing columns, combined to create new columns if enough similar responses were found, or removed due to obvious inconsistencies. Outliers were determined by looking at the summary statistics of the columns. Outliers with a large number of NAs and inconsistencies of columns such as mother’s age and number of live births were removed. Collinearity was dealt with by plotting correlation plots between variables and either completely removing one variable or combining highly correlated variables to make a new measure. It should be noted that implications involving collinearity, including its effect on the precision of estimates may be due to an unrepresentative sample or insufficient information in the sample [2]. Another challenge unrelated to cleaning the dataset was converting binary columns and non-numeric variables to factors. All of our variables were type “double” so after running a couple models and getting strange results, we solved this issue by converting binary/categorical variables to type “factor”. \par 
   
   Some of the challenges that we encountered during this project were not solved. These unsolvable challenges occured when testing the prediction accuracy of our model. Our models all had a high test error rate and our predictions of the response only ranged from 5 to 7. The actual response variable of `risk_score_ASD` had a range of 1 to 12 with a median of 6, so these results did not match our expectations. We got these results despite checking and meeting the assumptions of our model and are not entirely sure why our poisson model did a poor job predicting our response. Another challenge we faced was that our findings from our literature review did not match our actual findings after running the model. Variables such as `asd’ (number of family members with asd) and ‘mat_pssd` (whether or not mom has psychosis, schizophrenia, or schizoaffective disorder) were not significant, while `momsedu` was highly significant across all three models. Even after running a random forest model to select for important variables to include in our model to refine our model to only including 14 prenatal factors, all three models only had 2 to 3 statistically significant variables. \par 
@@ -561,7 +561,7 @@ ggplot(df, aes(x = model, y = dispersion, fill = AIC)) +
 \section{Recommendations for the future}
 \setlength{\parindent}{4em}
 \setlength{\parskip}{0.5em}
-.\par
+\par
 
   In the future, we recommend that other risk factors occurring at different times in a mother’s life be explored. In our work, we narrowed the scope of our research question by only exploring prenatal risk factors. We recommend that additional models and analysis be done on postnatal risk factors and their effect on `risk_score_ASD`. Additional analysis could be done on the delivery method and its effect on the autism risk score. According to our models, having a cesarean section significantly increases the risk score for autism. It would be interesting to explore the reasons for having a cesarean section, whether it was planned, due to prolonged labor, abnormal positioning, cord prolapse, etc. and see if any of these effects are significant risk factors for autism. \par 
   
@@ -573,7 +573,7 @@ ggplot(df, aes(x = model, y = dispersion, fill = AIC)) +
 \setlength{\parskip}{1em}
 
 \section{Bibliography}
-.\par
+\par
 
 “Autism and Gender.” Autism Support - Leading UK Charity - National Autistic Society, www.autism.org.uk/about/what-is/gender.aspx.
 
