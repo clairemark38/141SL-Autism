@@ -395,7 +395,7 @@ predata1 <- na.omit(predata[ , !(names(predata) %in% drops)])
 rf.pre <- randomForest(risk_score_ASD~.,data=predata1,mtry=16,importance=TRUE,ntrees=1000)
 library(randomForestExplainer)
 min_depth_frame <- min_depth_distribution(rf.pre)
-plot_min_depth_distribution(min_depth_frame, mean_sample = "relevant_trees", k = 15)
+plot_min_depth_distribution(min_depth_frame, mean_sample = "relevant_trees", k = 15, main ="Dist of Min Depth & its Mean")
 ```
 
 Poisson regression was used to model the response variable, `risk_score_ASD` which consists of “count data”. Three models were created including one full model, one model controlling for males, and one model controlling for females. A Poisson Model was chosen for our statistical analysis rather than a negative binomial model, which also handles count data, since the dispersion parameter for all three models was less than one, indicating the variance for each model was less than the expected value for each model (seen in the dispersion plot below). Assumptions of this model also include independence of observations and the distribution of counts following a Poisson distribution (seen in the density plot below). The AIC measures for all three models also indicate that the models controlling by gender fit the data better than the full model. In particular, the female model appears to fit the data the best due to its small AIC value relative to the other two models. These AIC measures coincide with our literature review and EDA, where males and females have different risk factors associated with ASD risk score.
