@@ -493,7 +493,11 @@ xtable(m3)
 ```{r, echo=FALSE}
 par(mfrow=c(2,2))
 plot(m3)
-```  
+``` 
+
+
+\section{Interpretation of Results}
+
 
 By running a random forest on all of the prenatal variables we found that the significant risk factors that predispose a child to ASD behaviors are: `momsdeliveryage`, `momsedu`, `delivery`, `babymortality`, `mathealth_count`, `sex`, `tri_alcohol`, `tri_tobacco`, `mom_trauma`, `maternalpregnancyproblems___8`, `artmethod___1`, `tri_vaping`, `deaf1`, and `tri_cannabis`. These variables were chosen based on the mean of their minimal depth calculated from our random forest model. In conducting Poisson regression for three models, we used these variables. The first focused on answering our first posed research question  while the second and third models were driven towards answering our second research question.
 
